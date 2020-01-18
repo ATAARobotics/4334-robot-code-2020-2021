@@ -10,6 +10,8 @@ package ca.fourthreethreefour.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import ca.fourthreethreefour.settings.Settings;
+import ca.fourthreethreefour.settings.SettingsFile;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -31,10 +33,10 @@ public class Drive extends Subsystem {
   private DifferentialDrive drive = null;
 
   public Drive() {
-    leftFrontMotor = new CANSparkMax(1, MotorType.kBrushless);
-    leftBackMotor = new CANSparkMax(2, MotorType.kBrushless);
-    rightFrontMotor = new CANSparkMax(3, MotorType.kBrushless);
-    rightBackMotor = new CANSparkMax(4, MotorType.kBrushless);
+    leftFrontMotor = new CANSparkMax(Settings.LEFT_FRONT_MOTOR_PORT, MotorType.kBrushless);
+    leftBackMotor = new CANSparkMax(Settings.LEFT_BACK_MOTOR_PORT, MotorType.kBrushless);
+    rightFrontMotor = new CANSparkMax(Settings.RIGHT_FRONT_MOTOR_PORT, MotorType.kBrushless);
+    rightBackMotor = new CANSparkMax(Settings.RIGHT_BACK_MOTOR_PORT, MotorType.kBrushless);
 
     leftMotors = new SpeedControllerGroup(leftFrontMotor, leftBackMotor);
     rightMotors = new SpeedControllerGroup(rightFrontMotor, rightBackMotor);
