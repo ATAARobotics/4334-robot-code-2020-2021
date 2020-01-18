@@ -18,11 +18,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Cartridge extends Subsystem {
   private WPI_TalonSRX innerBelt = null;
   private WPI_TalonSRX outerBelt = null;
+  private WPI_TalonSRX indexer = null;
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   public Cartridge() {
     innerBelt = new WPI_TalonSRX(Settings.INNER_BELT_PORT);
     outerBelt = new WPI_TalonSRX(Settings.OUTER_BELT_PORT);
+    indexer = new WPI_TalonSRX(2);
   }
 
   @Override
@@ -35,5 +37,8 @@ public class Cartridge extends Subsystem {
   }
   public void outerSet(double speed) {
     outerBelt.set(speed);
+  }
+  public void indexerSet(double speed) {
+    indexer.set(speed);
   }
 }
