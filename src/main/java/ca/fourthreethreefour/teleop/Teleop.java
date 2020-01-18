@@ -53,5 +53,13 @@ public class Teleop {
             cartridgeSubsystem.innerSet(0);
             cartridgeSubsystem.outerSet(0);
         }
+
+        if (controllerOperator.getAButton() == true) {
+            cartridgeSubsystem.indexerSet(0.6);
+        } else if (controllerOperator.getBButton() == true) { 
+            cartridgeSubsystem.indexerSet(-0.6);
+        } else {
+            cartridgeSubsystem.indexerSet(0);
+        }
     }
 }
