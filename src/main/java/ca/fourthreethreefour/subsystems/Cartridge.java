@@ -29,4 +29,10 @@ public class Cartridge extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
+  public void innerSet(double speed) {
+    innerBelt.set(speed);
+  }
+  public void outerSet(double speed) {
+    outerBelt.set(speed);
+  }
 }
