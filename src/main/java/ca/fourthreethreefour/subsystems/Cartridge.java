@@ -9,6 +9,7 @@ package ca.fourthreethreefour.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import ca.fourthreethreefour.settings.Settings;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -20,8 +21,8 @@ public class Cartridge extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   public Cartridge() {
-    innerBelt = new WPI_TalonSRX(0);
-    outerBelt = new WPI_TalonSRX(1);
+    innerBelt = new WPI_TalonSRX(Settings.INNER_BELT_PORT);
+    outerBelt = new WPI_TalonSRX(Settings.OUTER_BELT_PORT);
   }
 
   @Override
