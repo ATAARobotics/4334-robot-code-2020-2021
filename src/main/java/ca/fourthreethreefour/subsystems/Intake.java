@@ -9,6 +9,7 @@ package ca.fourthreethreefour.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import ca.fourthreethreefour.settings.Settings;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -19,7 +20,7 @@ public class Intake extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   public Intake() {
-    rollerIntake = new WPI_TalonSRX(4);
+    rollerIntake = new WPI_TalonSRX(Settings.ROLLER_PORT);
   }
 
   @Override
