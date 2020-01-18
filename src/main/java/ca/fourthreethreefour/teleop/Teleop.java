@@ -3,6 +3,7 @@ package ca.fourthreethreefour.teleop;
 import ca.fourthreethreefour.settings.Settings;
 import ca.fourthreethreefour.subsystems.Cartridge;
 import ca.fourthreethreefour.subsystems.Drive;
+import ca.fourthreethreefour.subsystems.Intake;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
@@ -11,10 +12,12 @@ public class Teleop {
     private XboxController controllerOperator = new XboxController(Settings.CONTROLLER_OPERATOR_PORT);
     private Drive driveSubsystem = null;
     private Cartridge cartridgeSubsystem = null;
+    private Intake rollerSubsystem = null;
 
-    public Teleop(Drive driveSubsystem, Cartridge cartridgeSubsystem) {
+    public Teleop(Drive driveSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem) {
         this.driveSubsystem = driveSubsystem;
         this.cartridgeSubsystem = cartridgeSubsystem;
+        this.rollerSubsystem = rollerSubsystem;
     }
     public void teleopInit() {
         driveSubsystem.teleopInit();
@@ -60,6 +63,13 @@ public class Teleop {
             cartridgeSubsystem.indexerSet(-0.6);
         } else {
             cartridgeSubsystem.indexerSet(0);
+        }
+        if (controllerDriver.getTriggerAxis(Hand.kRight) > 0.1) {
+            rollerSubsystem.set(controllerDriver.getTriggerAxis(Hand.kRight));
+        } else if (controllerDriver.getTriggerAxis(Hand.kLeft) > 0.1) {
+            rollerSubsystem.set(-controllerDriver.getTriggerAxis(Hand.kLeft));
+        } else {
+            rollerSubsystem.set(0);
         }
     }
 }
