@@ -24,7 +24,7 @@ public class Cartridge extends Subsystem {
   public Cartridge() {
     innerBelt = new WPI_TalonSRX(Settings.INNER_BELT_PORT);
     outerBelt = new WPI_TalonSRX(Settings.OUTER_BELT_PORT);
-    indexer = new WPI_TalonSRX(2);
+    indexer = new WPI_TalonSRX(Settings.INDEXER_PORT);
   }
 
   @Override
