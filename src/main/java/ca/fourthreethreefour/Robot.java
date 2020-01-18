@@ -8,6 +8,7 @@
 package ca.fourthreethreefour;
 
 import ca.fourthreethreefour.settings.Settings;
+import ca.fourthreethreefour.subsystems.Cartridge;
 import ca.fourthreethreefour.subsystems.Drive;
 import ca.fourthreethreefour.teleop.Teleop;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -22,7 +23,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 public class Robot extends TimedRobot {
   private Settings settings = new Settings();
   private Drive driveSubsystem = new Drive();
+  private Cartridge cartridgeSubsystem = new Cartridge();
   private Teleop teleop = null; 
+
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -30,7 +33,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() { 
-    teleop = new Teleop(driveSubsystem);
+    teleop = new Teleop(driveSubsystem, cartridgeSubsystem);
   }
   @Override
   public void disabledPeriodic() {
