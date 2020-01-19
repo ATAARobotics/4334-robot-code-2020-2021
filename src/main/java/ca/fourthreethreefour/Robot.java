@@ -11,6 +11,7 @@ import ca.fourthreethreefour.settings.Settings;
 import ca.fourthreethreefour.subsystems.Cartridge;
 import ca.fourthreethreefour.subsystems.Drive;
 import ca.fourthreethreefour.subsystems.Intake;
+import ca.fourthreethreefour.subsystems.Shooter;
 import ca.fourthreethreefour.teleop.Teleop;
 import edu.wpi.first.wpilibj.TimedRobot;
 
@@ -26,6 +27,7 @@ public class Robot extends TimedRobot {
   private Drive driveSubsystem = new Drive();
   private Cartridge cartridgeSubsystem = new Cartridge();
   private Intake rollerSubsystem = new Intake();
+  private Shooter shooterSubsytem = new Shooter();
   private Teleop teleop = null; 
 
 
@@ -35,7 +37,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() { 
-    teleop = new Teleop(driveSubsystem, cartridgeSubsystem, rollerSubsystem);
+    teleop = new Teleop(driveSubsystem, cartridgeSubsystem, rollerSubsystem, shooterSubsytem);
   }
   @Override
   public void disabledPeriodic() {
