@@ -71,5 +71,35 @@ public class Teleop {
         } else {
             rollerSubsystem.set(0);
         }
+
+
+
+
+
+        if (rollerSubsystem.intakeSensor()) {
+            if (cartridgeSubsystem.cartridgeEnd()) {
+                if (cartridgeSubsystem.indexerSensor()) {
+                    cartridgeSubsystem.indexerSet(0);
+                } else {
+                    cartridgeSubsystem.indexerSet(0.4);
+                    if (!cartridgeSubsystem.cartridgeStart()) {
+                        cartridgeSubsystem.innerSet(0.4);
+                        cartridgeSubsystem.outerSet(0.4);
+                    } else {
+                        cartridgeSubsystem.innerSet(0);
+                        cartridgeSubsystem.outerSet(0);
+                    }
+                }
+            } else {
+                if (!cartridgeSubsystem.cartridgeStart()) {
+                    cartridgeSubsystem.innerSet(0.4);
+                    cartridgeSubsystem.outerSet(0.4);
+                } else {
+                    cartridgeSubsystem.innerSet(0);
+                    cartridgeSubsystem.outerSet(0);
+                }
+            }
+        }
+
     }
 }
