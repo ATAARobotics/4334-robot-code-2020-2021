@@ -33,6 +33,6 @@ public class Intake extends Subsystem {
   }
 
   public boolean intakeSensor() {
-    return true;
+    return false;
   }
 }

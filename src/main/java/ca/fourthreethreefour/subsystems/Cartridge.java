@@ -43,17 +43,17 @@ public class Cartridge extends Subsystem {
   }
 
   public boolean indexerSensor() {
-    return true;
+    return false;
 
   }
 
   public boolean cartridgeStart() {
-    return true;
+    return false;
 
   }
 
   public boolean cartridgeEnd() {
-    return true;
+    return false;
 
   }
 }
