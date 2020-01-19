@@ -4,6 +4,7 @@ import ca.fourthreethreefour.settings.Settings;
 import ca.fourthreethreefour.subsystems.Cartridge;
 import ca.fourthreethreefour.subsystems.Drive;
 import ca.fourthreethreefour.subsystems.Intake;
+import ca.fourthreethreefour.subsystems.Shooter;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
@@ -13,11 +14,13 @@ public class Teleop {
     private Drive driveSubsystem = null;
     private Cartridge cartridgeSubsystem = null;
     private Intake rollerSubsystem = null;
+    private Shooter shooterSubsystem = null;
 
-    public Teleop(Drive driveSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem) {
+    public Teleop(Drive driveSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, Shooter shooterSubsystem) {
         this.driveSubsystem = driveSubsystem;
         this.cartridgeSubsystem = cartridgeSubsystem;
         this.rollerSubsystem = rollerSubsystem;
+        this.shooterSubsystem = shooterSubsystem;
     }
     public void teleopInit() {
         driveSubsystem.teleopInit();
@@ -70,6 +73,12 @@ public class Teleop {
             rollerSubsystem.set(-controllerDriver.getTriggerAxis(Hand.kLeft));
         } else {
             rollerSubsystem.set(0);
+        }
+
+        if (controllerOperator.getYButton()) {
+            shooterSubsystem.flywheelSet(0.6);
+        } else {
+            shooterSubsystem.flywheelSet(0);
         }
     }
 }
