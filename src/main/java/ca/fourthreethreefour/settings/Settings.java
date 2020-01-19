@@ -21,6 +21,9 @@ public class Settings {
     static public int OUTER_BELT_PORT = settingsFile.getIntProperty("OUTER_BELT_PORT", 1);
     static public int INDEXER_PORT = settingsFile.getIntProperty("INDEXER_PORT", 2);
     static public int ROLLER_PORT = settingsFile.getIntProperty("ROLLER_PORT", 3);
+
+    static public int FLYWHEEL_PORT = settingsFile.getIntProperty("FLYWHEEL_PORT", 4);
+
     static public boolean LOGGING_ENABLED = settingsFile.getBooleanProperty("LOGGING_ENABLED", false);
 
     public void settingsValueUpdate() {
