@@ -23,6 +23,7 @@ public class Settings {
     static public int ROLLER_PORT = settingsFile.getIntProperty("ROLLER_PORT", 3);
 
     static public int FLYWHEEL_PORT = settingsFile.getIntProperty("FLYWHEEL_PORT", 4);
+    static public int FLYWHEEL_COUNTER_PORT = settingsFile.getIntProperty("FLYWHEEL_COUNTER_PORT", 9);
 
     static public boolean LOGGING_ENABLED = settingsFile.getBooleanProperty("LOGGING_ENABLED", false);
 
