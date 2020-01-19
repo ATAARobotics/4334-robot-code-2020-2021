@@ -31,4 +31,8 @@ public class Intake extends Subsystem {
   public void set(double speed) {
     rollerIntake.set(speed);
   }
+
+  public boolean intakeSensor() {
+    return true;
+  }
 }

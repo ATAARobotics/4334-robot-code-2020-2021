@@ -41,4 +41,19 @@ public class Cartridge extends Subsystem {
   public void indexerSet(double speed) {
     indexer.set(speed);
   }
+
+  public boolean indexerSensor() {
+    return true;
+
+  }
+
+  public boolean cartridgeStart() {
+    return true;
+
+  }
+
+  public boolean cartridgeEnd() {
+    return true;
+
+  }
 }
