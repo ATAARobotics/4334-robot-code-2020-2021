@@ -33,12 +33,12 @@ public class Cartridge extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
   public void innerSet(double speed) {
-    innerBelt.set(speed);
+    innerBelt.set(speed * Settings.CARTRIDGE_INNER_SPEED);
   }
   public void outerSet(double speed) {
-    outerBelt.set(speed);
+    outerBelt.set(speed * Settings.CARTRIDGE_OUTER_SPEED);
   }
   public void indexerSet(double speed) {
-    indexer.set(speed);
+    indexer.set(speed * Settings.INDEXER_SPEED);
   }
 }

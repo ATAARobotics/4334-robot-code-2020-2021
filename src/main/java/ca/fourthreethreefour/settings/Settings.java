@@ -30,10 +30,18 @@ public class Settings {
     static public double DRIVE_SPEED = settingsFile.getDoubleProperty("DRIVE_SPEED", 1);
     static public double TURN_SPEED = settingsFile.getDoubleProperty("TURN_SPEED", 1);
 
+    static public double CARTRIDGE_INNER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_INNER_SPEED", 0.6);
+    static public double CARTRIDGE_OUTER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_OUTER_SPEED", 0.6);
+    static public double INDEXER_SPEED = settingsFile.getDoubleProperty("INDEXER_SPEED", 0.6);
+
     public void settingsValueUpdate() {
         LOGGING_ENABLED = settingsFile.getBooleanProperty("LOGGING_ENABLED", false);
         DRIVE_SPEED = settingsFile.getDoubleProperty("DRIVE_SPEED", 1);
         TURN_SPEED = settingsFile.getDoubleProperty("TURN_SPEED", 1);
+
+        CARTRIDGE_INNER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_INNER_SPEED", 0.6);
+        CARTRIDGE_OUTER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_OUTER_SPEED", 0.6);
+        INDEXER_SPEED = settingsFile.getDoubleProperty("INDEXER_SPEED", 0.6);
     }
 
     public void settingsPeriodic() {
