@@ -76,7 +76,7 @@ public class Teleop {
         }
 
         if (controllerOperator.getYButton()) {
-            shooterSubsystem.flywheelSet(0.6);
+            shooterSubsystem.flywheelSet(1);
         } else {
             shooterSubsystem.flywheelSet(0);
         }
