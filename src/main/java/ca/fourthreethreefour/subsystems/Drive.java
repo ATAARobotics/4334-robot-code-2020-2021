@@ -67,7 +67,7 @@ public class Drive extends Subsystem {
   }
 
   public void arcadeDrive(double speed, double turn, boolean squared) {
-    drive.arcadeDrive(speed, turn, squared);
+    drive.arcadeDrive(speed * Settings.DRIVE_SPEED, turn * Settings.TURN_SPEED, squared);
   }
   public double getNavX() {
     return navX.getAngle();

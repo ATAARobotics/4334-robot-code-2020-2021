@@ -27,8 +27,13 @@ public class Settings {
 
     static public boolean LOGGING_ENABLED = settingsFile.getBooleanProperty("LOGGING_ENABLED", false);
 
+    static public double DRIVE_SPEED = settingsFile.getDoubleProperty("DRIVE_SPEED", 1);
+    static public double TURN_SPEED = settingsFile.getDoubleProperty("TURN_SPEED", 1);
+
     public void settingsValueUpdate() {
         LOGGING_ENABLED = settingsFile.getBooleanProperty("LOGGING_ENABLED", false);
+        DRIVE_SPEED = settingsFile.getDoubleProperty("DRIVE_SPEED", 1);
+        TURN_SPEED = settingsFile.getDoubleProperty("TURN_SPEED", 1);
     }
 
     public void settingsPeriodic() {
@@ -44,4 +49,5 @@ public class Settings {
             settingsActive = settingsFile.toString();
         }
     }
+
 }
