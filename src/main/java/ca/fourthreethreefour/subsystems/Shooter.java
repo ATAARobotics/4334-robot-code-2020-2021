@@ -35,14 +35,14 @@ public class Shooter extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
   public void flywheelSet(double speed) {
-    flywheel.set(speed);
+    flywheel.set(speed * Settings.FLYWHEEL_SPEED);
   }
 
   public double getRPM() {
 
     double changeTime = (System.currentTimeMillis() - lastTime);
 
-    if (changeTime < 50) {
+    if (changeTime < Settings.RPM_REFRESH_TIME) {
       return currentRPM;
     }
 
@@ -59,7 +59,7 @@ public class Shooter extends Subsystem {
     
     lastTicks = currentTicks;
 
-    double preCalculatedRPM = rate * 60 * 1000;
+    double preCalculatedRPM = (rate / Settings.TICKS_PER_FLYWHEEL_ROTATION) * 60 * 1000;
     currentRPM = currentRPM * 0.7 + preCalculatedRPM * 0.3;
     return currentRPM;
   }

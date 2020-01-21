@@ -61,9 +61,9 @@ public class Teleop {
         }
 
         if (controllerOperator.getAButton() == true) {
-            cartridgeSubsystem.indexerSet(0.6);
+            cartridgeSubsystem.indexerSet(1);
         } else if (controllerOperator.getBButton() == true) { 
-            cartridgeSubsystem.indexerSet(-0.6);
+            cartridgeSubsystem.indexerSet(-1);
         } else {
             cartridgeSubsystem.indexerSet(0);
         }
@@ -76,7 +76,7 @@ public class Teleop {
         }
 
         if (controllerOperator.getYButton()) {
-            shooterSubsystem.flywheelSet(0.6);
+            shooterSubsystem.flywheelSet(1);
         } else {
             shooterSubsystem.flywheelSet(0);
         }

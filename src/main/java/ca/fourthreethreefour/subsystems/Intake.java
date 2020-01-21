@@ -29,6 +29,6 @@ public class Intake extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
   public void set(double speed) {
-    rollerIntake.set(speed);
+    rollerIntake.set(speed * Settings.ROLLER_SPEED);
   }
 }
