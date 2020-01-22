@@ -47,15 +47,12 @@ public class Teleop {
 
         if (controllerOperator.getTriggerAxis(Hand.kRight) > 0.1) {
             double cartridgeSpeed = controllerOperator.getTriggerAxis(Hand.kRight);
-            cartridgeSubsystem.innerSet(cartridgeSpeed);
-            cartridgeSubsystem.outerSet(cartridgeSpeed);
+            cartridgeSubsystem.beltSet(cartridgeSpeed);
         } else if (controllerOperator.getTriggerAxis(Hand.kLeft) > 0.1) {
             double cartridgeSpeed = -controllerOperator.getTriggerAxis(Hand.kLeft);
-            cartridgeSubsystem.innerSet(cartridgeSpeed);
-            cartridgeSubsystem.outerSet(cartridgeSpeed);
+            cartridgeSubsystem.beltSet(cartridgeSpeed);
         } else {
-            cartridgeSubsystem.innerSet(0);
-            cartridgeSubsystem.outerSet(0);
+            cartridgeSubsystem.beltSet(0);
         }
 
         if (controllerOperator.getAButton() == true) {
@@ -94,20 +91,16 @@ public class Teleop {
                 } else {
                     cartridgeSubsystem.indexerSet(0.4);
                     if (!cartridgeSubsystem.cartridgeStart()) {
-                        cartridgeSubsystem.innerSet(0.4);
-                        cartridgeSubsystem.outerSet(0.4);
+                        cartridgeSubsystem.beltSet(0.4);
                     } else {
-                        cartridgeSubsystem.innerSet(0);
-                        cartridgeSubsystem.outerSet(0);
+                        cartridgeSubsystem.beltSet(0);
                     }
                 }
             } else {
                 if (!cartridgeSubsystem.cartridgeStart()) {
-                    cartridgeSubsystem.innerSet(1);
-                    cartridgeSubsystem.outerSet(1);
+                    cartridgeSubsystem.beltSet(1);
                 } else {
-                    cartridgeSubsystem.innerSet(0);
-                    cartridgeSubsystem.outerSet(0);
+                    cartridgeSubsystem.beltSet(0);
                     temporary = false;
                 }
             }

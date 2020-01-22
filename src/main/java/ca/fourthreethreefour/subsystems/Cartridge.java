@@ -17,15 +17,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Add your docs here.
  */
 public class Cartridge extends Subsystem {
-  private WPI_TalonSRX innerBelt = null;
-  private WPI_TalonSRX outerBelt = null;
+  private WPI_TalonSRX belt = null;
   private WPI_TalonSRX indexer = null;
   private Ultrasonic ultrasonicStart = null;
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   public Cartridge() {
-    innerBelt = new WPI_TalonSRX(Settings.INNER_BELT_PORT);
-    outerBelt = new WPI_TalonSRX(Settings.OUTER_BELT_PORT);
+    belt = new WPI_TalonSRX(Settings.BELT_PORT);
     indexer = new WPI_TalonSRX(Settings.INDEXER_PORT);
     ultrasonicStart = new Ultrasonic(Settings.ULTRASONIC_START_OUTPUT_PORT, Settings.ULTRASONIC_START_INPUT_PORT);
     ultrasonicStart.setAutomaticMode(true);
@@ -36,11 +34,8 @@ public class Cartridge extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
-  public void innerSet(double speed) {
-    innerBelt.set(speed);
-  }
-  public void outerSet(double speed) {
-    outerBelt.set(speed);
+  public void beltSet(double speed) {
+    belt.set(speed);
   }
   public void indexerSet(double speed) {
     indexer.set(speed);
