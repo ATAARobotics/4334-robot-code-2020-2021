@@ -80,6 +80,9 @@ public class Teleop {
          if (controllerOperator.getStartButtonPressed()) {
              temporary = true;
          }
+         if (controllerOperator.getBackButtonPressed()) {
+             temporary = false;
+         }
         // if (rollerSubsystem.intakeSensor()) {
         if (temporary) {
             // if (controllerOperator.getStartButtonPressed()) {
