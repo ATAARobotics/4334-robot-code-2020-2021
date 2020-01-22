@@ -26,6 +26,7 @@ public class Teleop {
 
     private double previousSpeed = 0;
     private double previousTurn = 0;
+    boolean temporary = false;   
     
     public void teleopPeriodic() {
         double speed;
@@ -76,7 +77,14 @@ public class Teleop {
 
 
 
-        if (rollerSubsystem.intakeSensor()) {
+         if (controllerOperator.getStartButtonPressed()) {
+             temporary = true;
+         }
+        // if (rollerSubsystem.intakeSensor()) {
+        if (temporary) {
+            // if (controllerOperator.getStartButtonPressed()) {
+            //     cartridgeSubsystem.resetLoops();
+            // }
             if (cartridgeSubsystem.cartridgeEnd()) {
                 if (cartridgeSubsystem.indexerSensor()) {
                     cartridgeSubsystem.indexerSet(0);
@@ -92,11 +100,12 @@ public class Teleop {
                 }
             } else {
                 if (!cartridgeSubsystem.cartridgeStart()) {
-                    cartridgeSubsystem.innerSet(0.4);
-                    cartridgeSubsystem.outerSet(0.4);
+                    cartridgeSubsystem.innerSet(1);
+                    cartridgeSubsystem.outerSet(1);
                 } else {
                     cartridgeSubsystem.innerSet(0);
                     cartridgeSubsystem.outerSet(0);
+                    temporary = false;
                 }
             }
         }
