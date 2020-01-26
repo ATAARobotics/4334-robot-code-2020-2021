@@ -8,10 +8,15 @@
 package ca.fourthreethreefour.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorMatchResult;
+import com.revrobotics.ColorSensorV3;
 
 import ca.fourthreethreefour.settings.Settings;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.util.Color;
 
 /**
  * Add your docs here.
@@ -21,6 +26,9 @@ public class Cartridge extends Subsystem {
   private WPI_TalonSRX indexer = null;
   private Ultrasonic ultrasonicStart = null;
   private Ultrasonic ultrasonicEnd = null;
+  private ColorSensorV3 colorSensor = null;
+  private ColorMatch colorMatch = new ColorMatch();
+  private Color ballYellow = ColorMatch.makeColor(0.361, 0.524, 0.113);
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   public Cartridge() {
@@ -29,6 +37,8 @@ public class Cartridge extends Subsystem {
     ultrasonicStart = new Ultrasonic(Settings.ULTRASONIC_START_OUTPUT_PORT, Settings.ULTRASONIC_START_INPUT_PORT);
     ultrasonicEnd = new Ultrasonic(Settings.ULTARSONIC_END_OUTPUT_PORT, Settings.ULTRASONIC_END_INPUT_PORT);
     ultrasonicStart.setAutomaticMode(true);
+    colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
+    colorMatch.addColorMatch(ballYellow);
   }
 
   @Override
@@ -44,7 +54,13 @@ public class Cartridge extends Subsystem {
   }
 
   public boolean indexerSensor() {
-    return false;
+    Color detectedColor = colorSensor.getColor();
+    ColorMatchResult match = colorMatch.matchClosestColor(detectedColor);
+    if (match.color == ballYellow) {
+      return true;
+    } else {
+      return false;
+    }
 
   }
 
