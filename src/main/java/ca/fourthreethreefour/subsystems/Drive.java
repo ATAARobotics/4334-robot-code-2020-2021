@@ -7,6 +7,7 @@
 
 package ca.fourthreethreefour.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -15,6 +16,8 @@ import ca.fourthreethreefour.settings.SettingsFile;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.SPI;
 
 /**
  * Add your docs here.
@@ -32,6 +35,8 @@ public class Drive extends Subsystem {
 
   private DifferentialDrive drive = null;
 
+  private AHRS navX = null;
+
   public Drive() {
     leftFrontMotor = new CANSparkMax(Settings.LEFT_FRONT_MOTOR_PORT, MotorType.kBrushless);
     leftBackMotor = new CANSparkMax(Settings.LEFT_BACK_MOTOR_PORT, MotorType.kBrushless);
@@ -42,6 +47,12 @@ public class Drive extends Subsystem {
     rightMotors = new SpeedControllerGroup(rightFrontMotor, rightBackMotor);
 
     drive = new DifferentialDrive(leftMotors, rightMotors);
+
+    try {
+      navX = new AHRS(SPI.Port.kMXP);
+    } catch (Exception e) {
+      DriverStation.reportError("Error instantiating navX MXP:  " + e.getMessage(), true);
+    }
   }
 
   @Override
@@ -56,6 +67,13 @@ public class Drive extends Subsystem {
   }
 
   public void arcadeDrive(double speed, double turn, boolean squared) {
-    drive.arcadeDrive(speed, turn, squared);
+    drive.arcadeDrive(speed * Settings.DRIVE_SPEED, turn * Settings.TURN_SPEED, squared);
+  }
+  public double getNavX() {
+    return navX.getAngle();
+  }
+  public void reset() {
+    navX.reset();
   }
 }
+
