@@ -52,18 +52,21 @@ public class Cartridge extends Subsystem {
   
   int startLoop = 0;
   boolean startBoolean = false;
+  boolean hasSeen = false;
   public boolean cartridgeStart() {
     // if (startLoop >= 75) {
       if (startBoolean) {
-        if (!(ultrasonicStart.getRangeInches() <= 7 || ultrasonicStart.getRangeInches() > 100)) {
+        if (!(ultrasonicStart.getRangeInches() <= 7 || ultrasonicStart.getRangeInches() > 100 || hasSeen)) {
           startBoolean = false;
         }
         return false;
-      } else if (ultrasonicStart.getRangeInches() <= 7 || ultrasonicStart.getRangeInches() > 100) {
-        if (startLoop < 25) {
+      } else if (ultrasonicStart.getRangeInches() <= 7 || ultrasonicStart.getRangeInches() > 100 || hasSeen) {
+        if (startLoop < 100) {
+          hasSeen = true;
           startLoop++;
           return false;
         } else {
+          hasSeen = false;
           startBoolean = true;
           startLoop = 0;
           return true;
