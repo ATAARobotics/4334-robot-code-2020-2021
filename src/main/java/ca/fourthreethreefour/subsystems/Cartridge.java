@@ -20,12 +20,14 @@ public class Cartridge extends Subsystem {
   private WPI_TalonSRX belt = null;
   private WPI_TalonSRX indexer = null;
   private Ultrasonic ultrasonicStart = null;
+  private Ultrasonic ultrasonicEnd = null;
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   public Cartridge() {
     belt = new WPI_TalonSRX(Settings.BELT_PORT);
     indexer = new WPI_TalonSRX(Settings.INDEXER_PORT);
     ultrasonicStart = new Ultrasonic(Settings.ULTRASONIC_START_OUTPUT_PORT, Settings.ULTRASONIC_START_INPUT_PORT);
+    ultrasonicEnd = new Ultrasonic(Settings.ULTARSONIC_END_OUTPUT_PORT, Settings.ULTRASONIC_END_INPUT_PORT);
     ultrasonicStart.setAutomaticMode(true);
   }
 
@@ -82,8 +84,11 @@ public class Cartridge extends Subsystem {
   }
 
   public boolean cartridgeEnd() {
-    return false;
-
+    if (ultrasonicEnd.getRangeInches() <= 7 || ultrasonicEnd.getRangeInches() > 100) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // public void resetLoops() {

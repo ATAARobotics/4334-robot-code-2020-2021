@@ -89,9 +89,9 @@ public class Teleop {
                 if (cartridgeSubsystem.indexerSensor()) {
                     cartridgeSubsystem.indexerSet(0);
                 } else {
-                    cartridgeSubsystem.indexerSet(0.4);
+                    cartridgeSubsystem.indexerSet(1);
                     if (!cartridgeSubsystem.cartridgeStart()) {
-                        cartridgeSubsystem.beltSet(0.4);
+                        cartridgeSubsystem.beltSet(1);
                     } else {
                         cartridgeSubsystem.beltSet(0);
                     }
