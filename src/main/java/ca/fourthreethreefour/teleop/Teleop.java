@@ -2,6 +2,7 @@ package ca.fourthreethreefour.teleop;
 
 import ca.fourthreethreefour.settings.Settings;
 import ca.fourthreethreefour.subsystems.Cartridge;
+import ca.fourthreethreefour.subsystems.Climb;
 import ca.fourthreethreefour.subsystems.Drive;
 import ca.fourthreethreefour.subsystems.Intake;
 import ca.fourthreethreefour.subsystems.Shooter;
@@ -15,12 +16,14 @@ public class Teleop {
     private Cartridge cartridgeSubsystem = null;
     private Intake rollerSubsystem = null;
     private Shooter shooterSubsystem = null;
+    private Climb climbSubsystem = null; 
 
-    public Teleop(Drive driveSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, Shooter shooterSubsystem) {
+    public Teleop(Drive driveSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, Shooter shooterSubsystem, Climb climbSubsystem) {
         this.driveSubsystem = driveSubsystem;
         this.cartridgeSubsystem = cartridgeSubsystem;
         this.rollerSubsystem = rollerSubsystem;
         this.shooterSubsystem = shooterSubsystem;
+        this.climbSubsystem = climbSubsystem;
     }
     public void teleopInit() {
         driveSubsystem.teleopInit();
