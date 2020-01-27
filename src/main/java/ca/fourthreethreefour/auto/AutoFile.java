@@ -12,6 +12,12 @@ public class AutoFile {
     // Drive drive;
 
     private static Vector<String[]> commandArgs = new Vector<>();
+    
+    private Vector<Command> queue = new Vector<>();
+    private Vector<Boolean> hasRun = new Vector<>();
+    private Vector<Integer> state = new Vector<>();
+    
+    private boolean firstRun;
 
     public static class Entry {
         final String e_key;
@@ -54,29 +60,30 @@ public class AutoFile {
         }
     }
 
-    public void run() {
-
-        Vector<Command> queue = new Vector<>();
-        Vector<Boolean> hasRun = new Vector<>();
-        Vector<Integer> state = new Vector<>();
-
+    public void init() {
+        firstRun = true;
         for (int i = 0; i < commandsParents.size(); i++) {
             Entry entry = commandsParents.elementAt(i);
             queue.addElement(selectCommand(entry.e_key, entry.e_arguments));
             hasRun.addElement(false);
             state.addElement(entry.e_state);
         }
+    }
 
+    public void run() {
         int j = 0;
-        for (int i = 0; i < queue.size(); i++) {
-            if (!hasRun.get(i)) {
-                queue.get(i).schedule();;
-                hasRun.set(i, true);
-            }
-            if (state.get(i) == Entry.SEQUENTIAL) {
-                while (j <= i) {
-                    if (queue.get(j).isFinished()) {
-                        j++;
+        if (firstRun) {
+            firstRun = false;
+            for (int i = 0; i < queue.size(); i++) {
+                if (!hasRun.get(i)) {
+                    queue.get(i).schedule();
+                    hasRun.set(i, true);
+                }
+                if (state.get(i) == Entry.SEQUENTIAL) {
+                    while (j <= i) {
+                        if (queue.get(j).isFinished()) {
+                            j++;
+                        }
                     }
                 }
             }
