@@ -16,8 +16,6 @@ public class AutoFile {
     private Vector<Command> queue = new Vector<>();
     private Vector<Boolean> hasRun = new Vector<>();
     private Vector<Integer> state = new Vector<>();
-    
-    private boolean firstRun;
 
     public static class Entry {
         final String e_key;
@@ -61,7 +59,6 @@ public class AutoFile {
     }
 
     public void init() {
-        firstRun = true;
         for (int i = 0; i < commandsParents.size(); i++) {
             Entry entry = commandsParents.elementAt(i);
             queue.addElement(selectCommand(entry.e_key, entry.e_arguments));
@@ -70,22 +67,24 @@ public class AutoFile {
         }
     }
 
+    private int queuePosition = 0;
+    private int finishedCheck = 0;
     public void run() {
-        int j = 0;
-        if (firstRun) {
-            firstRun = false;
-            for (int i = 0; i < queue.size(); i++) {
-                if (!hasRun.get(i)) {
-                    queue.get(i).schedule();
-                    hasRun.set(i, true);
-                }
-                if (state.get(i) == Entry.SEQUENTIAL) {
-                    while (j <= i) {
-                        if (queue.get(j).isFinished()) {
-                            j++;
-                        }
+        if (queuePosition < queue.size()) {
+            if (!hasRun.get(queuePosition)) {
+                queue.get(queuePosition).schedule();
+                hasRun.set(queuePosition, true);
+            }
+            if (state.get(queuePosition) == Entry.SEQUENTIAL) {
+                if (finishedCheck <= queuePosition) {
+                    if (queue.get(finishedCheck).isFinished()) {
+                        finishedCheck++;
                     }
+                } else {
+                    queuePosition++;
                 }
+            } else {
+                queuePosition++;
             }
         }
     }
