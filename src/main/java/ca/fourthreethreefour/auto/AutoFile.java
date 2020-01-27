@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class AutoFile {
     // Drive drive;
     private Vector<Entry> commandEntries = new Vector<>();
-    
+
     private Vector<Command> queue = new Vector<>();
     private Vector<Boolean> hasRun = new Vector<>();
     private Vector<Integer> state = new Vector<>();
@@ -40,6 +40,7 @@ public class AutoFile {
         }
         bufferedReader.close();
 
+        commandEntries.clear();
         for (int i = 0; i < contents.size(); i++) {
             final int state;
             if (contents.get(i).charAt(0) == '!') {
