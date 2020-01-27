@@ -10,12 +10,12 @@ package ca.fourthreethreefour.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import ca.fourthreethreefour.settings.Settings;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 
 /**
  * Add your docs here.
  */
-public class Intake extends Subsystem {
+public class Intake implements Subsystem {
   private WPI_TalonSRX rollerIntake = null;
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
@@ -23,11 +23,6 @@ public class Intake extends Subsystem {
     rollerIntake = new WPI_TalonSRX(Settings.ROLLER_PORT);
   }
 
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
-  }
   public void set(double speed) {
     rollerIntake.set(speed * Settings.ROLLER_SPEED);
   }
