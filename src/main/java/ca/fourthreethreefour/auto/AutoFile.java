@@ -59,6 +59,9 @@ public class AutoFile {
     }
 
     public void init() {
+        queue.clear();
+        hasRun.clear();
+        state.clear();
         for (int i = 0; i < commandsParents.size(); i++) {
             Entry entry = commandsParents.elementAt(i);
             queue.addElement(selectCommand(entry.e_key, entry.e_arguments));
