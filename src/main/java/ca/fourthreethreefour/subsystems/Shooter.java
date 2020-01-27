@@ -11,12 +11,12 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import ca.fourthreethreefour.settings.Settings;
 import edu.wpi.first.wpilibj.Counter;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 
 /**
  * Add your docs here.
  */
-public class Shooter extends Subsystem {
+public class Shooter implements Subsystem {
   private WPI_TalonSRX flywheel = null;
   private long lastTime;
   private double lastTicks = 0;
@@ -29,11 +29,6 @@ public class Shooter extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
-  }
   public void flywheelSet(double speed) {
     flywheel.set(speed * Settings.FLYWHEEL_SPEED);
   }
