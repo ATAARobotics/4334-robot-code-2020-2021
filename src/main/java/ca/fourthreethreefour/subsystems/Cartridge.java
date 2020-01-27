@@ -10,12 +10,12 @@ package ca.fourthreethreefour.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import ca.fourthreethreefour.settings.Settings;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 
 /**
  * Add your docs here.
  */
-public class Cartridge extends Subsystem {
+public class Cartridge implements Subsystem {
   private WPI_TalonSRX innerBelt = null;
   private WPI_TalonSRX outerBelt = null;
   private WPI_TalonSRX indexer = null;
@@ -25,12 +25,6 @@ public class Cartridge extends Subsystem {
     innerBelt = new WPI_TalonSRX(Settings.INNER_BELT_PORT);
     outerBelt = new WPI_TalonSRX(Settings.OUTER_BELT_PORT);
     indexer = new WPI_TalonSRX(Settings.INDEXER_PORT);
-  }
-
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
   }
   public void innerSet(double speed) {
     innerBelt.set(speed * Settings.CARTRIDGE_INNER_SPEED);

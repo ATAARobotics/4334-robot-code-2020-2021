@@ -14,15 +14,15 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import ca.fourthreethreefour.settings.Settings;
 import ca.fourthreethreefour.settings.SettingsFile;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 
 /**
  * Add your docs here.
  */
-public class Drive extends Subsystem {
+public class Drive implements Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   private CANSparkMax leftFrontMotor = null;
@@ -53,12 +53,6 @@ public class Drive extends Subsystem {
     } catch (Exception e) {
       DriverStation.reportError("Error instantiating navX MXP:  " + e.getMessage(), true);
     }
-  }
-
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
   }
 
   public void teleopInit() {
