@@ -100,12 +100,12 @@ public class Cartridge extends Subsystem {
   }
 
   public boolean cartridgeEnd() {
-    // if (ultrasonicEnd.getRangeInches() <= 7 || ultrasonicEnd.getRangeInches() > 100) {
-    //   return true;
-    // } else {
-    //   return false;
-    // }
-    return false;
+    if (ultrasonicEnd.getRangeInches() <= 7 || ultrasonicEnd.getRangeInches() > 100) {
+      return true;
+    } else {
+      return false;
+    }
+  
   }
 
   // public void resetLoops() {
