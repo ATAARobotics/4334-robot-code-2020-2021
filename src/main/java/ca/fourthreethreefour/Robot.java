@@ -41,6 +41,7 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {
     settings.settingsPeriodic();
     cartridgeSubsystem.printUltrasonics();
+    // System.out.println(cartridgeSubsystem.indexerSensor());
   }
 
   @Override
