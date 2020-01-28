@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Vector;
 
+import ca.fourthreethreefour.auto.commands.Print;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class AutoFile {
@@ -50,7 +51,8 @@ public class AutoFile {
                 state = Entry.SEQUENTIAL;
             }
             String key = contents.get(i).substring(0, contents.get(i).indexOf("(")).toLowerCase();
-            contents.setElementAt(contents.get(i).substring(contents.get(i).indexOf("(")+1, contents.get(i).length()-1), i);
+            contents.setElementAt(
+                    contents.get(i).substring(contents.get(i).indexOf("(") + 1, contents.get(i).length() - 1), i);
             String[] args = contents.get(i).split(",");
             commandEntries.addElement(new Entry(key, state, args));
         }
@@ -70,6 +72,7 @@ public class AutoFile {
 
     private int queuePosition = 0;
     private int finishedCheck = 0;
+
     public void run() {
         if (queuePosition < queue.size()) {
             if (!hasRun.get(queuePosition)) {
@@ -103,14 +106,8 @@ public class AutoFile {
         switch (key) {
             case "print":
                 String str = args[0];
-                // command = new Print(str);
-                return null;
-            case "driveblind":
-                double left = Double.parseDouble(args[0]);
-                double right = Double.parseDouble(args[1]);
-                double timeout = Double.parseDouble(args[2]);
-                // command = new DriveBlind(drive, left, right, timeout);
-                return null;
+                command = new Print(str);
+                return command;
             default:
                 throw new Error(key + " is not a valid command!");
         }
