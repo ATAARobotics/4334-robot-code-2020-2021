@@ -79,7 +79,7 @@ public class Cartridge extends Subsystem {
         }
         return false;
       } else if (ultrasonicStart.getRangeInches() <= 7 || ultrasonicStart.getRangeInches() > 100 || hasSeen) {
-        if (startLoop < 100) {
+        if (startLoop < 30) {
           hasSeen = true;
           startLoop++;
           return false;
@@ -100,11 +100,12 @@ public class Cartridge extends Subsystem {
   }
 
   public boolean cartridgeEnd() {
-    if (ultrasonicEnd.getRangeInches() <= 7 || ultrasonicEnd.getRangeInches() > 100) {
-      return true;
-    } else {
-      return false;
-    }
+    // if (ultrasonicEnd.getRangeInches() <= 7 || ultrasonicEnd.getRangeInches() > 100) {
+    //   return true;
+    // } else {
+    //   return false;
+    // }
+    return false;
   }
 
   // public void resetLoops() {
