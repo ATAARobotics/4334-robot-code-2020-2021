@@ -10,8 +10,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class AutoFile {
     // Drive drive;
+    private Vector<Entry> commandEntries = new Vector<>();
 
-    private static Vector<String[]> commandArgs = new Vector<>();
+    private Vector<Command> queue = new Vector<>();
+    private Vector<Boolean> hasRun = new Vector<>();
+    private Vector<Integer> state = new Vector<>();
 
     public static class Entry {
         final String e_key;
@@ -27,8 +30,6 @@ public class AutoFile {
         }
     }
 
-    private Vector<Entry> commandsParents = new Vector<>();
-
     public AutoFile(File file) throws IOException {
         // this.drive = drive;
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
@@ -39,6 +40,7 @@ public class AutoFile {
         }
         bufferedReader.close();
 
+        commandEntries.clear();
         for (int i = 0; i < contents.size(); i++) {
             final int state;
             if (contents.get(i).charAt(0) == '!') {
@@ -50,35 +52,48 @@ public class AutoFile {
             String key = contents.get(i).substring(0, contents.get(i).indexOf("(")).toLowerCase();
             contents.setElementAt(contents.get(i).substring(contents.get(i).indexOf("(")+1, contents.get(i).length()-1), i);
             String[] args = contents.get(i).split(",");
-            commandsParents.addElement(new Entry(key, state, args));
+            commandEntries.addElement(new Entry(key, state, args));
         }
     }
 
-    public void run() {
-
-        Vector<Command> queue = new Vector<>();
-        Vector<Boolean> hasRun = new Vector<>();
-        Vector<Integer> state = new Vector<>();
-
-        for (int i = 0; i < commandsParents.size(); i++) {
-            Entry entry = commandsParents.elementAt(i);
+    public void init() {
+        queue.clear();
+        hasRun.clear();
+        state.clear();
+        for (int i = 0; i < commandEntries.size(); i++) {
+            Entry entry = commandEntries.elementAt(i);
             queue.addElement(selectCommand(entry.e_key, entry.e_arguments));
             hasRun.addElement(false);
             state.addElement(entry.e_state);
         }
+    }
 
-        int j = 0;
-        for (int i = 0; i < queue.size(); i++) {
-            if (!hasRun.get(i)) {
-                queue.get(i).schedule();;
-                hasRun.set(i, true);
+    private int queuePosition = 0;
+    private int finishedCheck = 0;
+    public void run() {
+        if (queuePosition < queue.size()) {
+            if (!hasRun.get(queuePosition)) {
+                queue.get(queuePosition).schedule();
+                hasRun.set(queuePosition, true);
             }
-            if (state.get(i) == Entry.SEQUENTIAL) {
-                while (j <= i) {
-                    if (queue.get(j).isFinished()) {
-                        j++;
+            if (state.get(queuePosition) == Entry.SEQUENTIAL) {
+                if (finishedCheck <= queuePosition) {
+                    if (queue.get(finishedCheck).isFinished()) {
+                        finishedCheck++;
                     }
+                } else {
+                    queuePosition++;
                 }
+            } else {
+                queuePosition++;
+            }
+        }
+    }
+
+    public void end() {
+        for (Command command : queue) {
+            if (!command.isFinished()) {
+                command.cancel();
             }
         }
     }
@@ -87,13 +102,13 @@ public class AutoFile {
         Command command;
         switch (key) {
             case "print":
-                String str = commandArgs.get(0)[0];
+                String str = args[0];
                 // command = new Print(str);
                 return null;
             case "driveblind":
-                double left = Double.parseDouble(commandArgs.get(0)[0]);
-                double right = Double.parseDouble(commandArgs.get(0)[1]);
-                double timeout = Double.parseDouble(commandArgs.get(0)[2]);
+                double left = Double.parseDouble(args[0]);
+                double right = Double.parseDouble(args[1]);
+                double timeout = Double.parseDouble(args[2]);
                 // command = new DriveBlind(drive, left, right, timeout);
                 return null;
             default:
