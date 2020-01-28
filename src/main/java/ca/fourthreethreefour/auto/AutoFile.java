@@ -6,11 +6,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Vector;
 
+import ca.fourthreethreefour.auto.commands.DriveBlind;
 import ca.fourthreethreefour.auto.commands.Print;
+import ca.fourthreethreefour.subsystems.Drive;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class AutoFile {
-    // Drive drive;
+    private Drive driveSubsystem = null;
     private Vector<Entry> commandEntries = new Vector<>();
 
     private Vector<Command> queue = new Vector<>();
@@ -31,8 +33,8 @@ public class AutoFile {
         }
     }
 
-    public AutoFile(File file) throws IOException {
-        // this.drive = drive;
+    public AutoFile(File file, Drive driveSubsystem) throws IOException {
+        this.driveSubsystem = driveSubsystem;
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
         String currentLine;
         Vector<String> contents = new Vector<>();
@@ -108,6 +110,11 @@ public class AutoFile {
                 String str = args[0];
                 command = new Print(str);
                 return command;
+            case "driveblind":
+                double leftSpeed = Double.parseDouble(args[0]);
+                double rightSpeed = Double.parseDouble(args[1]);
+                double timeout = Double.parseDouble(args[2]);
+                command = new DriveBlind(driveSubsystem, leftSpeed, rightSpeed).withTimeout(timeout);
             default:
                 throw new Error(key + " is not a valid command!");
         }

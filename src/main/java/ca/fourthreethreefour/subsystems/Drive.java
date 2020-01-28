@@ -69,5 +69,8 @@ public class Drive implements Subsystem {
   public void reset() {
     navX.reset();
   }
+  public void tankDrive(double leftSpeed, double rightSpeed) {
+    drive.tankDrive(leftSpeed, rightSpeed);
+  }
 }
 
