@@ -113,7 +113,7 @@ public class AutoFile {
             case "driveblind":
                 double leftSpeed = Double.parseDouble(args[0]);
                 double rightSpeed = Double.parseDouble(args[1]);
-                double timeout = Double.parseDouble(args[2]);
+                double timeout = args.length > 2 ? Double.parseDouble(args[2]) : 5;
                 command = new DriveBlind(driveSubsystem, leftSpeed, rightSpeed).withTimeout(timeout);
             default:
                 throw new Error(key + " is not a valid command!");
