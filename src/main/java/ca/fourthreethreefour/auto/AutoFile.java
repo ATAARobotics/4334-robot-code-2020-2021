@@ -90,6 +90,14 @@ public class AutoFile {
         }
     }
 
+    public void end() {
+        for (Command command : queue) {
+            if (!command.isFinished()) {
+                command.cancel();
+            }
+        }
+    }
+
     public Command selectCommand(String key, String[] args) {
         Command command;
         switch (key) {
