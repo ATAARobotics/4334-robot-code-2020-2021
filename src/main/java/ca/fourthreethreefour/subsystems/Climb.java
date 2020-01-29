@@ -9,6 +9,7 @@ package ca.fourthreethreefour.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import ca.fourthreethreefour.settings.Settings;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 /**
@@ -20,7 +21,7 @@ public class Climb implements Subsystem {
   private WPI_TalonSRX releaseMotor = null;
 
   public Climb() {
-    releaseMotor = new WPI_TalonSRX(9);
+    releaseMotor = new WPI_TalonSRX(Settings.CLIMB_RELEASE_PORT);
   }
 
   public void releaseSet(double speed) {
