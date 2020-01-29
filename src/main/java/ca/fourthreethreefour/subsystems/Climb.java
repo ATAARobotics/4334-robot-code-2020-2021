@@ -7,6 +7,8 @@
 
 package ca.fourthreethreefour.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 /**
@@ -15,4 +17,13 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 public class Climb implements Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+  private WPI_TalonSRX releaseMotor = null;
+
+  public Climb() {
+    releaseMotor = new WPI_TalonSRX(9);
+  }
+
+  public void releaseSet(double speed) {
+    releaseMotor.set(speed);
+  }
 }
