@@ -8,11 +8,13 @@ import java.util.Vector;
 
 import ca.fourthreethreefour.auto.commands.DriveBlind;
 import ca.fourthreethreefour.auto.commands.Print;
+import ca.fourthreethreefour.auto.commands.Turn;
 import ca.fourthreethreefour.subsystems.Drive;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class AutoFile {
     private Drive driveSubsystem = null;
+    private TurnPID turnPID = null;
     private Vector<Entry> commandEntries = new Vector<>();
 
     private Vector<Command> queue = new Vector<>();
@@ -33,8 +35,9 @@ public class AutoFile {
         }
     }
 
-    public AutoFile(File file, Drive driveSubsystem) throws IOException {
+    public AutoFile(File file, Drive driveSubsystem, TurnPID turnPID) throws IOException {
         this.driveSubsystem = driveSubsystem;
+        this.turnPID = turnPID;
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
         String currentLine;
         Vector<String> contents = new Vector<>();
@@ -105,6 +108,7 @@ public class AutoFile {
 
     public Command selectCommand(String key, String[] args) {
         Command command;
+        double timeout;
         switch (key) {
             case "print":
                 String str = args[0];
@@ -113,8 +117,14 @@ public class AutoFile {
             case "driveblind":
                 double leftSpeed = Double.parseDouble(args[0]);
                 double rightSpeed = Double.parseDouble(args[1]);
-                double timeout = args.length > 2 ? Double.parseDouble(args[2]) : 5;
+                timeout = args.length > 2 ? Double.parseDouble(args[2]) : 5;
                 command = new DriveBlind(driveSubsystem, leftSpeed, rightSpeed).withTimeout(timeout);
+                return command;
+            case "turn":
+                double angle = Double.parseDouble(args[0]);
+                timeout = args.length > 1 ? Double.parseDouble(args[1]) : 5;
+                command = new Turn(driveSubsystem, turnPID, angle).withTimeout(timeout);
+                return command;
             default:
                 throw new Error(key + " is not a valid command!");
         }
