@@ -7,8 +7,8 @@
 
 package ca.fourthreethreefour.auto.commands;
 
-import ca.fourthreethreefour.auto.TurnPID;
 import ca.fourthreethreefour.subsystems.Drive;
+import ca.fourthreethreefour.subsystems.pid.TurnPID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Turn extends CommandBase {

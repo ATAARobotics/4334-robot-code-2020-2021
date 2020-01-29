@@ -3,6 +3,7 @@ package ca.fourthreethreefour.auto;
 import java.io.File;
 
 import ca.fourthreethreefour.subsystems.Drive;
+import ca.fourthreethreefour.subsystems.pid.TurnPID;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class Auto {

@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package ca.fourthreethreefour.auto;
+package ca.fourthreethreefour.subsystems.pid;
 
 import ca.fourthreethreefour.subsystems.Drive;
 import edu.wpi.first.wpilibj.controller.PIDController;
