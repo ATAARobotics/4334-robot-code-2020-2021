@@ -29,7 +29,6 @@ public class Turn extends CommandBase {
   public void initialize() {
     driveSubsystem.reset();
 
-    turnPID.getController().setIntegratorRange(-1, 1);
     turnPID.getController().setTolerance(2);
 
     turnPID.setSetpoint(angle);

@@ -10,6 +10,7 @@ package ca.fourthreethreefour.auto;
 import ca.fourthreethreefour.subsystems.Drive;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
+import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class TurnPID extends PIDSubsystem {
   private Drive driveSubsystem = null;
@@ -25,7 +26,7 @@ public class TurnPID extends PIDSubsystem {
   @Override
   public void useOutput(double output, double setpoint) {
     // Use the output here
-    turn = output;
+    turn = MathUtil.clamp(output, -1, 1);
   }
 
   @Override
