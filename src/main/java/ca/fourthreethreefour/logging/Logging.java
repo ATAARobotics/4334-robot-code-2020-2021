@@ -16,7 +16,7 @@ public class Logging {
 
     public void write() {
         try {
-            file = new FileWriter("/home/lvuser/matchData.csv");
+            file = new FileWriter("/home/lvuser/files/matchData.csv");
             file.write(data);
             file.flush();
           } catch (Exception e) {
