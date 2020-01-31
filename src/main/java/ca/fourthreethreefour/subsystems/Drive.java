@@ -63,11 +63,23 @@ public class Drive implements Subsystem {
   public void arcadeDrive(double speed, double turn, boolean squared) {
     drive.arcadeDrive(speed * Settings.DRIVE_SPEED, turn * Settings.TURN_SPEED, squared);
   }
+
   public double getNavX() {
     return navX.getAngle();
   }
+
   public void reset() {
     navX.reset();
+  }
+
+  public static String loggingCategories() {
+    String categories = "";
+    return categories;
+  }
+
+  public static String loggingData() {
+    String data = "";
+    return data;
   }
 }
 
