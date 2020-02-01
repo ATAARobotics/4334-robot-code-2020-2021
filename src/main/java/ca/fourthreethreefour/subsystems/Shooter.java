@@ -33,7 +33,10 @@ public class Shooter implements Subsystem {
     flywheel.set(speed * Settings.FLYWHEEL_SPEED);
   }
 
-  public double getRPM() {
+  /**
+   * Manual calculation code. Based on a sensor that activates magnetically.
+   */
+  public double getRPMManual() {
 
     double changeTime = (System.currentTimeMillis() - lastTime);
 
