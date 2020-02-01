@@ -2,8 +2,10 @@ package ca.fourthreethreefour.teleop;
 
 import ca.fourthreethreefour.settings.Settings;
 import ca.fourthreethreefour.subsystems.Cartridge;
+import ca.fourthreethreefour.subsystems.Climb;
 import ca.fourthreethreefour.subsystems.Drive;
 import ca.fourthreethreefour.subsystems.Intake;
+import ca.fourthreethreefour.subsystems.Shooter;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
@@ -13,11 +15,15 @@ public class Teleop {
     private Drive driveSubsystem = null;
     private Cartridge cartridgeSubsystem = null;
     private Intake rollerSubsystem = null;
+    private Shooter shooterSubsystem = null;
+    private Climb climbSubsystem = null; 
 
-    public Teleop(Drive driveSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem) {
+    public Teleop(Drive driveSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, Shooter shooterSubsystem, Climb climbSubsystem) {
         this.driveSubsystem = driveSubsystem;
         this.cartridgeSubsystem = cartridgeSubsystem;
         this.rollerSubsystem = rollerSubsystem;
+        this.shooterSubsystem = shooterSubsystem;
+        this.climbSubsystem = climbSubsystem;
     }
     public void teleopInit() {
         driveSubsystem.teleopInit();
@@ -56,9 +62,9 @@ public class Teleop {
         }
 
         if (controllerOperator.getAButton() == true) {
-            cartridgeSubsystem.indexerSet(0.6);
+            cartridgeSubsystem.indexerSet(1);
         } else if (controllerOperator.getBButton() == true) { 
-            cartridgeSubsystem.indexerSet(-0.6);
+            cartridgeSubsystem.indexerSet(-1);
         } else {
             cartridgeSubsystem.indexerSet(0);
         }
@@ -70,16 +76,19 @@ public class Teleop {
             rollerSubsystem.set(0);
         }
 
-
-
-
-
+        if (controllerOperator.getYButton()) {
+            shooterSubsystem.flywheelSet(1);
+        } else {
+            shooterSubsystem.flywheelSet(0);
+        }
+      
          if (controllerOperator.getStartButtonPressed()) {
              temporary = true;
          }
          if (controllerOperator.getBackButtonPressed()) {
              temporary = false;
          }
+      
         // if (rollerSubsystem.intakeSensor()) {
         if (temporary) {
             // if (controllerOperator.getStartButtonPressed()) {
@@ -105,6 +114,5 @@ public class Teleop {
                 }
             }
         }
-
     }
 }

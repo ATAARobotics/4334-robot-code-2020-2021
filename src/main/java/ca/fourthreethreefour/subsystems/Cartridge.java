@@ -9,13 +9,13 @@ package ca.fourthreethreefour.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import ca.fourthreethreefour.settings.Settings;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj.Ultrasonic;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * Add your docs here.
  */
-public class Cartridge extends Subsystem {
+public class Cartridge implements Subsystem {
   private WPI_TalonSRX belt = null;
   private WPI_TalonSRX indexer = null;
   private Ultrasonic ultrasonicStart = null;
@@ -29,17 +29,13 @@ public class Cartridge extends Subsystem {
     ultrasonicEnd = new Ultrasonic(Settings.ULTARSONIC_END_OUTPUT_PORT, Settings.ULTRASONIC_END_INPUT_PORT);
     ultrasonicStart.setAutomaticMode(true);
   }
-
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
-  }
+  
   public void beltSet(double speed) {
     belt.set(speed);
   }
+  
   public void indexerSet(double speed) {
-    indexer.set(speed);
+    indexer.set(speed * Settings.INDEXER_SPEED);
   }
 
   public boolean indexerSensor() {
