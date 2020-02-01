@@ -12,7 +12,6 @@ import com.cuforge.libcu.Lasershark;
 
 import ca.fourthreethreefour.settings.Settings;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import edu.wpi.first.wpilibj.Ultrasonic;
 
 /**
  * Add your docs here.
@@ -20,17 +19,16 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 public class Cartridge implements Subsystem {
   private WPI_TalonSRX belt = null;
   private WPI_TalonSRX indexer = null;
-  private Ultrasonic ultrasonicStart = null;
-  private Ultrasonic ultrasonicEnd = null;
+  private Lasershark lasersharkStart = null;
+  private Lasershark lasersharkEnd = null;
   private Lasershark lasersharkIndexer = null;
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   public Cartridge() {
     belt = new WPI_TalonSRX(Settings.BELT_PORT);
     indexer = new WPI_TalonSRX(Settings.INDEXER_PORT);
-    ultrasonicStart = new Ultrasonic(Settings.ULTRASONIC_START_OUTPUT_PORT, Settings.ULTRASONIC_START_INPUT_PORT);
-    ultrasonicEnd = new Ultrasonic(Settings.ULTARSONIC_END_OUTPUT_PORT, Settings.ULTRASONIC_END_INPUT_PORT);
-    ultrasonicStart.setAutomaticMode(true);
+    lasersharkStart = new Lasershark(Settings.LINESHARK_START_PORT);
+    lasersharkEnd = new Lasershark(Settings.LINESHARK_END_PORT);
     lasersharkIndexer = new Lasershark(Settings.LINESHARK_INDEXER_PORT);
   }
   
@@ -52,7 +50,7 @@ public class Cartridge implements Subsystem {
   }
 
   public void printUltrasonics() {
-    System.out.println(ultrasonicStart.getRangeInches());
+    System.out.println(lasersharkStart.getDistanceInches());
   }
   
   int startLoop = 0;
@@ -61,11 +59,11 @@ public class Cartridge implements Subsystem {
   public boolean cartridgeStart() {
     // if (startLoop >= 75) {
       if (startBoolean) {
-        if (!(ultrasonicStart.getRangeInches() <= 7 || ultrasonicStart.getRangeInches() > 100 || hasSeen)) {
+        if (!(lasersharkStart.getDistanceInches() <= 7 || lasersharkStart.getDistanceInches() > 100 || hasSeen)) {
           startBoolean = false;
         }
         return false;
-      } else if (ultrasonicStart.getRangeInches() <= 7 || ultrasonicStart.getRangeInches() > 100 || hasSeen) {
+      } else if (lasersharkStart.getDistanceInches() <= 7 || lasersharkStart.getDistanceInches() > 100 || hasSeen) {
         if (startLoop < 30) {
           hasSeen = true;
           startLoop++;
@@ -87,7 +85,7 @@ public class Cartridge implements Subsystem {
   }
 
   public boolean cartridgeEnd() {
-    if (ultrasonicEnd.getRangeInches() <= 7 || ultrasonicEnd.getRangeInches() > 100) {
+    if (lasersharkEnd.getDistanceInches() <= 7 || lasersharkEnd.getDistanceInches() > 100) {
       return true;
     } else {
       return false;

@@ -24,10 +24,8 @@ public class Settings {
     static public int FLYWHEEL_PORT = settingsFile.getIntProperty("FLYWHEEL_PORT", 4);
     static public int FLYWHEEL_COUNTER_PORT = settingsFile.getIntProperty("FLYWHEEL_COUNTER_PORT", 9);
 
-    static public int ULTRASONIC_START_INPUT_PORT = settingsFile.getIntProperty("ULTRASONIC_START_INPUT_PORT", 0);
-    static public int ULTRASONIC_START_OUTPUT_PORT = settingsFile.getIntProperty("ULTRASONIC_START_OUTPUT_PORT", 1);
-    static public int ULTRASONIC_END_INPUT_PORT = settingsFile.getIntProperty("ULTRASONIC_END_INPUT_PORT", 2);
-    static public int ULTARSONIC_END_OUTPUT_PORT = settingsFile.getIntProperty("ULTRASONIC_END_OUTPUT_PORT", 3);
+    static public int LINESHARK_START_PORT = settingsFile.getIntProperty("LINESHARK_START_PORT", 0);
+    static public int LINESHARK_END_PORT = settingsFile.getIntProperty("LINESHARK_END_PORT", 1);
 
     static public int LINESHARK_INDEXER_PORT = settingsFile.getIntProperty("LINESHARK_INDEXER_PORT", 7);
     static public int LINESHARK_INTAKE_PORT = settingsFile.getIntProperty("LINESHARK_INTAKE_PORT", 8);
