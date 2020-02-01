@@ -8,6 +8,9 @@
 package ca.fourthreethreefour.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.sensors.CANCoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import ca.fourthreethreefour.settings.Settings;
 import edu.wpi.first.wpilibj.Counter;
@@ -17,48 +20,60 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
  * Add your docs here.
  */
 public class Shooter implements Subsystem {
-  private WPI_TalonSRX flywheel = null;
+  private CANSparkMax flywheel1 = null;
+  private CANSparkMax flywheel2 = null;
   private long lastTime;
   private double lastTicks = 0;
   private double currentRPM;
-  private Counter shooterEncoder = new Counter(Settings.FLYWHEEL_COUNTER_PORT);
+ // private Counter shooterEncoder = new Counter(Settings.FLYWHEEL_COUNTER_PORT);
+  private CANCoder shooterEncoder = null;
 
   public Shooter() {
-    flywheel = new WPI_TalonSRX(Settings.FLYWHEEL_PORT);
+    flywheel1 = new CANSparkMax(Settings.FLYWHEEL_1_PORT, MotorType.kBrushless);
+    flywheel2 = new CANSparkMax(Settings.FLYWHEEL_2_PORT, MotorType.kBrushless);
+    shooterEncoder = new CANCoder(Settings.FLYWHEEL_ENCODER_PORT);
+
   }
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
   public void flywheelSet(double speed) {
-    flywheel.set(speed * Settings.FLYWHEEL_SPEED);
+    flywheel1.set(speed * Settings.FLYWHEEL_SPEED);
+    flywheel2.set(speed * Settings.FLYWHEEL_SPEED);
+  }
+  public double getRPM() {
+    double TPM = shooterEncoder.getVelocity() * 60;//TPM = ticks per minute
+    double RPM = Settings.TICKS_PER_FLYWHEEL_ROTATION / TPM;
+
+    return RPM;
   }
 
   /**
    * Manual calculation code. Based on a sensor that activates magnetically.
    */
-  public double getRPMManual() {
+  // public double getRPMManual() {
 
-    double changeTime = (System.currentTimeMillis() - lastTime);
+  //   double changeTime = (System.currentTimeMillis() - lastTime);
 
-    if (changeTime < Settings.RPM_REFRESH_TIME) {
-      return currentRPM;
-    }
+  //   if (changeTime < Settings.RPM_REFRESH_TIME) {
+  //     return currentRPM;
+  //   }
 
-    lastTime = System.currentTimeMillis();
+  //   lastTime = System.currentTimeMillis();
 
-    double currentTicks = shooterEncoder.get();
-    double rate = (currentTicks - lastTicks)/ changeTime;
+  //   double currentTicks = shooterEncoder.get();
+  //   double rate = (currentTicks - lastTicks)/ changeTime;
 
-    System.out.println(rate);
+  //   System.out.println(rate);
 
-    if (rate <= 0) {
-      return 0;
-    }
+  //   if (rate <= 0) {
+  //     return 0;
+  //   }
     
-    lastTicks = currentTicks;
+  //   lastTicks = currentTicks;
 
-    double preCalculatedRPM = (rate / Settings.TICKS_PER_FLYWHEEL_ROTATION) * 60 * 1000;
-    currentRPM = currentRPM * 0.7 + preCalculatedRPM * 0.3;
-    return currentRPM;
-  }
+  //   double preCalculatedRPM = (rate / Settings.TICKS_PER_FLYWHEEL_ROTATION) * 60 * 1000;
+  //   currentRPM = currentRPM * 0.7 + preCalculatedRPM * 0.3;
+  //   return currentRPM;
+  // }
 }
