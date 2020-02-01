@@ -7,16 +7,20 @@
 
 package ca.fourthreethreefour.subsystems.pid;
 
+import ca.fourthreethreefour.subsystems.Drive;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class DrivePID extends PIDSubsystem {
+  private Drive driveSubsystem = null;
+
   /**
    * Creates a new DrivePID.
    */
   private double speed;
-  public DrivePID() {
+  public DrivePID(Drive driveSubsystem) {
+
     super(
         // The PIDController used by the subsystem
         new PIDController(0, 0, 0));
@@ -31,7 +35,7 @@ public class DrivePID extends PIDSubsystem {
   @Override
   public double getMeasurement() {
     // Return the process variable measurement here
-    return 0;
+    return driveSubsystem.getEncoder();
   }
 
   /**
@@ -41,4 +45,5 @@ public class DrivePID extends PIDSubsystem {
   public double getSpeed() {
     return speed;
   }
+  
 }
