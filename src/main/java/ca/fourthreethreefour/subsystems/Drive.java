@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.SPI;
 public class Drive implements Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+  private CANSparkMax leftFrontMotor = null;
   private CANSparkMax leftBackMotor = null;
   private CANSparkMax rightFrontMotor = null;
   private CANSparkMax rightBackMotor = null;
