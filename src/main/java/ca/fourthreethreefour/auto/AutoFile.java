@@ -7,14 +7,17 @@ import java.io.IOException;
 import java.util.Vector;
 
 import ca.fourthreethreefour.auto.commands.DriveBlind;
+import ca.fourthreethreefour.auto.commands.DriveStraight;
 import ca.fourthreethreefour.auto.commands.Print;
 import ca.fourthreethreefour.auto.commands.Turn;
 import ca.fourthreethreefour.subsystems.Drive;
+import ca.fourthreethreefour.subsystems.pid.DrivePID;
 import ca.fourthreethreefour.subsystems.pid.TurnPID;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class AutoFile {
     private Drive driveSubsystem = null;
+    private DrivePID drivePID = null;
     private TurnPID turnPID = null;
     private Vector<Entry> commandEntries = new Vector<>();
 
@@ -36,8 +39,9 @@ public class AutoFile {
         }
     }
 
-    public AutoFile(File file, Drive driveSubsystem, TurnPID turnPID) throws IOException {
+    public AutoFile(File file, Drive driveSubsystem, DrivePID drivePID, TurnPID turnPID) throws IOException {
         this.driveSubsystem = driveSubsystem;
+        this.drivePID = drivePID;
         this.turnPID = turnPID;
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
         String currentLine;
@@ -120,6 +124,11 @@ public class AutoFile {
                 double rightSpeed = Double.parseDouble(args[1]);
                 timeout = args.length > 2 ? Double.parseDouble(args[2]) : 5;
                 command = new DriveBlind(driveSubsystem, leftSpeed, rightSpeed).withTimeout(timeout);
+                return command;
+            case "drivestraight":
+                double distance = Double.parseDouble(args[0]);
+                timeout = args.length > 1 ? Double.parseDouble(args[1]) : 5;
+                command = new DriveStraight(driveSubsystem, drivePID, turnPID, distance).withTimeout(timeout);
                 return command;
             case "turn":
                 double angle = Double.parseDouble(args[0]);

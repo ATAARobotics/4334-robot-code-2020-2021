@@ -21,9 +21,8 @@ public class DrivePID extends PIDSubsystem {
   private double speed;
   public DrivePID(Drive driveSubsystem) {
 
-    super(
-        // The PIDController used by the subsystem
-        new PIDController(0, 0, 0));
+    super(new PIDController(0, 0, 0));
+    this.driveSubsystem = driveSubsystem;
   }
 
   @Override
