@@ -7,15 +7,16 @@
 
 package ca.fourthreethreefour.subsystems;
 
+import com.ctre.phoenix.sensors.CANCoder;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import ca.fourthreethreefour.settings.Settings;
-import ca.fourthreethreefour.settings.SettingsFile;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 
@@ -37,6 +38,9 @@ public class Drive implements Subsystem {
 
   private AHRS navX = null;
 
+  private CANCoder leftEncoder = null;
+  private CANCoder rightEncoder = null;
+
   public Drive() {
     leftFrontMotor = new CANSparkMax(Settings.LEFT_FRONT_MOTOR_PORT, MotorType.kBrushless);
     leftBackMotor = new CANSparkMax(Settings.LEFT_BACK_MOTOR_PORT, MotorType.kBrushless);
@@ -53,6 +57,9 @@ public class Drive implements Subsystem {
     } catch (Exception e) {
       DriverStation.reportError("Error instantiating navX MXP:  " + e.getMessage(), true);
     }
+    
+    leftEncoder = new CANCoder(Settings.LEFT_ENCODER_PORT);
+    rightEncoder = new CANCoder(Settings.RIGHT_ENCODER_PORT);
   }
 
   public void teleopInit() {
@@ -63,13 +70,30 @@ public class Drive implements Subsystem {
   public void arcadeDrive(double speed, double turn, boolean squared) {
     drive.arcadeDrive(speed * Settings.DRIVE_SPEED, turn * Settings.TURN_SPEED, squared);
   }
+  public void tankDrive(double leftSpeed, double rightSpeed) {
+    drive.tankDrive(leftSpeed, rightSpeed);
+  }
 
   public double getNavX() {
     return navX.getAngle();
+  } 
+
+  public double getLeftEncoder() {
+    return leftEncoder.getPosition();
+  }
+  public double getRightEncoder() {
+    return rightEncoder.getPosition();    
+  }
+  public double getEncoder() {
+    double meanEncoder = getLeftEncoder() + getRightEncoder();
+    meanEncoder = meanEncoder/2;
+    return meanEncoder;
   }
 
   public void reset() {
     navX.reset();
+    leftEncoder.setPosition(0);
+    rightEncoder.setPosition(0);
   }
 
   public static String loggingCategories() {
