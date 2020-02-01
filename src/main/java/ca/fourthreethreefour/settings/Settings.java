@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class Settings {
 
-    static SettingsFile settingsFile = new SettingsFile(new File("/settings.txt"));
+    static SettingsFile settingsFile = new SettingsFile(new File("/home/lvuser/files/settings.txt"));
     String settingsActive = settingsFile.toString();
 
     static public int CONTROLLER_DRIVER_PORT = settingsFile.getIntProperty("CONTROLLER_DRIVER_PORT", 0);

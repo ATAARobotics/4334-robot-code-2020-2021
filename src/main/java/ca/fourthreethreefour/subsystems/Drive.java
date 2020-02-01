@@ -70,7 +70,6 @@ public class Drive implements Subsystem {
   public void arcadeDrive(double speed, double turn, boolean squared) {
     drive.arcadeDrive(speed * Settings.DRIVE_SPEED, turn * Settings.TURN_SPEED, squared);
   }
- 
   public void tankDrive(double leftSpeed, double rightSpeed) {
     drive.tankDrive(leftSpeed, rightSpeed);
   }
@@ -90,11 +89,21 @@ public class Drive implements Subsystem {
     meanEncoder = meanEncoder/2;
     return meanEncoder;
   }
+
   public void reset() {
     navX.reset();
     leftEncoder.setPosition(0);
     rightEncoder.setPosition(0);
   }
 
+  public static String loggingCategories() {
+    String categories = "";
+    return categories;
+  }
+
+  public static String loggingData() {
+    String data = "";
+    return data;
+  }
 }
 
