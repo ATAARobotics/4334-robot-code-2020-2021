@@ -8,6 +8,7 @@
 package ca.fourthreethreefour.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.cuforge.libcu.Lasershark;
 
 import ca.fourthreethreefour.settings.Settings;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -17,10 +18,12 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
  */
 public class Intake implements Subsystem {
   private WPI_TalonSRX rollerIntake = null;
+  private Lasershark lasersharkIntake = null;
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   public Intake() {
     rollerIntake = new WPI_TalonSRX(Settings.ROLLER_PORT);
+    lasersharkIntake = new Lasershark(Settings.LINESHARK_INTAKE_PORT);
   }
 
   public void set(double speed) {
@@ -28,6 +31,10 @@ public class Intake implements Subsystem {
   }
 
   public boolean intakeSensor() {
-    return false;
+    if (lasersharkIntake.getDistanceInches() <= 7) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

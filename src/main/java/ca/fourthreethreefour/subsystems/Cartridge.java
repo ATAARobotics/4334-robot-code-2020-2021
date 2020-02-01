@@ -8,6 +8,8 @@
 package ca.fourthreethreefour.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.cuforge.libcu.Lasershark;
+
 import ca.fourthreethreefour.settings.Settings;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj.Ultrasonic;
@@ -20,6 +22,7 @@ public class Cartridge implements Subsystem {
   private WPI_TalonSRX indexer = null;
   private Ultrasonic ultrasonicStart = null;
   private Ultrasonic ultrasonicEnd = null;
+  private Lasershark lasersharkIndexer = null;
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   public Cartridge() {
@@ -28,6 +31,7 @@ public class Cartridge implements Subsystem {
     ultrasonicStart = new Ultrasonic(Settings.ULTRASONIC_START_OUTPUT_PORT, Settings.ULTRASONIC_START_INPUT_PORT);
     ultrasonicEnd = new Ultrasonic(Settings.ULTARSONIC_END_OUTPUT_PORT, Settings.ULTRASONIC_END_INPUT_PORT);
     ultrasonicStart.setAutomaticMode(true);
+    lasersharkIndexer = new Lasershark(Settings.LINESHARK_INDEXER_PORT);
   }
   
   public void beltSet(double speed) {
@@ -39,7 +43,12 @@ public class Cartridge implements Subsystem {
   }
 
   public boolean indexerSensor() {
-    return false;
+    if (lasersharkIndexer.getDistanceInches() <= 7) {
+      return true;
+    } else {
+      return false;
+    }
+    
   }
 
   public void printUltrasonics() {
@@ -85,6 +94,8 @@ public class Cartridge implements Subsystem {
     }
   
   }
+
+
 
   // public void resetLoops() {
   //   startLoop = 0;

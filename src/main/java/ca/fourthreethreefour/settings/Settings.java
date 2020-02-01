@@ -29,6 +29,9 @@ public class Settings {
     static public int ULTRASONIC_END_INPUT_PORT = settingsFile.getIntProperty("ULTRASONIC_END_INPUT_PORT", 2);
     static public int ULTARSONIC_END_OUTPUT_PORT = settingsFile.getIntProperty("ULTRASONIC_END_OUTPUT_PORT", 3);
 
+    static public int LINESHARK_INDEXER_PORT = settingsFile.getIntProperty("LINESHARK_INDEXER_PORT", 7);
+    static public int LINESHARK_INTAKE_PORT = settingsFile.getIntProperty("LINESHARK_INTAKE_PORT", 8);
+
     static public boolean LOGGING_ENABLED = settingsFile.getBooleanProperty("LOGGING_ENABLED", false);
 
     static public double DRIVE_SPEED = settingsFile.getDoubleProperty("DRIVE_SPEED", 1);
