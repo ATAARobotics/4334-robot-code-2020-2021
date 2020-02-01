@@ -12,7 +12,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import ca.fourthreethreefour.settings.Settings;
-import ca.fourthreethreefour.settings.SettingsFile;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -25,7 +24,6 @@ import edu.wpi.first.wpilibj.SPI;
 public class Drive implements Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  private CANSparkMax leftFrontMotor = null;
   private CANSparkMax leftBackMotor = null;
   private CANSparkMax rightFrontMotor = null;
   private CANSparkMax rightBackMotor = null;

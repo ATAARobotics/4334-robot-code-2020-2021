@@ -17,13 +17,17 @@ public class Settings {
     static public int RIGHT_FRONT_MOTOR_PORT = settingsFile.getIntProperty("RIGHT_FRONT_MOTOR_PORT", 3);
     static public int RIGHT_BACK_MOTOR_PORT = settingsFile.getIntProperty("RIGHT_BACK_MOTOR_PORT", 4);
 
-    static public int INNER_BELT_PORT = settingsFile.getIntProperty("INNER_BELT_PORT", 0);
-    static public int OUTER_BELT_PORT = settingsFile.getIntProperty("OUTER_BELT_PORT", 1);
-    static public int INDEXER_PORT = settingsFile.getIntProperty("INDEXER_PORT", 2);
+    static public int BELT_PORT = settingsFile.getIntProperty("BELT_PORT", 2);
+    static public int INDEXER_PORT = settingsFile.getIntProperty("INDEXER_PORT", 0);
     static public int ROLLER_PORT = settingsFile.getIntProperty("ROLLER_PORT", 3);
 
     static public int FLYWHEEL_PORT = settingsFile.getIntProperty("FLYWHEEL_PORT", 4);
     static public int FLYWHEEL_COUNTER_PORT = settingsFile.getIntProperty("FLYWHEEL_COUNTER_PORT", 9);
+
+    static public int ULTRASONIC_START_INPUT_PORT = settingsFile.getIntProperty("ULTRASONIC_START_INPUT_PORT", 0);
+    static public int ULTRASONIC_START_OUTPUT_PORT = settingsFile.getIntProperty("ULTRASONIC_START_OUTPUT_PORT", 1);
+    static public int ULTRASONIC_END_INPUT_PORT = settingsFile.getIntProperty("ULTRASONIC_END_INPUT_PORT", 2);
+    static public int ULTARSONIC_END_OUTPUT_PORT = settingsFile.getIntProperty("ULTRASONIC_END_OUTPUT_PORT", 3);
 
     static public boolean LOGGING_ENABLED = settingsFile.getBooleanProperty("LOGGING_ENABLED", false);
 

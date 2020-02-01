@@ -32,6 +32,7 @@ public class Teleop {
 
     private double previousSpeed = 0;
     private double previousTurn = 0;
+    boolean temporary = false;   
     
     public void teleopPeriodic() {
         double speed;
@@ -52,15 +53,12 @@ public class Teleop {
 
         if (controllerOperator.getTriggerAxis(Hand.kRight) > 0.1) {
             double cartridgeSpeed = controllerOperator.getTriggerAxis(Hand.kRight);
-            cartridgeSubsystem.innerSet(cartridgeSpeed);
-            cartridgeSubsystem.outerSet(cartridgeSpeed);
+            cartridgeSubsystem.beltSet(cartridgeSpeed);
         } else if (controllerOperator.getTriggerAxis(Hand.kLeft) > 0.1) {
             double cartridgeSpeed = -controllerOperator.getTriggerAxis(Hand.kLeft);
-            cartridgeSubsystem.innerSet(cartridgeSpeed);
-            cartridgeSubsystem.outerSet(cartridgeSpeed);
+            cartridgeSubsystem.beltSet(cartridgeSpeed);
         } else {
-            cartridgeSubsystem.innerSet(0);
-            cartridgeSubsystem.outerSet(0);
+            cartridgeSubsystem.beltSet(0);
         }
 
         if (controllerOperator.getAButton() == true) {
@@ -82,6 +80,39 @@ public class Teleop {
             shooterSubsystem.flywheelSet(1);
         } else {
             shooterSubsystem.flywheelSet(0);
+        }
+      
+         if (controllerOperator.getStartButtonPressed()) {
+             temporary = true;
+         }
+         if (controllerOperator.getBackButtonPressed()) {
+             temporary = false;
+         }
+      
+        // if (rollerSubsystem.intakeSensor()) {
+        if (temporary) {
+            // if (controllerOperator.getStartButtonPressed()) {
+            //     cartridgeSubsystem.resetLoops();
+            // }
+            if (cartridgeSubsystem.cartridgeEnd()) {
+                if (cartridgeSubsystem.indexerSensor()) {
+                    cartridgeSubsystem.indexerSet(0);
+                } else {
+                    cartridgeSubsystem.indexerSet(1);
+                    if (!cartridgeSubsystem.cartridgeStart()) {
+                        cartridgeSubsystem.beltSet(1);
+                    } else {
+                        cartridgeSubsystem.beltSet(0);
+                    }
+                }
+            } else {
+                if (!cartridgeSubsystem.cartridgeStart()) {
+                    cartridgeSubsystem.beltSet(1);
+                } else {
+                    cartridgeSubsystem.beltSet(0);
+                    temporary = false;
+                }
+            }
         }
     }
 }
