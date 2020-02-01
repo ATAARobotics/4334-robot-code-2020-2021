@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() { 
     teleop = new Teleop(driveSubsystem, cartridgeSubsystem, rollerSubsystem, shooterSubsytem, climbSubsystem);
-    auto = new Auto();
+    auto = new Auto(driveSubsystem);
   }
 
   @Override

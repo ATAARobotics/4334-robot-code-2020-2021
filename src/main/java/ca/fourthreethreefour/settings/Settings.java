@@ -17,6 +17,9 @@ public class Settings {
     static public int RIGHT_FRONT_MOTOR_PORT = settingsFile.getIntProperty("RIGHT_FRONT_MOTOR_PORT", 3);
     static public int RIGHT_BACK_MOTOR_PORT = settingsFile.getIntProperty("RIGHT_BACK_MOTOR_PORT", 4);
 
+    static public int LEFT_ENCODER_PORT = settingsFile.getIntProperty("LEFT_ENCODER_PORT", 20);
+    static public int RIGHT_ENCODER_PORT = settingsFile.getIntProperty("RIGHT_ENCODER_PORT", 21);
+
     static public int INNER_BELT_PORT = settingsFile.getIntProperty("INNER_BELT_PORT", 0);
     static public int OUTER_BELT_PORT = settingsFile.getIntProperty("OUTER_BELT_PORT", 1);
     static public int INDEXER_PORT = settingsFile.getIntProperty("INDEXER_PORT", 2);
