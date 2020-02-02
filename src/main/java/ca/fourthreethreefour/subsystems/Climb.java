@@ -19,12 +19,17 @@ public class Climb implements Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   private WPI_TalonSRX releaseMotor = null;
+  private WPI_TalonSRX gondolaMotor = null;
 
   public Climb() {
     releaseMotor = new WPI_TalonSRX(Settings.CLIMB_RELEASE_PORT);
+    gondolaMotor = new WPI_TalonSRX(Settings.CLIMB_GONDOLA_OF_DEATH_PORT);
   }
 
   public void releaseSet(double speed) {
     releaseMotor.set(speed);
+  }
+  public void gondolaSet(double speed) {
+    gondolaMotor.set(speed);
   }
 }
