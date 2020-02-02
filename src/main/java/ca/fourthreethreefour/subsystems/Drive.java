@@ -48,7 +48,7 @@ public class Drive implements Subsystem {
     rightMotors = new SpeedControllerGroup(rightFrontMotor, rightBackMotor);
 
     drive = new DifferentialDrive(leftMotors, rightMotors);
-
+    
     leftMotors.setInverted(true);
     rightMotors.setInverted(true);
 
@@ -76,14 +76,12 @@ public class Drive implements Subsystem {
     navX.reset();
   }
 
-  public void speedShift() {
-    if (speed == Settings.DRIVE_SPEED) {
-      speed = Settings.DRIVE_MAX_SPEED;
-      System.out.println("SPEED SHIFTED TO " + Settings.DRIVE_MAX_SPEED);
-    } else {
-      speed = Settings.DRIVE_SPEED;
-      System.out.println("SPEED SHIFTED TO " + Settings.DRIVE_SPEED);
-    }
+  public void speedHigh() {
+    speed = Settings.DRIVE_MAX_SPEED;
+  }
+
+  public void speedLow() {
+    speed = Settings.DRIVE_SPEED;
   }
 }
 

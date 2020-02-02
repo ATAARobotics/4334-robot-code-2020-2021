@@ -36,24 +36,34 @@ public class Teleop {
     
     public void teleopPeriodic() {
 
-        if (controllerDriver.getStickButtonPressed(Hand.kRight)) {
-            driveSubsystem.speedShift();
+        if (controllerDriver.getStickButtonReleased(Hand.kLeft)) {
+            driveSubsystem.speedHigh();
+        } else if (Math.abs(controllerDriver.getY(Hand.kLeft)) < 0.05 || Math.abs(controllerDriver.getX(Hand.kRight)) > 0.05) {
+            driveSubsystem.speedLow();
         }
 
         double speed;
-        if (Math.abs(controllerDriver.getY(Hand.kLeft)) < 0.05) {
-            speed = 0;
-        } else {
-            speed = controllerDriver.getY(Hand.kLeft) * 0.1 + previousSpeed * 0.9;
-        }
-        previousSpeed = speed;
         double turn;
-        if (Math.abs(controllerDriver.getX(Hand.kRight)) < 0.05) {
+        if (controllerDriver.getStickButton(Hand.kRight)) {
+            speed = 0;
             turn = 0;
         } else {
-            turn = controllerDriver.getX(Hand.kRight) * 0.1 + previousTurn * 0.9;
+
+
+        // if (Math.abs(controllerDriver.getY(Hand.kLeft)) < 0.05) {
+        //     speed = 0;
+        // } else {
+            speed = controllerDriver.getY(Hand.kLeft) * 0.075 + previousSpeed * 0.925;
+        // }
+            previousSpeed = speed;
+        // if (Math.abs(controllerDriver.getX(Hand.kRight)) < 0.05) {
+        //     turn = 0;
+        // } else {
+            turn = controllerDriver.getX(Hand.kRight) * 0.075 + previousTurn * 0.925;
+        // }
+            previousTurn = turn;
+        
         }
-        previousTurn = turn;
         driveSubsystem.arcadeDrive(speed, turn, true);
 
         if (controllerOperator.getTriggerAxis(Hand.kRight) > 0.1) {
