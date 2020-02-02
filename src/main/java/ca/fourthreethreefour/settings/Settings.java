@@ -25,7 +25,8 @@ public class Settings {
     static public int FLYWHEEL_PORT = settingsFile.getIntProperty("FLYWHEEL_PORT", 4);
     static public int FLYWHEEL_COUNTER_PORT = settingsFile.getIntProperty("FLYWHEEL_COUNTER_PORT", 9);
 
-    static public int CLIMB_RELEASE_PORT = settingsFile.getIntProperty("CLIMB_RELEASE_PORT", 7);
+    static public int CLIMB_RELEASE_1_PORT = settingsFile.getIntProperty("CLIMB_RELEASE_1_PORT", 7);
+    static public int CLIMB_RELEASE_2_PORT = settingsFile.getIntProperty("CLIMB_RELEASE_2_PORT", 8);
     static public int CLIMB_GONDOLA_OF_DEATH_PORT = settingsFile.getIntProperty("CLIMB_GONDOLA_PORT", 6);
 
     static public boolean LOGGING_ENABLED = settingsFile.getBooleanProperty("LOGGING_ENABLED", false);
@@ -55,7 +56,7 @@ public class Settings {
         INDEXER_SPEED = settingsFile.getDoubleProperty("INDEXER_SPEED", 0.6);
 
         ROLLER_SPEED = settingsFile.getDoubleProperty("ROLLER_SPEED", 0.8);
-        
+
         GONDOLA_SPEED = settingsFile.getDoubleProperty("GONDOLA_SPEED", 1);
 
         FLYWHEEL_SPEED = settingsFile.getDoubleProperty("FLYWHEEL_SPEED", 0.6);
