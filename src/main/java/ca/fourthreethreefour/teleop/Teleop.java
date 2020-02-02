@@ -92,10 +92,12 @@ public class Teleop {
             climbSubsystem.gondolaSet(0);
         }
 
-        if (controllerOperator.getPOV() == 0) {
+        if (controllerDriver.getStartButton() && controllerOperator.getStartButton()) {
             climbSubsystem.releaseSet(1);
         } else {
             climbSubsystem.releaseSet(0);
         }
+
+
     }
 }
