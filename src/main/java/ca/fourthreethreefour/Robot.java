@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() { 
     flywheelPID = new FlywheelPID(shooterSubsystem);
-    teleop = new Teleop(driveSubsystem, cartridgeSubsystem, rollerSubsystem, shooterSubsystem, climbSubsystem);
+    teleop = new Teleop(driveSubsystem, cartridgeSubsystem, rollerSubsystem, shooterSubsystem, climbSubsystem, flywheelPID);
   }
   @Override
   public void disabledPeriodic() {
