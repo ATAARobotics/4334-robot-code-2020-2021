@@ -9,6 +9,7 @@ import java.util.Vector;
 import ca.fourthreethreefour.auto.commands.DriveBlind;
 import ca.fourthreethreefour.auto.commands.DriveStraight;
 import ca.fourthreethreefour.auto.commands.Print;
+import ca.fourthreethreefour.auto.commands.Stop;
 import ca.fourthreethreefour.auto.commands.Turn;
 import ca.fourthreethreefour.auto.commands.Wait;
 import ca.fourthreethreefour.auto.commands.WaitUntil;
@@ -146,8 +147,8 @@ public class AutoFile {
                 command = new WaitUntil(driveSubsystem, time);
                 return command;
             case "stop":
+                command = new Stop(driveSubsystem, drivePID, turnPID);
                 return command;
-            
             default:
                 throw new Error(key + " is not a valid command!");
         }
