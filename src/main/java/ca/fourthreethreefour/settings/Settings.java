@@ -31,6 +31,10 @@ public class Settings {
     static public int ULTRASONIC_END_INPUT_PORT = settingsFile.getIntProperty("ULTRASONIC_END_INPUT_PORT", 2);
     static public int ULTARSONIC_END_OUTPUT_PORT = settingsFile.getIntProperty("ULTRASONIC_END_OUTPUT_PORT", 3);
 
+    static public int CLIMB_RELEASE_1_PORT = settingsFile.getIntProperty("CLIMB_RELEASE_1_PORT", 7);
+    static public int CLIMB_RELEASE_2_PORT = settingsFile.getIntProperty("CLIMB_RELEASE_2_PORT", 8);
+    static public int CLIMB_GONDOLA_OF_DEATH_PORT = settingsFile.getIntProperty("CLIMB_GONDOLA_PORT", 6);
+
     static public boolean LOGGING_ENABLED = settingsFile.getBooleanProperty("LOGGING_ENABLED", false);
 
     static public double DRIVE_SPEED = settingsFile.getDoubleProperty("DRIVE_SPEED", 1);
@@ -41,6 +45,8 @@ public class Settings {
     static public double INDEXER_SPEED = settingsFile.getDoubleProperty("INDEXER_SPEED", 0.6);
 
     static public double ROLLER_SPEED = settingsFile.getDoubleProperty("ROLLER_SPEED", 0.8);
+
+    static public double GONDOLA_SPEED = settingsFile.getDoubleProperty("GONDOLA_SPEED", 1);
 
     static public double FLYWHEEL_SPEED = settingsFile.getDoubleProperty("FLYWHEEL_SPEED", 0.6);
     static public int RPM_REFRESH_TIME = settingsFile.getIntProperty("RPM_REFRESH_TIME", 50);
@@ -56,6 +62,8 @@ public class Settings {
         INDEXER_SPEED = settingsFile.getDoubleProperty("INDEXER_SPEED", 0.6);
 
         ROLLER_SPEED = settingsFile.getDoubleProperty("ROLLER_SPEED", 0.8);
+
+        GONDOLA_SPEED = settingsFile.getDoubleProperty("GONDOLA_SPEED", 1);
 
         FLYWHEEL_SPEED = settingsFile.getDoubleProperty("FLYWHEEL_SPEED", 0.6);
         RPM_REFRESH_TIME = settingsFile.getIntProperty("RPM_REFRESH_TIME", 50);

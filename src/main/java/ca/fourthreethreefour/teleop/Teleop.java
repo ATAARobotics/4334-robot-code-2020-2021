@@ -92,7 +92,22 @@ public class Teleop {
             }
             shooterSubsystem.flywheelSet(0);
         }
-      
+
+        if (controllerOperator.getPOV( ) == 90) {
+            climbSubsystem.gondolaSet(1);
+        } else if (controllerOperator.getPOV() == 270) {
+            climbSubsystem.gondolaSet(-1);
+        } else {
+            climbSubsystem.gondolaSet(0);
+        }
+
+        if (controllerDriver.getStartButton() && controllerOperator.getStartButton()) {
+            climbSubsystem.releaseSet(1);
+        } else {
+            climbSubsystem.releaseSet(0);
+        }
+
+        // TODO: Make sure this changes
          if (controllerOperator.getStartButtonPressed()) {
              temporary = true;
          }
