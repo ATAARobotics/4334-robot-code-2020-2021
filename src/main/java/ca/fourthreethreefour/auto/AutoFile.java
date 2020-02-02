@@ -10,6 +10,7 @@ import ca.fourthreethreefour.auto.commands.DriveBlind;
 import ca.fourthreethreefour.auto.commands.DriveStraight;
 import ca.fourthreethreefour.auto.commands.Print;
 import ca.fourthreethreefour.auto.commands.Turn;
+import ca.fourthreethreefour.auto.commands.Wait;
 import ca.fourthreethreefour.subsystems.Drive;
 import ca.fourthreethreefour.subsystems.pid.DrivePID;
 import ca.fourthreethreefour.subsystems.pid.TurnPID;
@@ -134,6 +135,10 @@ public class AutoFile {
                 double angle = Double.parseDouble(args[0]);
                 timeout = args.length > 1 ? Double.parseDouble(args[1]) : 5;
                 command = new Turn(driveSubsystem, turnPID, angle).withTimeout(timeout);
+                return command;
+            case "wait":
+                timeout = Double.parseDouble(args[0]);
+                command = new Wait().withTimeout(timeout);
                 return command;
             default:
                 throw new Error(key + " is not a valid command!");
