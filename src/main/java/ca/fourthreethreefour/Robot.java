@@ -15,6 +15,7 @@ import ca.fourthreethreefour.subsystems.Intake;
 import ca.fourthreethreefour.subsystems.Shooter;
 import ca.fourthreethreefour.subsystems.pid.FlywheelPID;
 import ca.fourthreethreefour.teleop.Teleop;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 /**
@@ -34,9 +35,9 @@ public class Robot extends TimedRobot {
   private FlywheelPID flywheelPID = null;
   private Teleop teleop = null; 
 
+  private PowerDistributionPanel pdp = new PowerDistributionPanel(1);
 
-
-  /**
+  /**%
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
    */
@@ -48,7 +49,6 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     settings.settingsPeriodic();
-    cartridgeSubsystem.printUltrasonics();
     // System.out.println(cartridgeSubsystem.indexerSensor());
   }
 

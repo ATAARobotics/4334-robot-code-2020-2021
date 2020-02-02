@@ -37,8 +37,9 @@ public class Settings {
 
     static public boolean LOGGING_ENABLED = settingsFile.getBooleanProperty("LOGGING_ENABLED", false);
 
-    static public double DRIVE_SPEED = settingsFile.getDoubleProperty("DRIVE_SPEED", 1);
+    static public double DRIVE_SPEED = settingsFile.getDoubleProperty("DRIVE_SPEED", 0.7);
     static public double TURN_SPEED = settingsFile.getDoubleProperty("TURN_SPEED", 1);
+    static public double DRIVE_MAX_SPEED = settingsFile.getDoubleProperty("DRIVE_MAX_SPEED", 1);
 
     static public double CARTRIDGE_INNER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_INNER_SPEED", 0.6);
     static public double CARTRIDGE_OUTER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_OUTER_SPEED", 0.6);

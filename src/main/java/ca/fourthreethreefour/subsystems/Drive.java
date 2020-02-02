@@ -36,6 +36,8 @@ public class Drive implements Subsystem {
 
   private AHRS navX = null;
 
+  private double speed = Settings.DRIVE_SPEED;
+
   public Drive() {
     leftFrontMotor = new CANSparkMax(Settings.LEFT_FRONT_MOTOR_PORT, MotorType.kBrushless);
     leftBackMotor = new CANSparkMax(Settings.LEFT_BACK_MOTOR_PORT, MotorType.kBrushless);
@@ -46,6 +48,9 @@ public class Drive implements Subsystem {
     rightMotors = new SpeedControllerGroup(rightFrontMotor, rightBackMotor);
 
     drive = new DifferentialDrive(leftMotors, rightMotors);
+    
+    leftMotors.setInverted(true);
+    rightMotors.setInverted(true);
 
     try {
       navX = new AHRS(SPI.Port.kMXP);
@@ -62,11 +67,21 @@ public class Drive implements Subsystem {
   public void arcadeDrive(double speed, double turn, boolean squared) {
     drive.arcadeDrive(speed * Settings.DRIVE_SPEED, turn * Settings.TURN_SPEED, squared);
   }
+
   public double getNavX() {
     return navX.getAngle();
   }
+
   public void reset() {
     navX.reset();
+  }
+
+  public void speedHigh() {
+    speed = Settings.DRIVE_MAX_SPEED;
+  }
+
+  public void speedLow() {
+    speed = Settings.DRIVE_SPEED;
   }
 }
 
