@@ -35,6 +35,11 @@ public class Teleop {
     boolean temporary = false;   
     
     public void teleopPeriodic() {
+
+        if (controllerDriver.getStickButtonPressed(Hand.kRight)) {
+            driveSubsystem.speedShift();
+        }
+
         double speed;
         if (Math.abs(controllerDriver.getY(Hand.kLeft)) < 0.05) {
             speed = 0;

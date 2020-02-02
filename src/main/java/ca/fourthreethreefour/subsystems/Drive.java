@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.SPI;
 public class Drive implements Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+  private CANSparkMax leftFrontMotor = null;
   private CANSparkMax leftBackMotor = null;
   private CANSparkMax rightFrontMotor = null;
   private CANSparkMax rightBackMotor = null;
@@ -35,6 +36,8 @@ public class Drive implements Subsystem {
 
   private AHRS navX = null;
 
+  private double speed = Settings.DRIVE_SPEED;
+
   public Drive() {
     leftFrontMotor = new CANSparkMax(Settings.LEFT_FRONT_MOTOR_PORT, MotorType.kBrushless);
     leftBackMotor = new CANSparkMax(Settings.LEFT_BACK_MOTOR_PORT, MotorType.kBrushless);
@@ -45,6 +48,9 @@ public class Drive implements Subsystem {
     rightMotors = new SpeedControllerGroup(rightFrontMotor, rightBackMotor);
 
     drive = new DifferentialDrive(leftMotors, rightMotors);
+
+    leftMotors.setInverted(true);
+    rightMotors.setInverted(true);
 
     try {
       navX = new AHRS(SPI.Port.kMXP);
@@ -61,11 +67,23 @@ public class Drive implements Subsystem {
   public void arcadeDrive(double speed, double turn, boolean squared) {
     drive.arcadeDrive(speed * Settings.DRIVE_SPEED, turn * Settings.TURN_SPEED, squared);
   }
+
   public double getNavX() {
     return navX.getAngle();
   }
+
   public void reset() {
     navX.reset();
+  }
+
+  public void speedShift() {
+    if (speed == Settings.DRIVE_SPEED) {
+      speed = Settings.DRIVE_MAX_SPEED;
+      System.out.println("SPEED SHIFTED TO " + Settings.DRIVE_MAX_SPEED);
+    } else {
+      speed = Settings.DRIVE_SPEED;
+      System.out.println("SPEED SHIFTED TO " + Settings.DRIVE_SPEED);
+    }
   }
 }
 
