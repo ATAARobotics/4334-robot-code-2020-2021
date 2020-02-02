@@ -91,5 +91,11 @@ public class Teleop {
         } else {
             climbSubsystem.gondolaSet(0);
         }
+
+        if (controllerOperator.getPOV() == 0) {
+            climbSubsystem.releaseSet(1);
+        } else {
+            climbSubsystem.releaseSet(0);
+        }
     }
 }
