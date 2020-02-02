@@ -6,6 +6,7 @@ import ca.fourthreethreefour.subsystems.Climb;
 import ca.fourthreethreefour.subsystems.Drive;
 import ca.fourthreethreefour.subsystems.Intake;
 import ca.fourthreethreefour.subsystems.Shooter;
+import ca.fourthreethreefour.subsystems.pid.FlywheelPID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
@@ -18,15 +19,19 @@ public class Teleop {
     private Shooter shooterSubsystem = null;
     private Climb climbSubsystem = null; 
 
-    public Teleop(Drive driveSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, Shooter shooterSubsystem, Climb climbSubsystem) {
+    private FlywheelPID flywheelPID = null;
+
+    public Teleop(Drive driveSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, Shooter shooterSubsystem, Climb climbSubsystem, FlywheelPID flywheelPID) {
         this.driveSubsystem = driveSubsystem;
         this.cartridgeSubsystem = cartridgeSubsystem;
         this.rollerSubsystem = rollerSubsystem;
         this.shooterSubsystem = shooterSubsystem;
         this.climbSubsystem = climbSubsystem;
+        this.flywheelPID = flywheelPID;
     }
     public void teleopInit() {
         driveSubsystem.teleopInit();
+        flywheelPID.setSetpoint(Settings.FLYWHEEL_RPM_SETPOINT);
 
     }
 
@@ -77,8 +82,14 @@ public class Teleop {
         }
 
         if (controllerOperator.getYButton()) {
-            shooterSubsystem.flywheelSet(1);
+            if (!flywheelPID.isEnabled()) {
+                flywheelPID.enable();
+            }
+            shooterSubsystem.flywheelSet(flywheelPID.getSpeed());
         } else {
+            if (flywheelPID.isEnabled()) {
+                flywheelPID.disable();
+            }
             shooterSubsystem.flywheelSet(0);
         }
       
