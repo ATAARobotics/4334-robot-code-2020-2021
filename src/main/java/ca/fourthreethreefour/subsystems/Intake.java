@@ -26,4 +26,8 @@ public class Intake implements Subsystem {
   public void set(double speed) {
     rollerIntake.set(speed * Settings.ROLLER_SPEED);
   }
+
+  public boolean intakeSensor() {
+    return false;
+  }
 }

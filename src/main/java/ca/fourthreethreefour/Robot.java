@@ -13,6 +13,7 @@ import ca.fourthreethreefour.subsystems.Climb;
 import ca.fourthreethreefour.subsystems.Drive;
 import ca.fourthreethreefour.subsystems.Intake;
 import ca.fourthreethreefour.subsystems.Shooter;
+import ca.fourthreethreefour.subsystems.pid.FlywheelPID;
 import ca.fourthreethreefour.teleop.Teleop;
 import edu.wpi.first.wpilibj.TimedRobot;
 
@@ -28,8 +29,9 @@ public class Robot extends TimedRobot {
   private Drive driveSubsystem = new Drive();
   private Cartridge cartridgeSubsystem = new Cartridge();
   private Intake rollerSubsystem = new Intake();
-  private Shooter shooterSubsytem = new Shooter();
+  private Shooter shooterSubsystem = new Shooter();
   private Climb climbSubsystem = new Climb();
+  private FlywheelPID flywheelPID = null;
   private Teleop teleop = null; 
 
 
@@ -40,11 +42,14 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() { 
-    teleop = new Teleop(driveSubsystem, cartridgeSubsystem, rollerSubsystem, shooterSubsytem, climbSubsystem);
+    flywheelPID = new FlywheelPID(shooterSubsystem);
+    teleop = new Teleop(driveSubsystem, cartridgeSubsystem, rollerSubsystem, shooterSubsystem, climbSubsystem, flywheelPID);
   }
   @Override
   public void disabledPeriodic() {
     settings.settingsPeriodic();
+    cartridgeSubsystem.printUltrasonics();
+    // System.out.println(cartridgeSubsystem.indexerSensor());
   }
 
   @Override
