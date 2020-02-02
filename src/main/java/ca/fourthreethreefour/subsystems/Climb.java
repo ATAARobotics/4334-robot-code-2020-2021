@@ -20,6 +20,7 @@ public class Climb implements Subsystem {
   // here. Call these from Commands.
   private WPI_TalonSRX releaseMotor = null;
   private WPI_TalonSRX gondolaMotor = null;
+  
 
   public Climb() {
     releaseMotor = new WPI_TalonSRX(Settings.CLIMB_RELEASE_PORT);
@@ -30,6 +31,7 @@ public class Climb implements Subsystem {
     releaseMotor.set(speed);
   }
   public void gondolaSet(double speed) {
-    gondolaMotor.set(speed);
+    gondolaMotor.set(speed * Settings.GONDOLA_SPEED);
+  
   }
 }
