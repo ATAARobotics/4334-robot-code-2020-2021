@@ -83,5 +83,13 @@ public class Teleop {
         } else {
             shooterSubsystem.flywheelSet(0);
         }
+
+        if (controllerOperator.getPOV( ) == 90) {
+            climbSubsystem.gondolaSet(1);
+        } else if (controllerOperator.getPOV() == 270) {
+            climbSubsystem.gondolaSet(-1);
+        } else {
+            climbSubsystem.gondolaSet(0);
+        }
     }
 }
