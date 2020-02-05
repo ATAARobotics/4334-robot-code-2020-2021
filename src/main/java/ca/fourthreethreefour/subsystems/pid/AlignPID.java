@@ -16,10 +16,11 @@ public class AlignPID extends PIDSubsystem {
   private LimeLight limeLight;
   private double rotateSpeed;
 
-  public AlignPID() {
+  public AlignPID(LimeLight limeLight) {
     super(
         // The PIDController used by the subsystem
         new PIDController(0.1, 0, 0));
+    this.limeLight = limeLight;
   }
 
   @Override
