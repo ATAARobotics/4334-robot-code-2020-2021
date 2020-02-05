@@ -1,5 +1,6 @@
 package ca.fourthreethreefour.vision;
 
+import ca.fourthreethreefour.settings.Settings;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -21,6 +22,11 @@ public class LimeLight {
     private NetworkTableEntry ledMode;
     private NetworkTableEntry camMode;
 
+    // Following 3 measurements are in Inches
+    private double LIMELIGHT_HEIGHT_FROM_GROUND = Settings.LIMELIGHT_DISTANCE_FROM_GROUND;
+    private double LIMELIGHT_ANGLE_FROM_FLAT = Settings.LIMELIGHT_ANGLE_FROM_FLAT;
+    private double TARGET_DEFAULT_HEIGHT = Settings.TARGET_DEFAULT_HEIGHT;
+
     public LimeLight(){
         table = NetworkTableInstance.getDefault().getTable("limelight");
         tv = table.getEntry("tv");
@@ -31,7 +37,6 @@ public class LimeLight {
         tlong = table.getEntry("tlong");
         ledMode =  table.getEntry("ledMode");
         camMode = table.getEntry("camMode");
-
     }
 
     /**
