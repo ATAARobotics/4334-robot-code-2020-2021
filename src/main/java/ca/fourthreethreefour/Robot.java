@@ -69,18 +69,21 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     teleop.teleopInit();
-    leftEncoder.setSensorPhase(false);
+    leftEncoder.setSensorPhase(true);
     rightEncoder.setSensorPhase(false);
+
+    leftEncoder.setSelectedSensorPosition(0);
+    rightEncoder.setSelectedSensorPosition(0);
 
   }
 
   @Override
   public void teleopPeriodic() {
     teleop.teleopPeriodic();
-    SmartDashboard.putNumber("Left Velocity", leftEncoder.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("Right Velocty", rightEncoder.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("Left Position", leftEncoder.getSelectedSensorPosition());
-    SmartDashboard.putNumber("Right Position", rightEncoder.getSelectedSensorPosition());
+    System.out.println("Left Velocity " + leftEncoder.getSelectedSensorVelocity());
+    System.out.println("Right Velocty " + rightEncoder.getSelectedSensorVelocity());
+    System.out.println("Left Position " + leftEncoder.getSelectedSensorPosition());
+    System.out.println("Right Position " + rightEncoder.getSelectedSensorPosition());
   }
 
   @Override
