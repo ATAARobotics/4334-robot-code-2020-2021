@@ -7,6 +7,7 @@
 
 package ca.fourthreethreefour;
 
+import ca.fourthreethreefour.auto.Auto;
 import ca.fourthreethreefour.settings.Settings;
 import ca.fourthreethreefour.subsystems.Cartridge;
 import ca.fourthreethreefour.subsystems.Climb;
@@ -34,6 +35,8 @@ public class Robot extends TimedRobot {
   private Climb climbSubsystem = new Climb();
   private FlywheelPID flywheelPID = null;
   private Teleop teleop = null; 
+  private Auto auto = null;
+  
 
   private PowerDistributionPanel pdp = new PowerDistributionPanel(1);
 
@@ -45,7 +48,9 @@ public class Robot extends TimedRobot {
   public void robotInit() { 
     flywheelPID = new FlywheelPID(shooterSubsystem);
     teleop = new Teleop(driveSubsystem, cartridgeSubsystem, rollerSubsystem, shooterSubsystem, climbSubsystem, flywheelPID);
+    auto = new Auto(driveSubsystem);
   }
+
   @Override
   public void disabledPeriodic() {
     settings.settingsPeriodic();
@@ -54,14 +59,17 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    auto.autoInit();
   }
 
   @Override
   public void autonomousPeriodic() {
+    auto.autoPeriodic();
   }
 
   @Override
   public void teleopInit() {
+    auto.autoDisabled();
     teleop.teleopInit();
   }
 
@@ -76,6 +84,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testPeriodic() {
+  }
+
+  @Override
+  public void disabledInit() {
+    auto.autoDisabled();
   }
 
 }
