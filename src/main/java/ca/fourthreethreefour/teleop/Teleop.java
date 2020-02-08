@@ -58,13 +58,13 @@ public class Teleop {
         // if (Math.abs(controllerDriver.getY(Hand.kLeft)) < 0.05) {
         //     speed = 0;
         // } else {
-            speed = controllerDriver.getY(Hand.kLeft) * 0.075 + previousSpeed * 0.925;
+            speed = controllerDriver.getY(Hand.kLeft) * 0.1 + previousSpeed * 0.9;
         // }
             previousSpeed = speed;
         // if (Math.abs(controllerDriver.getX(Hand.kRight)) < 0.05) {
         //     turn = 0;
         // } else {
-            turn = controllerDriver.getX(Hand.kRight) * 0.075 + previousTurn * 0.925;
+            turn = controllerDriver.getX(Hand.kRight) * 0.1 + previousTurn * 0.9;
         // }
             previousTurn = turn;
         
