@@ -14,7 +14,9 @@ import ca.fourthreethreefour.subsystems.Climb;
 import ca.fourthreethreefour.subsystems.Drive;
 import ca.fourthreethreefour.subsystems.Intake;
 import ca.fourthreethreefour.subsystems.Shooter;
+import ca.fourthreethreefour.subsystems.pid.DrivePID;
 import ca.fourthreethreefour.subsystems.pid.FlywheelPID;
+import ca.fourthreethreefour.subsystems.pid.TurnPID;
 import ca.fourthreethreefour.teleop.Teleop;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -33,6 +35,8 @@ public class Robot extends TimedRobot {
   private Intake rollerSubsystem = new Intake();
   private Shooter shooterSubsystem = new Shooter();
   private Climb climbSubsystem = new Climb();
+  private DrivePID drivePID = null;
+  private TurnPID turnPID = null;
   private FlywheelPID flywheelPID = null;
   private Teleop teleop = null; 
   private Auto auto = null;
@@ -46,9 +50,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() { 
+    drivePID = new DrivePID(driveSubsystem);
+    turnPID = new TurnPID(driveSubsystem);
     flywheelPID = new FlywheelPID(shooterSubsystem);
     teleop = new Teleop(driveSubsystem, cartridgeSubsystem, rollerSubsystem, shooterSubsystem, climbSubsystem, flywheelPID);
-    auto = new Auto(driveSubsystem);
+    auto = new Auto(driveSubsystem, shooterSubsystem, cartridgeSubsystem, rollerSubsystem, drivePID, turnPID,
+        flywheelPID);
   }
 
   @Override
