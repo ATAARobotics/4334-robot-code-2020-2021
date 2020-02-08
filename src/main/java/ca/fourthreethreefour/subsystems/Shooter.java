@@ -42,8 +42,8 @@ public class Shooter implements Subsystem {
     flywheel2.set(speed * Settings.FLYWHEEL_SPEED);
   }
   public double getRPM() {
-    double TPM = shooterEncoder.getVelocity() * 60;//TPM = ticks per minute
-    double RPM = Settings.TICKS_PER_FLYWHEEL_ROTATION / TPM;
+    double TPM = shooterEncoder.getVelocity() * 600;//TPM = ticks per minute
+    double RPM = TPM / Settings.TICKS_PER_FLYWHEEL_ROTATION;
 
     return RPM;
   }

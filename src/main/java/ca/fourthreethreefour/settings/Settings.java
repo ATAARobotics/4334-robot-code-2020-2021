@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class Settings {
 
-    static SettingsFile settingsFile = new SettingsFile(new File("/settings.txt"));
+    static SettingsFile settingsFile = new SettingsFile(new File("/home/lvuser/files/settings.txt"));
     String settingsActive = settingsFile.toString();
 
     static public int CONTROLLER_DRIVER_PORT = settingsFile.getIntProperty("CONTROLLER_DRIVER_PORT", 0);
@@ -17,8 +17,13 @@ public class Settings {
     static public int RIGHT_FRONT_MOTOR_PORT = settingsFile.getIntProperty("RIGHT_FRONT_MOTOR_PORT", 3);
     static public int RIGHT_BACK_MOTOR_PORT = settingsFile.getIntProperty("RIGHT_BACK_MOTOR_PORT", 4);
 
-    static public int BELT_PORT = settingsFile.getIntProperty("BELT_PORT", 2);
-    static public int INDEXER_PORT = settingsFile.getIntProperty("INDEXER_PORT", 0);
+    static public int LEFT_ENCODER_PORT = settingsFile.getIntProperty("LEFT_ENCODER_PORT", 20);
+    static public int RIGHT_ENCODER_PORT = settingsFile.getIntProperty("RIGHT_ENCODER_PORT", 21);
+
+    static public int INNER_BELT_PORT = settingsFile.getIntProperty("INNER_BELT_PORT", 0);
+    static public int OUTER_BELT_PORT = settingsFile.getIntProperty("OUTER_BELT_PORT", 1);
+    static public int INDEXER_PORT = settingsFile.getIntProperty("INDEXER_PORT", 2);
+  
     static public int ROLLER_PORT = settingsFile.getIntProperty("ROLLER_PORT", 3);
 
     static public int FLYWHEEL_1_PORT = settingsFile.getIntProperty("FLYWHEEL_1_PORT", 5);
@@ -26,10 +31,11 @@ public class Settings {
     static public int FLYWHEEL_ENCODER_PORT = settingsFile.getIntProperty("FLYWHEEL_ENCODER_PORT", 22); 
     static public double FLYWHEEL_RPM_SETPOINT = settingsFile.getIntProperty("FLYWHEEL_RPM_SETPOINT", 2000);
 
-    static public int ULTRASONIC_START_INPUT_PORT = settingsFile.getIntProperty("ULTRASONIC_START_INPUT_PORT", 0);
-    static public int ULTRASONIC_START_OUTPUT_PORT = settingsFile.getIntProperty("ULTRASONIC_START_OUTPUT_PORT", 1);
-    static public int ULTRASONIC_END_INPUT_PORT = settingsFile.getIntProperty("ULTRASONIC_END_INPUT_PORT", 2);
-    static public int ULTARSONIC_END_OUTPUT_PORT = settingsFile.getIntProperty("ULTRASONIC_END_OUTPUT_PORT", 3);
+    static public int LINESHARK_START_PORT = settingsFile.getIntProperty("LINESHARK_START_PORT", 0);
+    static public int LINESHARK_END_PORT = settingsFile.getIntProperty("LINESHARK_END_PORT", 1);
+
+    static public int LINESHARK_INDEXER_PORT = settingsFile.getIntProperty("LINESHARK_INDEXER_PORT", 7);
+    static public int LINESHARK_INTAKE_PORT = settingsFile.getIntProperty("LINESHARK_INTAKE_PORT", 8);
 
     static public int CLIMB_RELEASE_1_PORT = settingsFile.getIntProperty("CLIMB_RELEASE_1_PORT", 7);
     static public int CLIMB_RELEASE_2_PORT = settingsFile.getIntProperty("CLIMB_RELEASE_2_PORT", 8);
@@ -51,7 +57,7 @@ public class Settings {
 
     static public double FLYWHEEL_SPEED = settingsFile.getDoubleProperty("FLYWHEEL_SPEED", 0.6);
     static public int RPM_REFRESH_TIME = settingsFile.getIntProperty("RPM_REFRESH_TIME", 50);
-    static public int TICKS_PER_FLYWHEEL_ROTATION = settingsFile.getIntProperty("TICKS_PER_FLYWHEEL_ROTATION", 1);
+    static public int TICKS_PER_FLYWHEEL_ROTATION = settingsFile.getIntProperty("TICKS_PER_FLYWHEEL_ROTATION", 4096);
 
     public void settingsValueUpdate() {
         LOGGING_ENABLED = settingsFile.getBooleanProperty("LOGGING_ENABLED", false);

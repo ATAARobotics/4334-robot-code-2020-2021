@@ -37,7 +37,7 @@ public class Teleop {
 
     private double previousSpeed = 0;
     private double previousTurn = 0;
-    boolean temporary = false;   
+    boolean cartridgeRun = false;   
     
     public void teleopPeriodic() {
 
@@ -53,41 +53,55 @@ public class Teleop {
             speed = 0;
             turn = 0;
         } else {
-
-
-        // if (Math.abs(controllerDriver.getY(Hand.kLeft)) < 0.05) {
-        //     speed = 0;
-        // } else {
             speed = controllerDriver.getY(Hand.kLeft) * 0.1 + previousSpeed * 0.9;
-        // }
             previousSpeed = speed;
-        // if (Math.abs(controllerDriver.getX(Hand.kRight)) < 0.05) {
-        //     turn = 0;
-        // } else {
             turn = controllerDriver.getX(Hand.kRight) * 0.1 + previousTurn * 0.9;
-        // }
             previousTurn = turn;
-        
         }
         driveSubsystem.arcadeDrive(speed, turn, true);
 
-        if (controllerOperator.getTriggerAxis(Hand.kRight) > 0.1) {
-            double cartridgeSpeed = controllerOperator.getTriggerAxis(Hand.kRight);
-            cartridgeSubsystem.beltSet(cartridgeSpeed);
-        } else if (controllerOperator.getTriggerAxis(Hand.kLeft) > 0.1) {
-            double cartridgeSpeed = -controllerOperator.getTriggerAxis(Hand.kLeft);
-            cartridgeSubsystem.beltSet(cartridgeSpeed);
+        if (controllerOperator.getTriggerAxis(Hand.kRight) > 0.1 || controllerOperator.getTriggerAxis(Hand.kLeft) > 0.1 || controllerOperator.getAButton() || controllerOperator.getBButton()) {
+            if (controllerOperator.getTriggerAxis(Hand.kRight) > 0.1) {
+                double cartridgeSpeed = controllerOperator.getTriggerAxis(Hand.kRight);
+                cartridgeSubsystem.beltSet(cartridgeSpeed);
+            } else if (controllerOperator.getTriggerAxis(Hand.kLeft) > 0.1) {
+                double cartridgeSpeed = -controllerOperator.getTriggerAxis(Hand.kLeft);
+                cartridgeSubsystem.beltSet(cartridgeSpeed);
+            } else {
+                cartridgeSubsystem.beltSet(0);
+            }
+            if (controllerOperator.getAButton() == true) {
+                cartridgeSubsystem.indexerSet(1);
+            } else if (controllerOperator.getBButton() == true) { 
+                cartridgeSubsystem.indexerSet(-1);
+            } else {
+                cartridgeSubsystem.indexerSet(0);
+            }
         } else {
-            cartridgeSubsystem.beltSet(0);
+            if (cartridgeRun) {
+                if (cartridgeSubsystem.cartridgeEnd()) {
+                    if (cartridgeSubsystem.indexerSensor()) {
+                        cartridgeSubsystem.indexerSet(0);
+                        cartridgeRun = false;
+                    } else {
+                        cartridgeSubsystem.indexerSet(1);
+                        if (!cartridgeSubsystem.cartridgeStart()) {
+                            cartridgeSubsystem.beltSet(1);
+                        } else {
+                            cartridgeSubsystem.beltSet(0);
+                        }
+                    }
+                } else {
+                    if (!cartridgeSubsystem.cartridgeStart()) {
+                        cartridgeSubsystem.beltSet(1);
+                    } else {
+                        cartridgeSubsystem.beltSet(0);
+                        cartridgeRun = false;
+                    }
+                }
+            }
         }
-
-        if (controllerOperator.getAButton() == true) {
-            cartridgeSubsystem.indexerSet(1);
-        } else if (controllerOperator.getBButton() == true) { 
-            cartridgeSubsystem.indexerSet(-1);
-        } else {
-            cartridgeSubsystem.indexerSet(0);
-        }
+        
         if (controllerDriver.getTriggerAxis(Hand.kRight) > 0.1) {
             rollerSubsystem.set(controllerDriver.getTriggerAxis(Hand.kRight));
         } else if (controllerDriver.getTriggerAxis(Hand.kLeft) > 0.1) {
@@ -96,11 +110,18 @@ public class Teleop {
             rollerSubsystem.set(0);
         }
 
-        if (controllerOperator.getYButton()) {
+        if (controllerDriver.getYButton()) {
             if (!flywheelPID.isEnabled()) {
                 flywheelPID.enable();
             }
             shooterSubsystem.flywheelSet(flywheelPID.getSpeed());
+
+            if (flywheelPID.getController().atSetpoint()) {
+                cartridgeSubsystem.indexerSet(1);
+                if (!cartridgeSubsystem.indexerSensor()) {
+                    cartridgeSubsystem.beltSet(1);
+                }
+            }
         } else {
             if (flywheelPID.isEnabled()) {
                 flywheelPID.disable();
@@ -124,36 +145,14 @@ public class Teleop {
 
         // TODO: Make sure this changes
          if (controllerOperator.getStartButtonPressed()) {
-             temporary = true;
+             cartridgeRun = true;
          }
          if (controllerOperator.getBackButtonPressed()) {
-             temporary = false;
+             cartridgeRun = false;
          }
       
-        // if (rollerSubsystem.intakeSensor()) {
-        if (temporary) {
-            // if (controllerOperator.getStartButtonPressed()) {
-            //     cartridgeSubsystem.resetLoops();
-            // }
-            if (cartridgeSubsystem.cartridgeEnd()) {
-                if (cartridgeSubsystem.indexerSensor()) {
-                    cartridgeSubsystem.indexerSet(0);
-                } else {
-                    cartridgeSubsystem.indexerSet(1);
-                    if (!cartridgeSubsystem.cartridgeStart()) {
-                        cartridgeSubsystem.beltSet(1);
-                    } else {
-                        cartridgeSubsystem.beltSet(0);
-                    }
-                }
-            } else {
-                if (!cartridgeSubsystem.cartridgeStart()) {
-                    cartridgeSubsystem.beltSet(1);
-                } else {
-                    cartridgeSubsystem.beltSet(0);
-                    temporary = false;
-                }
-            }
+        if (rollerSubsystem.intakeSensor()) {
+            cartridgeRun = true;
         }
     }
 }
