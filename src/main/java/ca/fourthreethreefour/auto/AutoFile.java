@@ -32,25 +32,8 @@ public class AutoFile {
     private DrivePID drivePID = null;
     private TurnPID turnPID = null;
     private FlywheelPID flywheelPID = null;
-    private Vector<Entry> commandEntries = new Vector<>();
-
-    private Vector<Command> queue = new Vector<>();
-    private Vector<Boolean> hasRun = new Vector<>();
-    private Vector<Integer> state = new Vector<>();
-
-    public static class Entry {
-        final String e_key;
-        final int e_state;
-        final String[] e_arguments;
-        static final int CONCURRENT = 0;
-        static final int SEQUENTIAL = 1;
-
-        public Entry(String key, int state, String[] arguments) {
-            this.e_key = key;
-            this.e_state = state;
-            this.e_arguments = arguments;
-        }
-    }
+  
+    private Vector<Entry> commands = new Vector<>();
 
     public AutoFile(File file, Drive driveSubsystem, Shooter shooterSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, DrivePID drivePID, TurnPID turnPID, FlywheelPID flywheelPID) throws IOException {
         this.driveSubsystem = driveSubsystem;
@@ -68,7 +51,7 @@ public class AutoFile {
         }
         bufferedReader.close();
 
-        commandEntries.clear();
+        commands.clear();
         for (int i = 0; i < contents.size(); i++) {
             final int state;
             if (contents.get(i).charAt(0) == '!') {
@@ -81,50 +64,7 @@ public class AutoFile {
             contents.setElementAt(
                     contents.get(i).substring(contents.get(i).indexOf("(") + 1, contents.get(i).length() - 1), i);
             String[] args = contents.get(i).split(",");
-            commandEntries.addElement(new Entry(key, state, args));
-        }
-    }
-
-    public void init() {
-        queue.clear();
-        hasRun.clear();
-        state.clear();
-        for (int i = 0; i < commandEntries.size(); i++) {
-            Entry entry = commandEntries.elementAt(i);
-            queue.addElement(selectCommand(entry.e_key, entry.e_arguments));
-            hasRun.addElement(false);
-            state.addElement(entry.e_state);
-        }
-    }
-
-    private int queuePosition = 0;
-    private int finishedCheck = 0;
-
-    public void run() {
-        if (queuePosition < queue.size()) {
-            if (!hasRun.get(queuePosition)) {
-                queue.get(queuePosition).schedule();
-                hasRun.set(queuePosition, true);
-            }
-            if (state.get(queuePosition) == Entry.SEQUENTIAL) {
-                if (finishedCheck <= queuePosition) {
-                    if (queue.get(finishedCheck).isFinished()) {
-                        finishedCheck++;
-                    }
-                } else {
-                    queuePosition++;
-                }
-            } else {
-                queuePosition++;
-            }
-        }
-    }
-
-    public void end() {
-        for (Command command : queue) {
-            if (!command.isFinished()) {
-                command.cancel();
-            }
+            commands.addElement(new Entry(key, state, args));
         }
     }
 
@@ -173,6 +113,60 @@ public class AutoFile {
                 return command;
             default:
                 throw new Error(key + " is not a valid command!");
+        }
+    }
+
+    public static class Entry {
+        final String e_key;
+        final int e_state;
+        final String[] e_arguments;
+        Command e_command;
+        Boolean e_hasRun = false;
+        static final int CONCURRENT = 0;
+        static final int SEQUENTIAL = 1;
+
+        public Entry(String key, int state, String[] arguments) {
+            this.e_key = key;
+            this.e_state = state;
+            this.e_arguments = arguments;
+        }
+    }
+
+    public void init() {
+        for (int i = 0; i < commands.size(); i++) {
+            Entry entry = commands.elementAt(i);
+            entry.e_command = selectCommand(entry.e_key, entry.e_arguments);
+        }
+    }
+
+    private int queuePosition = 0;
+    private int finishedCheck = 0;
+
+    public void run() {
+        if (queuePosition < commands.size()) {
+            if (!commands.get(queuePosition).e_hasRun) {
+                commands.get(queuePosition).e_command.schedule();
+                commands.get(queuePosition).e_hasRun = true;
+            }
+            if (commands.get(queuePosition).e_state == Entry.SEQUENTIAL) {
+                if (finishedCheck <= queuePosition) {
+                    if (commands.get(finishedCheck).e_command.isFinished()) {
+                        finishedCheck++;
+                    }
+                } else {
+                    queuePosition++;
+                }
+            } else {
+                queuePosition++;
+            }
+        }
+    }
+
+    public void end() {
+        for (Entry entry : commands) {
+            if (!entry.e_command.isFinished()) {
+                entry.e_command.cancel();
+            }
         }
     }
 }
