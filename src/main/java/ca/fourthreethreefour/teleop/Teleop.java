@@ -155,9 +155,11 @@ public class Teleop {
             cartridgeRun = true;
         }
         if (controllerOperator.getBumper(Hand.kLeft)) {
-            cartridgeRun = true;
+            shooterSubsystem.shooterHoodSet(1);
         } else if (controllerOperator.getBumper(Hand.kRight)) {
-            cartridgeRun = false;
+            shooterSubsystem.shooterHoodSet(-1);
+        } else {
+            shooterSubsystem.shooterHoodSet(0);
         }
     }
 }
