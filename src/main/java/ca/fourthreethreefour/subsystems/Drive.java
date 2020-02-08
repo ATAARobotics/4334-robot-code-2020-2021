@@ -38,6 +38,7 @@ public class Drive implements Subsystem {
 
   private AHRS navX = null;
 
+  private double speed = Settings.DRIVE_SPEED;
   private CANCoder leftEncoder = null;
   private CANCoder rightEncoder = null;
 
@@ -51,6 +52,9 @@ public class Drive implements Subsystem {
     rightMotors = new SpeedControllerGroup(rightFrontMotor, rightBackMotor);
 
     drive = new DifferentialDrive(leftMotors, rightMotors);
+    
+    leftMotors.setInverted(true);
+    rightMotors.setInverted(true);
 
     try {
       navX = new AHRS(SPI.Port.kMXP);
@@ -70,6 +74,7 @@ public class Drive implements Subsystem {
   public void arcadeDrive(double speed, double turn, boolean squared) {
     drive.arcadeDrive(speed * Settings.DRIVE_SPEED, turn * Settings.TURN_SPEED, squared);
   }
+  
   public void tankDrive(double leftSpeed, double rightSpeed) {
     drive.tankDrive(leftSpeed, rightSpeed);
   }
@@ -104,6 +109,14 @@ public class Drive implements Subsystem {
   public static String loggingData() {
     String data = "";
     return data;
+  }
+
+  public void speedHigh() {
+    speed = Settings.DRIVE_MAX_SPEED;
+  }
+
+  public void speedLow() {
+    speed = Settings.DRIVE_SPEED;
   }
 }
 
