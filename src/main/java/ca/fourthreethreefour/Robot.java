@@ -46,8 +46,6 @@ public class Robot extends TimedRobot {
 
   private PowerDistributionPanel pdp = new PowerDistributionPanel(1);
 
-  private WPI_TalonSRX leftEncoder = new WPI_TalonSRX(30);
-
   /**%
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -64,7 +62,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    System.out.println(driveSubsystem.getRightEncoder());
+    System.out.println("Right: " + driveSubsystem.getRightEncoder());
+    System.out.println("Left: " + driveSubsystem.getLeftEncoder());
   }
 
   @Override
@@ -87,17 +86,11 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     // auto.autoDisabled();ss
     teleop.teleopInit();
-    leftEncoder.setSensorPhase(true);
-
-    leftEncoder.setSelectedSensorPosition(0);
-
   }
 
   @Override
   public void teleopPeriodic() {
     teleop.teleopPeriodic();
-    // System.out.println("Left Velocity " + leftEncoder.getSelectedSensorVelocity());
-    // System.out.println("Left Position " + leftEncoder.getSelectedSensorPosition());
   }
 
   @Override
