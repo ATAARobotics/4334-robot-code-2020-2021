@@ -38,7 +38,7 @@ public class Drive implements Subsystem {
 
   private AHRS navX = null;
 
-  private double speed = Settings.DRIVE_SPEED;
+  private double speedModifier = Settings.DRIVE_SPEED;
   private CANCoder leftEncoder = null;
   private CANCoder rightEncoder = null;
 
@@ -72,7 +72,7 @@ public class Drive implements Subsystem {
   }
 
   public void arcadeDrive(double speed, double turn, boolean squared) {
-    drive.arcadeDrive(speed * Settings.DRIVE_SPEED, turn * Settings.TURN_SPEED, squared);
+    drive.arcadeDrive(speed * speedModifier, turn * Settings.TURN_SPEED, squared);
   }
   
   public void tankDrive(double leftSpeed, double rightSpeed) {
@@ -112,11 +112,11 @@ public class Drive implements Subsystem {
   }
 
   public void speedHigh() {
-    speed = Settings.DRIVE_MAX_SPEED;
+    speedModifier = Settings.DRIVE_MAX_SPEED;
   }
 
   public void speedLow() {
-    speed = Settings.DRIVE_SPEED;
+    speedModifier = Settings.DRIVE_SPEED;
   }
 }
 

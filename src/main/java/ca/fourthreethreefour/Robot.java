@@ -7,6 +7,7 @@
 
 package ca.fourthreethreefour;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import ca.fourthreethreefour.auto.Auto;
 import ca.fourthreethreefour.settings.Settings;
 import ca.fourthreethreefour.subsystems.Cartridge;
@@ -18,6 +19,7 @@ import ca.fourthreethreefour.subsystems.pid.FlywheelPID;
 import ca.fourthreethreefour.teleop.Teleop;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -39,6 +41,9 @@ public class Robot extends TimedRobot {
   
 
   private PowerDistributionPanel pdp = new PowerDistributionPanel(1);
+
+  private WPI_TalonSRX leftEncoder = new WPI_TalonSRX(30);
+  private WPI_TalonSRX rightEncoder = new WPI_TalonSRX(31);
 
   /**%
    * This function is run when the robot is first started up and should be used
@@ -71,11 +76,21 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     auto.autoDisabled();
     teleop.teleopInit();
+    leftEncoder.setSensorPhase(true);
+    rightEncoder.setSensorPhase(false);
+
+    leftEncoder.setSelectedSensorPosition(0);
+    rightEncoder.setSelectedSensorPosition(0);
+
   }
 
   @Override
   public void teleopPeriodic() {
     teleop.teleopPeriodic();
+    System.out.println("Left Velocity " + leftEncoder.getSelectedSensorVelocity());
+    System.out.println("Right Velocty " + rightEncoder.getSelectedSensorVelocity());
+    System.out.println("Left Position " + leftEncoder.getSelectedSensorPosition());
+    System.out.println("Right Position " + rightEncoder.getSelectedSensorPosition());
   }
 
   @Override
