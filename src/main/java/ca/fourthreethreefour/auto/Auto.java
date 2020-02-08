@@ -4,6 +4,7 @@ import java.io.File;
 
 import ca.fourthreethreefour.subsystems.Cartridge;
 import ca.fourthreethreefour.subsystems.Drive;
+import ca.fourthreethreefour.subsystems.Intake;
 import ca.fourthreethreefour.subsystems.Shooter;
 import ca.fourthreethreefour.subsystems.pid.DrivePID;
 import ca.fourthreethreefour.subsystems.pid.FlywheelPID;
@@ -15,14 +16,16 @@ public class Auto {
     private Drive driveSubsystems = null;
     private Shooter shooterSubsystem = null;
     private Cartridge cartridgeSubsystem = null;
+    private Intake intakeSubsystem = null;
     private DrivePID drivePID = null;
     private TurnPID turnPID = null;
     private FlywheelPID flywheelPID = null;
 
-    public Auto(Drive driveSubsystems, Shooter shooterSubsystem, Cartridge cartridgeSubsystem, DrivePID drivePID, TurnPID turnPID, FlywheelPID flywheelPID) {
+    public Auto(Drive driveSubsystems, Shooter shooterSubsystem, Cartridge cartridgeSubsystem, Intake intakeSubsystem, DrivePID drivePID, TurnPID turnPID, FlywheelPID flywheelPID) {
         this.driveSubsystems = driveSubsystems;
         this.shooterSubsystem = shooterSubsystem;
         this.cartridgeSubsystem = cartridgeSubsystem;
+        this.intakeSubsystem = intakeSubsystem;
         this.drivePID = drivePID;
         this.turnPID = turnPID;
         this.flywheelPID = flywheelPID;
@@ -31,7 +34,7 @@ public class Auto {
     public void autoInit() {
         try {
             autoFile = new AutoFile(new File("/auto.txt"), driveSubsystems, shooterSubsystem, cartridgeSubsystem,
-                    drivePID, turnPID, flywheelPID);
+                    intakeSubsystem, drivePID, turnPID, flywheelPID);
         } catch (Exception e) {
             DriverStation.reportWarning("no auto file detected!", true);
         }

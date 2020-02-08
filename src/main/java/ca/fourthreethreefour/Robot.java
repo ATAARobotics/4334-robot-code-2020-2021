@@ -54,7 +54,8 @@ public class Robot extends TimedRobot {
     turnPID = new TurnPID(driveSubsystem);
     flywheelPID = new FlywheelPID(shooterSubsystem);
     teleop = new Teleop(driveSubsystem, cartridgeSubsystem, rollerSubsystem, shooterSubsystem, climbSubsystem, flywheelPID);
-    auto = new Auto(driveSubsystem, shooterSubsystem, cartridgeSubsystem, drivePID, turnPID, flywheelPID);
+    auto = new Auto(driveSubsystem, shooterSubsystem, cartridgeSubsystem, rollerSubsystem, drivePID, turnPID,
+        flywheelPID);
   }
 
   @Override
