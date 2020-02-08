@@ -14,7 +14,9 @@ import ca.fourthreethreefour.subsystems.Climb;
 import ca.fourthreethreefour.subsystems.Drive;
 import ca.fourthreethreefour.subsystems.Intake;
 import ca.fourthreethreefour.subsystems.Shooter;
+import ca.fourthreethreefour.subsystems.pid.FlywheelPID;
 import ca.fourthreethreefour.teleop.Teleop;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 /**
@@ -29,27 +31,30 @@ public class Robot extends TimedRobot {
   private Drive driveSubsystem = new Drive();
   private Cartridge cartridgeSubsystem = new Cartridge();
   private Intake rollerSubsystem = new Intake();
-  private Shooter shooterSubsytem = new Shooter();
+  private Shooter shooterSubsystem = new Shooter();
   private Climb climbSubsystem = new Climb();
+  private FlywheelPID flywheelPID = null;
   private Teleop teleop = null; 
   private Auto auto = null;
   
 
+  private PowerDistributionPanel pdp = new PowerDistributionPanel(1);
 
-
-  /**
+  /**%
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
    */
   @Override
   public void robotInit() { 
-    teleop = new Teleop(driveSubsystem, cartridgeSubsystem, rollerSubsystem, shooterSubsytem, climbSubsystem);
+    flywheelPID = new FlywheelPID(shooterSubsystem);
+    teleop = new Teleop(driveSubsystem, cartridgeSubsystem, rollerSubsystem, shooterSubsystem, climbSubsystem, flywheelPID);
     auto = new Auto(driveSubsystem);
   }
 
   @Override
   public void disabledPeriodic() {
     settings.settingsPeriodic();
+    // System.out.println(cartridgeSubsystem.indexerSensor());
   }
 
   @Override
