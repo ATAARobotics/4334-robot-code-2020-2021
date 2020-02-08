@@ -17,7 +17,8 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
  * Add your docs here.
  */
 public class Cartridge implements Subsystem {
-  private WPI_TalonSRX belt = null;
+  private WPI_TalonSRX innerBelt = null;
+  private WPI_TalonSRX outerBelt = null;
   private WPI_TalonSRX indexer = null;
   private Lasershark lasersharkStart = null;
   private Lasershark lasersharkEnd = null;
@@ -25,7 +26,8 @@ public class Cartridge implements Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   public Cartridge() {
-    belt = new WPI_TalonSRX(Settings.BELT_PORT);
+    innerBelt = new WPI_TalonSRX(Settings.INNER_BELT_PORT);
+    outerBelt = new WPI_TalonSRX(Settings.OUTER_BELT_PORT);
     indexer = new WPI_TalonSRX(Settings.INDEXER_PORT);
     lasersharkStart = new Lasershark(Settings.LINESHARK_START_PORT);
     lasersharkEnd = new Lasershark(Settings.LINESHARK_END_PORT);
@@ -33,7 +35,8 @@ public class Cartridge implements Subsystem {
   }
   
   public void beltSet(double speed) {
-    belt.set(speed);
+    innerBelt.set(speed);
+    outerBelt.set(speed);
   }
   
   public void indexerSet(double speed) {

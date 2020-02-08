@@ -9,19 +9,26 @@ import java.util.Vector;
 import ca.fourthreethreefour.auto.commands.DriveBlind;
 import ca.fourthreethreefour.auto.commands.DriveStraight;
 import ca.fourthreethreefour.auto.commands.Print;
+import ca.fourthreethreefour.auto.commands.Shoot;
 import ca.fourthreethreefour.auto.commands.Stop;
 import ca.fourthreethreefour.auto.commands.Turn;
 import ca.fourthreethreefour.auto.commands.Wait;
 import ca.fourthreethreefour.auto.commands.WaitUntil;
+import ca.fourthreethreefour.subsystems.Cartridge;
 import ca.fourthreethreefour.subsystems.Drive;
+import ca.fourthreethreefour.subsystems.Shooter;
 import ca.fourthreethreefour.subsystems.pid.DrivePID;
+import ca.fourthreethreefour.subsystems.pid.FlywheelPID;
 import ca.fourthreethreefour.subsystems.pid.TurnPID;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class AutoFile {
     private Drive driveSubsystem = null;
+    private Shooter shooterSubsystem = null;
+    private Cartridge cartridgeSubsystem = null;
     private DrivePID drivePID = null;
     private TurnPID turnPID = null;
+    private FlywheelPID flywheelPID = null;
     private Vector<Entry> commandEntries = new Vector<>();
 
     private Vector<Command> queue = new Vector<>();
@@ -42,7 +49,7 @@ public class AutoFile {
         }
     }
 
-    public AutoFile(File file, Drive driveSubsystem, DrivePID drivePID, TurnPID turnPID) throws IOException {
+    public AutoFile(File file, Drive driveSubsystem, Shooter shooterSubsystem, Cartridge cartridgeSubsystem, DrivePID drivePID, TurnPID turnPID, FlywheelPID flywheelPID) throws IOException {
         this.driveSubsystem = driveSubsystem;
         this.drivePID = drivePID;
         this.turnPID = turnPID;
@@ -148,6 +155,10 @@ public class AutoFile {
                 return command;
             case "stop":
                 command = new Stop(driveSubsystem, drivePID, turnPID);
+                return command;
+            case "shoot":
+                timeout = Double.parseDouble(args[0]);
+                command = new Shoot(shooterSubsystem, cartridgeSubsystem, flywheelPID).withTimeout(timeout);
                 return command;
             default:
                 throw new Error(key + " is not a valid command!");
