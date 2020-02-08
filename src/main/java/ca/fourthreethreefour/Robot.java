@@ -47,7 +47,6 @@ public class Robot extends TimedRobot {
   private PowerDistributionPanel pdp = new PowerDistributionPanel(1);
 
   private WPI_TalonSRX leftEncoder = new WPI_TalonSRX(30);
-  private WPI_TalonSRX rightEncoder = new WPI_TalonSRX(31);
 
   /**%
    * This function is run when the robot is first started up and should be used
@@ -61,6 +60,11 @@ public class Robot extends TimedRobot {
     teleop = new Teleop(driveSubsystem, cartridgeSubsystem, rollerSubsystem, shooterSubsystem, climbSubsystem, flywheelPID);
     auto = new Auto(driveSubsystem, shooterSubsystem, cartridgeSubsystem, rollerSubsystem, drivePID, turnPID,
         flywheelPID);
+  }
+
+  @Override
+  public void robotPeriodic() {
+    System.out.println(driveSubsystem.getRightEncoder());
   }
 
   @Override
@@ -81,23 +85,19 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    auto.autoDisabled();
+    // auto.autoDisabled();ss
     teleop.teleopInit();
     leftEncoder.setSensorPhase(true);
-    rightEncoder.setSensorPhase(false);
 
     leftEncoder.setSelectedSensorPosition(0);
-    rightEncoder.setSelectedSensorPosition(0);
 
   }
 
   @Override
   public void teleopPeriodic() {
     teleop.teleopPeriodic();
-    System.out.println("Left Velocity " + leftEncoder.getSelectedSensorVelocity());
-    System.out.println("Right Velocty " + rightEncoder.getSelectedSensorVelocity());
-    System.out.println("Left Position " + leftEncoder.getSelectedSensorPosition());
-    System.out.println("Right Position " + rightEncoder.getSelectedSensorPosition());
+    // System.out.println("Left Velocity " + leftEncoder.getSelectedSensorVelocity());
+    // System.out.println("Left Position " + leftEncoder.getSelectedSensorPosition());
   }
 
   @Override
@@ -110,7 +110,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-    auto.autoDisabled();
+    // auto.autoDisabled();
   }
 
 }

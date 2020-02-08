@@ -31,6 +31,7 @@ public class Teleop {
     }
     public void teleopInit() {
         driveSubsystem.teleopInit();
+        driveSubsystem.reset();
         flywheelPID.setSetpoint(Settings.FLYWHEEL_RPM_SETPOINT);
 
     }
@@ -154,5 +155,6 @@ public class Teleop {
         if (rollerSubsystem.intakeSensor()) {
             cartridgeRun = true;
         }
+        
     }
 }
