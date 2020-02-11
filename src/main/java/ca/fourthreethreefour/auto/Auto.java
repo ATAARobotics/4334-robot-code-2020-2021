@@ -13,23 +13,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 public class Auto {
     private AutoFile autoFile = null;
-    private Drive driveSubsystems = null;
-    private Shooter shooterSubsystem = null;
-    private Cartridge cartridgeSubsystem = null;
-    private Intake intakeSubsystem = null;
-    private DrivePID drivePID = null;
-    private TurnPID turnPID = null;
-    private FlywheelPID flywheelPID = null;
 
     public Auto(Drive driveSubsystems, Shooter shooterSubsystem, Cartridge cartridgeSubsystem, Intake intakeSubsystem, DrivePID drivePID, TurnPID turnPID, FlywheelPID flywheelPID) {
-        this.driveSubsystems = driveSubsystems;
-        this.shooterSubsystem = shooterSubsystem;
-        this.cartridgeSubsystem = cartridgeSubsystem;
-        this.intakeSubsystem = intakeSubsystem;
-        this.drivePID = drivePID;
-        this.turnPID = turnPID;
-        this.flywheelPID = flywheelPID;
-        
         autoFile = new AutoFile(driveSubsystems, shooterSubsystem, cartridgeSubsystem,
                 intakeSubsystem, drivePID, turnPID, flywheelPID);
     }
