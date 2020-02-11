@@ -163,9 +163,9 @@ public class AutoFile {
     }
 
     public void end() {
-        for (Entry entry : commands) {
-            if (!entry.e_command.isFinished()) {
-                entry.e_command.cancel();
+        for (int i = 0; i < commands.size(); i++) {
+            if (!commands.get(i).e_command.isFinished()) {
+                commands.get(i).e_command.cancel();
             }
         }
     }
