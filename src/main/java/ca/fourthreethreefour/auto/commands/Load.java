@@ -33,7 +33,7 @@ public class Load extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    rollerSubsystem.set(1);
+    rollerSubsystem.intakeSet(1);
 
     if (rollerSubsystem.intakeSensor()) {
       cartridgeRun = true;
@@ -66,7 +66,7 @@ public class Load extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    rollerSubsystem.set(0);
+    rollerSubsystem.intakeSet(0);
     cartridgeSubsystem.beltSet(0);
     cartridgeSubsystem.indexerSet(0);
   }

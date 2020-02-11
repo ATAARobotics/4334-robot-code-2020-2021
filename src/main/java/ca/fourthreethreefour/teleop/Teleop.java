@@ -115,11 +115,11 @@ public class Teleop {
         }
         
         if (controllerDriver.getTriggerAxis(Hand.kRight) > 0.1) {
-            rollerSubsystem.set(controllerDriver.getTriggerAxis(Hand.kRight));
+            rollerSubsystem.intakeSet(controllerDriver.getTriggerAxis(Hand.kRight));
         } else if (controllerDriver.getTriggerAxis(Hand.kLeft) > 0.1) {
-            rollerSubsystem.set(-controllerDriver.getTriggerAxis(Hand.kLeft));
+            rollerSubsystem.intakeSet(-controllerDriver.getTriggerAxis(Hand.kLeft));
         } else {
-            rollerSubsystem.set(0);
+            rollerSubsystem.intakeSet(0);
         }
 
         if (controllerDriver.getYButton()) {
@@ -174,5 +174,7 @@ public class Teleop {
         } else {
             shooterSubsystem.shooterHoodSet(0);
         }
+
+        rollerSubsystem.releaseSet(controllerOperator.getY(Hand.kRight));
     }
 }
