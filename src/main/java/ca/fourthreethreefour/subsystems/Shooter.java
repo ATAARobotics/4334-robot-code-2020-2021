@@ -27,11 +27,13 @@ public class Shooter implements Subsystem {
   private double currentRPM;
  // private Counter shooterEncoder = new Counter(Settings.FLYWHEEL_COUNTER_PORT);
   private CANCoder shooterEncoder = null;
+  private WPI_TalonSRX shooterHood = null;
 
   public Shooter() {
     flywheel1 = new CANSparkMax(Settings.FLYWHEEL_1_PORT, MotorType.kBrushless);
     flywheel2 = new CANSparkMax(Settings.FLYWHEEL_2_PORT, MotorType.kBrushless);
     shooterEncoder = new CANCoder(Settings.FLYWHEEL_ENCODER_PORT);
+    shooterHood = new WPI_TalonSRX(Settings.SHOOTER_HOOD_PORT);
 
   }
   // Put methods for controlling this subsystem
@@ -76,4 +78,11 @@ public class Shooter implements Subsystem {
   //   currentRPM = currentRPM * 0.7 + preCalculatedRPM * 0.3;
   //   return currentRPM;
   // }
+
+
+  
+  
+  public void shooterHoodSet(double speed) {
+    shooterHood.set(speed);
+  }
 }
