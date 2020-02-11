@@ -39,27 +39,38 @@ public class Teleop {
     private double previousSpeed = 0;
     private double previousTurn = 0;
     boolean cartridgeRun = false;   
+    boolean highGear = false;
     
     public void teleopPeriodic() {
-
-        if (controllerDriver.getStickButtonReleased(Hand.kLeft)) {
-            driveSubsystem.speedHigh();
-        } else if (Math.abs(controllerDriver.getY(Hand.kLeft)) < 0.05 || Math.abs(controllerDriver.getX(Hand.kRight)) > 0.05) {
-            driveSubsystem.speedLow();
-        }
-
         double speed;
         double turn;
         if (controllerDriver.getStickButton(Hand.kRight)) {
             speed = 0;
             turn = 0;
         } else {
-            speed = controllerDriver.getY(Hand.kLeft) * 0.1 + previousSpeed * 0.9;
+            if (highGear) {
+                speed = controllerDriver.getY(Hand.kLeft) * 0.2 + previousSpeed * 0.8;
+            } else {
+                speed = controllerDriver.getY(Hand.kLeft) * 0.1 + previousSpeed * 0.9;
+            }
             previousSpeed = speed;
             turn = controllerDriver.getX(Hand.kRight) * 0.1 + previousTurn * 0.9;
             previousTurn = turn;
         }
         driveSubsystem.arcadeDrive(speed, turn, true);
+
+        System.out.println(driveSubsystem.getVelocity());
+
+        if (Math.abs(controllerDriver.getY(Hand.kLeft)) < 0.05 || Math.abs(controllerDriver.getX(Hand.kRight)) > 0.05) {
+            driveSubsystem.speedLow();
+            highGear = false;
+        } else if (controllerDriver.getStickButton(Hand.kLeft) && Math.abs(driveSubsystem.getVelocity()) > 1950) {
+            driveSubsystem.speedHigh();
+            highGear = true;
+        } else {
+            driveSubsystem.speedLow();
+            highGear = false; 
+        }
 
         if (controllerOperator.getTriggerAxis(Hand.kRight) > 0.1 || controllerOperator.getTriggerAxis(Hand.kLeft) > 0.1 || controllerOperator.getAButton() || controllerOperator.getBButton()) {
             if (controllerOperator.getTriggerAxis(Hand.kRight) > 0.1) {
