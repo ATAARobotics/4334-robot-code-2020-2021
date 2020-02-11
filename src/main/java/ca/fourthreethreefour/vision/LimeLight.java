@@ -136,4 +136,23 @@ public class LimeLight {
         }
     }
 
+    /**
+     * Calculate the distance between LimeLight and VisionTarget
+     * @return Distance between LimeLight and VisionTarget
+     */
+    public double getDistanceFromTarget(){
+        /*
+            d = (h2-h1) / tan(a1+a2)
+            h1 - LimeLight Height
+            h2 - Target Height
+            a1 - Limelight Angle from Flat
+            a2 - Angle from Limelight to Target
+         */
+
+        double verticalFromCamera = (TARGET_DEFAULT_HEIGHT - LIMELIGHT_HEIGHT_FROM_GROUND);
+        double angleToTarget = (LIMELIGHT_ANGLE_FROM_FLAT + getTy());
+
+        return (verticalFromCamera / Math.tan(Math.toRadians(angleToTarget)));
+    }
+
 }
