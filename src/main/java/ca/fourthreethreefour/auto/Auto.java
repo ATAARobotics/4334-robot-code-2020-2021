@@ -29,17 +29,17 @@ public class Auto {
         this.drivePID = drivePID;
         this.turnPID = turnPID;
         this.flywheelPID = flywheelPID;
+        
+        autoFile = new AutoFile(driveSubsystems, shooterSubsystem, cartridgeSubsystem,
+                intakeSubsystem, drivePID, turnPID, flywheelPID);
     }
 
     public void autoInit() {
         try {
-            autoFile = new AutoFile(new File("/auto.txt"), driveSubsystems, shooterSubsystem, cartridgeSubsystem,
-                    intakeSubsystem, drivePID, turnPID, flywheelPID);
+            autoFile.init(new File("/auto.txt"));
         } catch (Exception e) {
             DriverStation.reportWarning("no auto file detected!", true);
         }
-        autoFile.init();
-        
     }
 
     public void autoPeriodic() {

@@ -35,7 +35,7 @@ public class AutoFile {
   
     private Vector<Entry> commands = new Vector<>();
 
-    public AutoFile(File file, Drive driveSubsystem, Shooter shooterSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, DrivePID drivePID, TurnPID turnPID, FlywheelPID flywheelPID) throws IOException {
+    public AutoFile(Drive driveSubsystem, Shooter shooterSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, DrivePID drivePID, TurnPID turnPID, FlywheelPID flywheelPID) {
         this.driveSubsystem = driveSubsystem;
         this.shooterSubsystem = shooterSubsystem;
         this.cartridgeSubsystem = cartridgeSubsystem;
@@ -43,29 +43,7 @@ public class AutoFile {
         this.drivePID = drivePID;
         this.turnPID = turnPID;
         this.flywheelPID = flywheelPID;
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-        String currentLine;
-        Vector<String> contents = new Vector<>();
-        while ((currentLine = bufferedReader.readLine()) != null) {
-            contents.addElement(currentLine);
-        }
-        bufferedReader.close();
-
-        commands.clear();
-        for (int i = 0; i < contents.size(); i++) {
-            final int state;
-            if (contents.get(i).charAt(0) == '!') {
-                state = Entry.CONCURRENT;
-                contents.setElementAt(contents.get(i).substring(1), i);
-            } else {
-                state = Entry.SEQUENTIAL;
-            }
-            String key = contents.get(i).substring(0, contents.get(i).indexOf("(")).toLowerCase();
-            contents.setElementAt(
-                    contents.get(i).substring(contents.get(i).indexOf("(") + 1, contents.get(i).length() - 1), i);
-            String[] args = contents.get(i).split(",");
-            commands.addElement(new Entry(key, state, args));
-        }
+        
     }
 
     public Command selectCommand(String key, String[] args) {
@@ -132,7 +110,31 @@ public class AutoFile {
         }
     }
 
-    public void init() {
+    public void init(File file)  throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+        String currentLine;
+        Vector<String> contents = new Vector<>();
+        while ((currentLine = bufferedReader.readLine()) != null) {
+            contents.addElement(currentLine);
+        }
+        bufferedReader.close();
+
+        commands.clear();
+        for (int i = 0; i < contents.size(); i++) {
+            final int state;
+            if (contents.get(i).charAt(0) == '!') {
+                state = Entry.CONCURRENT;
+                contents.setElementAt(contents.get(i).substring(1), i);
+            } else {
+                state = Entry.SEQUENTIAL;
+            }
+            String key = contents.get(i).substring(0, contents.get(i).indexOf("(")).toLowerCase();
+            contents.setElementAt(
+                    contents.get(i).substring(contents.get(i).indexOf("(") + 1, contents.get(i).length() - 1), i);
+            String[] args = contents.get(i).split(",");
+            commands.addElement(new Entry(key, state, args));
+        }
+
         for (int i = 0; i < commands.size(); i++) {
             Entry entry = commands.elementAt(i);
             entry.e_command = selectCommand(entry.e_key, entry.e_arguments);
