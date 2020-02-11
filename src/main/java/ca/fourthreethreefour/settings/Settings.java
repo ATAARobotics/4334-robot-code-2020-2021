@@ -25,6 +25,7 @@ public class Settings {
     static public int INDEXER_PORT = settingsFile.getIntProperty("INDEXER_PORT", 2);
   
     static public int ROLLER_PORT = settingsFile.getIntProperty("ROLLER_PORT", 3);
+    static public int ROLLER_RELEASE_PORT = settingsFile.getIntProperty("ROLLER_RELEASE_PORT", 60);
 
     static public int FLYWHEEL_1_PORT = settingsFile.getIntProperty("FLYWHEEL_1_PORT", 5);
     static public int FLYWHEEL_2_PORT = settingsFile.getIntProperty("FLYWHEEL_2_PORT", 6);
