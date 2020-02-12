@@ -44,9 +44,21 @@ public class AutoAlign extends CommandBase {
     driveSubsystem.reset();
   }
 
+  int i = 0;
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return alignPID.getController().atSetpoint();
+    if (i < 20000) {
+      if (alignPID.getController().atSetpoint()) {
+        i++;
+        return false;
+      } else {
+        i = 0;
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
   }
 }
