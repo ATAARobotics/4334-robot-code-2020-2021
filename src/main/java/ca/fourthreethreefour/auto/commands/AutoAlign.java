@@ -60,5 +60,4 @@ public class AutoAlign extends CommandBase {
       return true;
     }
   }
-  }
 }

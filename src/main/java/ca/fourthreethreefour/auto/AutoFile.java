@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Vector;
 
+import ca.fourthreethreefour.auto.commands.AutoAlign;
 import ca.fourthreethreefour.auto.commands.DriveBlind;
 import ca.fourthreethreefour.auto.commands.DriveStraight;
 import ca.fourthreethreefour.auto.commands.Load;
@@ -19,6 +20,7 @@ import ca.fourthreethreefour.subsystems.Cartridge;
 import ca.fourthreethreefour.subsystems.Drive;
 import ca.fourthreethreefour.subsystems.Intake;
 import ca.fourthreethreefour.subsystems.Shooter;
+import ca.fourthreethreefour.subsystems.pid.AlignPID;
 import ca.fourthreethreefour.subsystems.pid.DrivePID;
 import ca.fourthreethreefour.subsystems.pid.FlywheelPID;
 import ca.fourthreethreefour.subsystems.pid.TurnPID;
@@ -32,10 +34,11 @@ public class AutoFile {
     private DrivePID drivePID = null;
     private TurnPID turnPID = null;
     private FlywheelPID flywheelPID = null;
+    private AlignPID alignPID = null;
   
     private Vector<Entry> commands = new Vector<>();
 
-    public AutoFile(Drive driveSubsystem, Shooter shooterSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, DrivePID drivePID, TurnPID turnPID, FlywheelPID flywheelPID) {
+    public AutoFile(Drive driveSubsystem, Shooter shooterSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, DrivePID drivePID, TurnPID turnPID, FlywheelPID flywheelPID, AlignPID alignPID) {
         this.driveSubsystem = driveSubsystem;
         this.shooterSubsystem = shooterSubsystem;
         this.cartridgeSubsystem = cartridgeSubsystem;
@@ -43,7 +46,7 @@ public class AutoFile {
         this.drivePID = drivePID;
         this.turnPID = turnPID;
         this.flywheelPID = flywheelPID;
-        
+        this.alignPID = alignPID;
     }
 
     public Command selectCommand(String key, String[] args) {
@@ -88,6 +91,10 @@ public class AutoFile {
             case "load":
                 timeout = Double.parseDouble(args[0]);
                 command = new Load(cartridgeSubsystem, rollerSubsystem).withTimeout(timeout);
+                return command;
+            case "autoalign":
+                timeout = Double.parseDouble(args[0]);
+                command = new AutoAlign(alignPID, driveSubsystem).withTimeout(timeout);
                 return command;
             default:
                 throw new Error(key + " is not a valid command!");
