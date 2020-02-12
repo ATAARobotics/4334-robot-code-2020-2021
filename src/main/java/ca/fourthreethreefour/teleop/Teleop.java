@@ -54,10 +54,20 @@ public class Teleop {
                 speed = controllerDriver.getY(Hand.kLeft) * 0.1 + previousSpeed * 0.9;
             }
             previousSpeed = speed;
-            turn = controllerDriver.getX(Hand.kRight) * 0.1 + previousTurn * 0.9;
-            previousTurn = turn;
+            speed = Math.copySign(speed * speed, speed);
+            if (Math.abs(controllerDriver.getX(Hand.kRight)) >= 0.1) {
+                turn = controllerDriver.getX(Hand.kRight) * 0.1 + previousTurn * 0.9;
+                previousTurn = turn;
+                turn = Math.copySign(turn * turn, turn);
+            } else if (controllerDriver.getXButton()) {
+                
+            } else {
+                turn = previousTurn * 0.9;
+                previousTurn = turn;
+                turn = Math.copySign(turn * turn, turn);
+            }
         }
-        driveSubsystem.arcadeDrive(speed, turn, true);
+        driveSubsystem.arcadeDrive(speed, turn, false);
 
         System.out.println(driveSubsystem.getVelocity());
 
