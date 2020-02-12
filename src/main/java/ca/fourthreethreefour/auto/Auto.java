@@ -6,6 +6,7 @@ import ca.fourthreethreefour.subsystems.Cartridge;
 import ca.fourthreethreefour.subsystems.Drive;
 import ca.fourthreethreefour.subsystems.Intake;
 import ca.fourthreethreefour.subsystems.Shooter;
+import ca.fourthreethreefour.subsystems.pid.AlignPID;
 import ca.fourthreethreefour.subsystems.pid.DrivePID;
 import ca.fourthreethreefour.subsystems.pid.FlywheelPID;
 import ca.fourthreethreefour.subsystems.pid.TurnPID;
@@ -14,9 +15,9 @@ import edu.wpi.first.wpilibj.DriverStation;
 public class Auto {
     private AutoFile autoFile = null;
 
-    public Auto(Drive driveSubsystems, Shooter shooterSubsystem, Cartridge cartridgeSubsystem, Intake intakeSubsystem, DrivePID drivePID, TurnPID turnPID, FlywheelPID flywheelPID) {
+    public Auto(Drive driveSubsystems, Shooter shooterSubsystem, Cartridge cartridgeSubsystem, Intake intakeSubsystem, DrivePID drivePID, TurnPID turnPID, FlywheelPID flywheelPID, AlignPID alignPID) {
         autoFile = new AutoFile(driveSubsystems, shooterSubsystem, cartridgeSubsystem,
-                intakeSubsystem, drivePID, turnPID, flywheelPID);
+                intakeSubsystem, drivePID, turnPID, flywheelPID, alignPID);
     }
 
     public void autoInit() {
