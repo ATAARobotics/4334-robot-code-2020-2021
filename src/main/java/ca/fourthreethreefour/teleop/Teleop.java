@@ -228,6 +228,9 @@ public class Teleop {
         } else if (controllerDriver.getPOV() == 270) {
             hoodPID.setSetpoint(Settings.HOOD_PID_LEFT);
             hoodPID.enable();
+        } else if (controllerDriver.getAButtonPressed()) {
+            hoodPID.setSetpoint(0); //TODO: add automated distance calculations 
+            hoodPID.enable(); 
         } else if (hoodPID.isEnabled() && hoodPID.getController().atSetpoint()) {
             hoodPID.disable();
         }
