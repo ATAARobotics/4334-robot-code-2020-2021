@@ -155,4 +155,10 @@ public class LimeLight {
         return (verticalFromCamera / Math.tan(Math.toRadians(angleToTarget)));
     }
 
+    public enum CameraMode {
+        Drive,
+        Vision,
+        Disco;
+    }
+
 }
