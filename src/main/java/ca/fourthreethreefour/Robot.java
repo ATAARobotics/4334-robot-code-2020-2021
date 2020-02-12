@@ -60,7 +60,8 @@ public class Robot extends TimedRobot {
     turnPID = new TurnPID(driveSubsystem);
     flywheelPID = new FlywheelPID(shooterSubsystem);
     alignPID = new AlignPID(limeLight);
-    teleop = new Teleop(driveSubsystem, cartridgeSubsystem, rollerSubsystem, shooterSubsystem, climbSubsystem, flywheelPID, alignPID);
+    teleop = new Teleop(driveSubsystem, cartridgeSubsystem, rollerSubsystem, shooterSubsystem, climbSubsystem, 
+        limeLight, flywheelPID, alignPID);
     auto = new Auto(driveSubsystem, shooterSubsystem, cartridgeSubsystem, rollerSubsystem, drivePID, turnPID,
         flywheelPID, alignPID);
   }

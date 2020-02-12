@@ -8,6 +8,7 @@ import ca.fourthreethreefour.subsystems.Intake;
 import ca.fourthreethreefour.subsystems.Shooter;
 import ca.fourthreethreefour.subsystems.pid.AlignPID;
 import ca.fourthreethreefour.subsystems.pid.FlywheelPID;
+import ca.fourthreethreefour.vision.LimeLight;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
@@ -19,11 +20,13 @@ public class Teleop {
     private Intake rollerSubsystem = null;
     private Shooter shooterSubsystem = null;
     private Climb climbSubsystem = null; 
+    
+    private LimeLight limeLight = null;
 
     private FlywheelPID flywheelPID = null;
     private AlignPID alignPID = null;
 
-    public Teleop(Drive driveSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, Shooter shooterSubsystem, Climb climbSubsystem, FlywheelPID flywheelPID, AlignPID alignPID) {
+    public Teleop(Drive driveSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, Shooter shooterSubsystem, Climb climbSubsystem, LimeLight limeLight, FlywheelPID flywheelPID, AlignPID alignPID) {
         this.driveSubsystem = driveSubsystem;
         this.cartridgeSubsystem = cartridgeSubsystem;
         this.rollerSubsystem = rollerSubsystem;
@@ -31,6 +34,7 @@ public class Teleop {
         this.climbSubsystem = climbSubsystem;
         this.flywheelPID = flywheelPID;
         this.alignPID = alignPID;
+        this.limeLight = limeLight;
     }
     public void teleopInit() {
         driveSubsystem.teleopInit();
@@ -60,6 +64,7 @@ public class Teleop {
             speed = Math.copySign(speed * speed, speed);
             if (Math.abs(controllerDriver.getX(Hand.kRight)) >= 0.1) {
                 if (alignPID.isEnabled()) {
+                    limeLight.ledOff();
                     alignPID.disable();
                 }
                 turn = controllerDriver.getX(Hand.kRight) * 0.1 + previousTurn * 0.9;
@@ -67,6 +72,7 @@ public class Teleop {
                 turn = Math.copySign(turn * turn, turn);
             } else if (controllerDriver.getXButton()) {
                 if (!alignPID.isEnabled()) {
+                    limeLight.ledOn();
                     alignPID.enable();
                     alignPID.getController().setTolerance(2);
                     alignPID.setSetpoint(0);
@@ -74,6 +80,7 @@ public class Teleop {
                 turn = alignPID.getRotateSpeed();
             } else {
                 if (alignPID.isEnabled()) {
+                    limeLight.ledOff();
                     alignPID.disable();
                 }
                 turn = previousTurn * 0.9;
