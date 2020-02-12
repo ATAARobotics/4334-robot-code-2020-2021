@@ -6,6 +6,7 @@ import ca.fourthreethreefour.subsystems.Climb;
 import ca.fourthreethreefour.subsystems.Drive;
 import ca.fourthreethreefour.subsystems.Intake;
 import ca.fourthreethreefour.subsystems.Shooter;
+import ca.fourthreethreefour.subsystems.pid.AlignPID;
 import ca.fourthreethreefour.subsystems.pid.FlywheelPID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
@@ -20,14 +21,16 @@ public class Teleop {
     private Climb climbSubsystem = null; 
 
     private FlywheelPID flywheelPID = null;
+    private AlignPID alignPID = null;
 
-    public Teleop(Drive driveSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, Shooter shooterSubsystem, Climb climbSubsystem, FlywheelPID flywheelPID) {
+    public Teleop(Drive driveSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, Shooter shooterSubsystem, Climb climbSubsystem, FlywheelPID flywheelPID, AlignPID alignPID) {
         this.driveSubsystem = driveSubsystem;
         this.cartridgeSubsystem = cartridgeSubsystem;
         this.rollerSubsystem = rollerSubsystem;
         this.shooterSubsystem = shooterSubsystem;
         this.climbSubsystem = climbSubsystem;
         this.flywheelPID = flywheelPID;
+        this.alignPID = alignPID;
     }
     public void teleopInit() {
         driveSubsystem.teleopInit();
@@ -56,12 +59,23 @@ public class Teleop {
             previousSpeed = speed;
             speed = Math.copySign(speed * speed, speed);
             if (Math.abs(controllerDriver.getX(Hand.kRight)) >= 0.1) {
+                if (alignPID.isEnabled()) {
+                    alignPID.disable();
+                }
                 turn = controllerDriver.getX(Hand.kRight) * 0.1 + previousTurn * 0.9;
                 previousTurn = turn;
                 turn = Math.copySign(turn * turn, turn);
             } else if (controllerDriver.getXButton()) {
-                
+                if (!alignPID.isEnabled()) {
+                    alignPID.enable();
+                    alignPID.getController().setTolerance(2);
+                    alignPID.setSetpoint(0);
+                }
+                turn = alignPID.getRotateSpeed();
             } else {
+                if (alignPID.isEnabled()) {
+                    alignPID.disable();
+                }
                 turn = previousTurn * 0.9;
                 previousTurn = turn;
                 turn = Math.copySign(turn * turn, turn);
