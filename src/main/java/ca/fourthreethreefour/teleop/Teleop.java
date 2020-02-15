@@ -180,7 +180,7 @@ public class Teleop {
             climbSubsystem.gondolaSet(0);
         }
 
-        if (controllerDriver.getStartButton() && controllerOperator.getStartButton()) {
+        if (controllerDriver.getStartButton() && controllerOperator.getStartButton() && !climbSubsystem.climbLimit()) {
             climbSubsystem.releaseSet(1);
         } else {
             climbSubsystem.releaseSet(0);
