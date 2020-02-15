@@ -47,14 +47,14 @@ public class Climb implements Subsystem {
   boolean hasSeen = false;
   public boolean climbLimit() {
     if (climbLimit.get()){
-      if (hasSeen){
+      if (!hasSeen){
         i++;
         hasSeen = true;
       }
     } else {
       hasSeen = false;
     } 
-    if (i > 1){
+    if (i > 0){
       return true;
     } else {
       return false;
