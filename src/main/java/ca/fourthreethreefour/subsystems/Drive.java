@@ -37,7 +37,7 @@ public class Drive implements Subsystem {
 
   private AHRS navX = null;
 
-  private double speed = Settings.DRIVE_SPEED;
+  private double speedModifier = Settings.DRIVE_SPEED;
   private CANCoder leftEncoder = null;
   private CANCoder rightEncoder = null;
 
@@ -63,6 +63,8 @@ public class Drive implements Subsystem {
     
     leftEncoder = new CANCoder(Settings.LEFT_ENCODER_PORT);
     rightEncoder = new CANCoder(Settings.RIGHT_ENCODER_PORT);
+
+    
   }
 
   public void teleopInit() {
@@ -71,7 +73,7 @@ public class Drive implements Subsystem {
   }
 
   public void arcadeDrive(double speed, double turn, boolean squared) {
-    drive.arcadeDrive(speed * Settings.DRIVE_SPEED, turn * Settings.TURN_SPEED, squared);
+    drive.arcadeDrive(speed * speedModifier, turn * Settings.TURN_SPEED, squared);
   }
   
   public void tankDrive(double leftSpeed, double rightSpeed) {
@@ -85,13 +87,29 @@ public class Drive implements Subsystem {
   public double getLeftEncoder() {
     return leftEncoder.getPosition();
   }
+
   public double getRightEncoder() {
     return rightEncoder.getPosition();    
   }
+
+  public double getLeftVelocity() {
+    return leftEncoder.getVelocity();
+  }
+
+  public double getRightVelocity() {
+    return rightEncoder.getVelocity();
+  }
+
   public double getEncoder() {
     double meanEncoder = getLeftEncoder() + getRightEncoder();
     meanEncoder = meanEncoder/2;
     return meanEncoder;
+  }
+
+  public double getVelocity() {
+    double meanVelocity = getLeftVelocity() + getRightVelocity();
+    meanVelocity = meanVelocity/2;
+    return meanVelocity;
   }
 
   public void reset() {
@@ -111,11 +129,11 @@ public class Drive implements Subsystem {
   }
 
   public void speedHigh() {
-    speed = Settings.DRIVE_MAX_SPEED;
+    speedModifier = Settings.DRIVE_MAX_SPEED;
   }
 
   public void speedLow() {
-    speed = Settings.DRIVE_SPEED;
+    speedModifier = Settings.DRIVE_SPEED;
   }
 }
 

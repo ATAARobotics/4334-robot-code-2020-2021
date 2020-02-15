@@ -7,6 +7,7 @@
 
 package ca.fourthreethreefour;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import ca.fourthreethreefour.auto.Auto;
 import ca.fourthreethreefour.settings.Settings;
 import ca.fourthreethreefour.subsystems.Cartridge;
@@ -14,12 +15,15 @@ import ca.fourthreethreefour.subsystems.Climb;
 import ca.fourthreethreefour.subsystems.Drive;
 import ca.fourthreethreefour.subsystems.Intake;
 import ca.fourthreethreefour.subsystems.Shooter;
+import ca.fourthreethreefour.subsystems.pid.AlignPID;
 import ca.fourthreethreefour.subsystems.pid.DrivePID;
 import ca.fourthreethreefour.subsystems.pid.FlywheelPID;
 import ca.fourthreethreefour.subsystems.pid.TurnPID;
 import ca.fourthreethreefour.teleop.Teleop;
+import ca.fourthreethreefour.vision.LimeLight;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -35,9 +39,11 @@ public class Robot extends TimedRobot {
   private Intake rollerSubsystem = new Intake();
   private Shooter shooterSubsystem = new Shooter();
   private Climb climbSubsystem = new Climb();
+  private LimeLight limeLight = new LimeLight();
   private DrivePID drivePID = null;
   private TurnPID turnPID = null;
   private FlywheelPID flywheelPID = null;
+  private AlignPID alignPID = null;
   private Teleop teleop = null; 
   private Auto auto = null;
   
@@ -53,9 +59,15 @@ public class Robot extends TimedRobot {
     drivePID = new DrivePID(driveSubsystem);
     turnPID = new TurnPID(driveSubsystem);
     flywheelPID = new FlywheelPID(shooterSubsystem);
-    teleop = new Teleop(driveSubsystem, cartridgeSubsystem, rollerSubsystem, shooterSubsystem, climbSubsystem, flywheelPID);
+    alignPID = new AlignPID(limeLight);
+    teleop = new Teleop(driveSubsystem, cartridgeSubsystem, rollerSubsystem, shooterSubsystem, climbSubsystem, 
+        limeLight, flywheelPID, alignPID);
     auto = new Auto(driveSubsystem, shooterSubsystem, cartridgeSubsystem, rollerSubsystem, drivePID, turnPID,
-        flywheelPID);
+        flywheelPID, alignPID);
+  }
+
+  @Override
+  public void robotPeriodic() {
   }
 
   @Override
@@ -76,7 +88,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    auto.autoDisabled();
+    // auto.autoDisabled();ss
     teleop.teleopInit();
   }
 
@@ -95,7 +107,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-    auto.autoDisabled();
+    // auto.autoDisabled();
   }
 
 }

@@ -6,7 +6,9 @@ import ca.fourthreethreefour.subsystems.Climb;
 import ca.fourthreethreefour.subsystems.Drive;
 import ca.fourthreethreefour.subsystems.Intake;
 import ca.fourthreethreefour.subsystems.Shooter;
+import ca.fourthreethreefour.subsystems.pid.AlignPID;
 import ca.fourthreethreefour.subsystems.pid.FlywheelPID;
+import ca.fourthreethreefour.vision.LimeLight;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
@@ -18,19 +20,25 @@ public class Teleop {
     private Intake rollerSubsystem = null;
     private Shooter shooterSubsystem = null;
     private Climb climbSubsystem = null; 
+    
+    private LimeLight limeLight = null;
 
     private FlywheelPID flywheelPID = null;
+    private AlignPID alignPID = null;
 
-    public Teleop(Drive driveSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, Shooter shooterSubsystem, Climb climbSubsystem, FlywheelPID flywheelPID) {
+    public Teleop(Drive driveSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, Shooter shooterSubsystem, Climb climbSubsystem, LimeLight limeLight, FlywheelPID flywheelPID, AlignPID alignPID) {
         this.driveSubsystem = driveSubsystem;
         this.cartridgeSubsystem = cartridgeSubsystem;
         this.rollerSubsystem = rollerSubsystem;
         this.shooterSubsystem = shooterSubsystem;
         this.climbSubsystem = climbSubsystem;
         this.flywheelPID = flywheelPID;
+        this.alignPID = alignPID;
+        this.limeLight = limeLight;
     }
     public void teleopInit() {
         driveSubsystem.teleopInit();
+        driveSubsystem.reset();
         flywheelPID.setSetpoint(Settings.FLYWHEEL_RPM_SETPOINT);
 
     }
@@ -38,27 +46,62 @@ public class Teleop {
     private double previousSpeed = 0;
     private double previousTurn = 0;
     boolean cartridgeRun = false;   
+    boolean highGear = false;
     
     public void teleopPeriodic() {
-
-        if (controllerDriver.getStickButtonReleased(Hand.kLeft)) {
-            driveSubsystem.speedHigh();
-        } else if (Math.abs(controllerDriver.getY(Hand.kLeft)) < 0.05 || Math.abs(controllerDriver.getX(Hand.kRight)) > 0.05) {
-            driveSubsystem.speedLow();
-        }
-
         double speed;
         double turn;
         if (controllerDriver.getStickButton(Hand.kRight)) {
             speed = 0;
             turn = 0;
         } else {
-            speed = controllerDriver.getY(Hand.kLeft) * 0.075 + previousSpeed * 0.925;
+            if (highGear) {
+                speed = controllerDriver.getY(Hand.kLeft) * 0.2 + previousSpeed * 0.8;
+            } else {
+                speed = controllerDriver.getY(Hand.kLeft) * 0.1 + previousSpeed * 0.9;
+            }
             previousSpeed = speed;
-            turn = controllerDriver.getX(Hand.kRight) * 0.075 + previousTurn * 0.925;
-            previousTurn = turn;
+            speed = Math.copySign(speed * speed, speed);
+            if (Math.abs(controllerDriver.getX(Hand.kRight)) >= 0.1) {
+                if (alignPID.isEnabled()) {
+                    limeLight.ledOff();
+                    alignPID.disable();
+                }
+                turn = controllerDriver.getX(Hand.kRight) * 0.1 + previousTurn * 0.9;
+                previousTurn = turn;
+                turn = Math.copySign(turn * turn, turn);
+            } else if (controllerDriver.getXButton()) {
+                if (!alignPID.isEnabled()) {
+                    limeLight.ledOn();
+                    alignPID.enable();
+                    alignPID.getController().setTolerance(2);
+                    alignPID.setSetpoint(0);
+                }
+                turn = alignPID.getRotateSpeed();
+            } else {
+                if (alignPID.isEnabled()) {
+                    limeLight.ledOff();
+                    alignPID.disable();
+                }
+                turn = previousTurn * 0.9;
+                previousTurn = turn;
+                turn = Math.copySign(turn * turn, turn);
+            }
         }
-        driveSubsystem.arcadeDrive(speed, turn, true);
+        driveSubsystem.arcadeDrive(speed, turn, false);
+
+        System.out.println(driveSubsystem.getVelocity());
+
+        if (Math.abs(controllerDriver.getY(Hand.kLeft)) < 0.05 || Math.abs(controllerDriver.getX(Hand.kRight)) > 0.05) {
+            driveSubsystem.speedLow();
+            highGear = false;
+        } else if (controllerDriver.getStickButton(Hand.kLeft) && Math.abs(driveSubsystem.getVelocity()) > 1950) {
+            driveSubsystem.speedHigh();
+            highGear = true;
+        } else {
+            driveSubsystem.speedLow();
+            highGear = false; 
+        }
 
         if (controllerOperator.getTriggerAxis(Hand.kRight) > 0.1 || controllerOperator.getTriggerAxis(Hand.kLeft) > 0.1 || controllerOperator.getAButton() || controllerOperator.getBButton()) {
             if (controllerOperator.getTriggerAxis(Hand.kRight) > 0.1) {
@@ -103,11 +146,11 @@ public class Teleop {
         }
         
         if (controllerDriver.getTriggerAxis(Hand.kRight) > 0.1) {
-            rollerSubsystem.set(controllerDriver.getTriggerAxis(Hand.kRight));
+            rollerSubsystem.intakeSet(controllerDriver.getTriggerAxis(Hand.kRight));
         } else if (controllerDriver.getTriggerAxis(Hand.kLeft) > 0.1) {
-            rollerSubsystem.set(-controllerDriver.getTriggerAxis(Hand.kLeft));
+            rollerSubsystem.intakeSet(-controllerDriver.getTriggerAxis(Hand.kLeft));
         } else {
-            rollerSubsystem.set(0);
+            rollerSubsystem.intakeSet(0);
         }
 
         if (controllerDriver.getYButton()) {
@@ -154,5 +197,15 @@ public class Teleop {
         if (rollerSubsystem.intakeSensor()) {
             cartridgeRun = true;
         }
+      
+        if (controllerOperator.getBumper(Hand.kLeft)) {
+            shooterSubsystem.shooterHoodSet(1);
+        } else if (controllerOperator.getBumper(Hand.kRight)) {
+            shooterSubsystem.shooterHoodSet(-1);
+        } else {
+            shooterSubsystem.shooterHoodSet(0);
+        }
+
+        rollerSubsystem.releaseSet(controllerOperator.getY(Hand.kRight));
     }
 }

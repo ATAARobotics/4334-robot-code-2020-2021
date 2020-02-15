@@ -1,8 +1,8 @@
 package ca.fourthreethreefour.settings;
 
-import java.io.File;
-
 import edu.wpi.first.wpilibj.Timer;
+
+import java.io.File;
 
 public class Settings {
 
@@ -25,11 +25,13 @@ public class Settings {
     static public int INDEXER_PORT = settingsFile.getIntProperty("INDEXER_PORT", 2);
   
     static public int ROLLER_PORT = settingsFile.getIntProperty("ROLLER_PORT", 3);
+    static public int ROLLER_RELEASE_PORT = settingsFile.getIntProperty("ROLLER_RELEASE_PORT", 60);
 
-    static public int FLYWHEEL_1_PORT = settingsFile.getIntProperty("FLYWHEEL_1_PORT", 4);
-    static public int FLYWHEEL_2_PORT = settingsFile.getIntProperty("FLYWHEEL_2_PORT", 5);
+    static public int FLYWHEEL_1_PORT = settingsFile.getIntProperty("FLYWHEEL_1_PORT", 5);
+    static public int FLYWHEEL_2_PORT = settingsFile.getIntProperty("FLYWHEEL_2_PORT", 6);
     static public int FLYWHEEL_ENCODER_PORT = settingsFile.getIntProperty("FLYWHEEL_ENCODER_PORT", 22); 
     static public double FLYWHEEL_RPM_SETPOINT = settingsFile.getIntProperty("FLYWHEEL_RPM_SETPOINT", 2000);
+    static public int SHOOTER_HOOD_PORT = settingsFile.getIntProperty("SHOOTER_HOOD_PORT", 30);
 
     static public int LINESHARK_START_PORT = settingsFile.getIntProperty("LINESHARK_START_PORT", 0);
     static public int LINESHARK_END_PORT = settingsFile.getIntProperty("LINESHARK_END_PORT", 1);
@@ -39,13 +41,13 @@ public class Settings {
 
     static public int CLIMB_RELEASE_1_PORT = settingsFile.getIntProperty("CLIMB_RELEASE_1_PORT", 7);
     static public int CLIMB_RELEASE_2_PORT = settingsFile.getIntProperty("CLIMB_RELEASE_2_PORT", 8);
-    static public int CLIMB_GONDOLA_OF_DEATH_PORT = settingsFile.getIntProperty("CLIMB_GONDOLA_PORT", 6);
+    static public int CLIMB_GONDOLA_OF_DEATH_PORT = settingsFile.getIntProperty("CLIMB_GONDOLA_PORT", 9);
     static public int CLIMB_LIMIT_PORT =  settingsFile.getIntProperty("CLIMB_LIMIT_PORT", 9);
 
     static public boolean LOGGING_ENABLED = settingsFile.getBooleanProperty("LOGGING_ENABLED", false);
 
     static public double DRIVE_SPEED = settingsFile.getDoubleProperty("DRIVE_SPEED", 0.7);
-    static public double TURN_SPEED = settingsFile.getDoubleProperty("TURN_SPEED", 1);
+    static public double TURN_SPEED = settingsFile.getDoubleProperty("TURN_SPEED", 0.9);
     static public double DRIVE_MAX_SPEED = settingsFile.getDoubleProperty("DRIVE_MAX_SPEED", 1);
 
     static public double CARTRIDGE_INNER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_INNER_SPEED", 0.6);
@@ -60,10 +62,14 @@ public class Settings {
     static public int RPM_REFRESH_TIME = settingsFile.getIntProperty("RPM_REFRESH_TIME", 50);
     static public int TICKS_PER_FLYWHEEL_ROTATION = settingsFile.getIntProperty("TICKS_PER_FLYWHEEL_ROTATION", 4096);
 
+    static public double LIMELIGHT_ANGLE_FROM_FLAT = settingsFile.getDoubleProperty("LIMELIGHT_ANGLE_FROM_FLAT", 0);
+    static public double LIMELIGHT_DISTANCE_FROM_GROUND = settingsFile.getDoubleProperty("LIMELIGHT_DISTANCE_FROM_GROUND", 0);
+    static public double TARGET_DEFAULT_HEIGHT = settingsFile.getDoubleProperty("TARGET_DEFAULT_HEIGHT", 0);
+
     public void settingsValueUpdate() {
         LOGGING_ENABLED = settingsFile.getBooleanProperty("LOGGING_ENABLED", false);
         DRIVE_SPEED = settingsFile.getDoubleProperty("DRIVE_SPEED", 1);
-        TURN_SPEED = settingsFile.getDoubleProperty("TURN_SPEED", 1);
+        TURN_SPEED = settingsFile.getDoubleProperty("TURN_SPEED", 0.85);
 
         CARTRIDGE_INNER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_INNER_SPEED", 0.6);
         CARTRIDGE_OUTER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_OUTER_SPEED", 0.6);
@@ -76,6 +82,11 @@ public class Settings {
         FLYWHEEL_SPEED = settingsFile.getDoubleProperty("FLYWHEEL_SPEED", 0.6);
         RPM_REFRESH_TIME = settingsFile.getIntProperty("RPM_REFRESH_TIME", 50);
         TICKS_PER_FLYWHEEL_ROTATION = settingsFile.getIntProperty("TICKS_PER_FLYWHEEL_ROTATION", 1);
+
+        LIMELIGHT_ANGLE_FROM_FLAT = settingsFile.getDoubleProperty("LIMELIGHT_ANGLE_FROM_FLAT", 0);
+        LIMELIGHT_DISTANCE_FROM_GROUND = settingsFile.getDoubleProperty("LIMELIGHT_DISTANCE_FROM_GROUND", 0);
+        TARGET_DEFAULT_HEIGHT = settingsFile.getDoubleProperty("TARGET_DEFAULT_HEIGHT", 0);
+
     }
 
     public void settingsPeriodic() {
