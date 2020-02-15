@@ -88,7 +88,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    // auto.autoDisabled();ss
+    auto.autoDisabled();
     teleop.teleopInit();
   }
 
@@ -107,7 +107,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-    // auto.autoDisabled();
+    auto.autoDisabled();
   }
 
 }
