@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import ca.fourthreethreefour.settings.Settings;
+import ca.fourthreethreefour.vision.LimeLight;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
@@ -29,13 +30,16 @@ public class Shooter implements Subsystem {
   private CANCoder shooterEncoder = null;
   private WPI_TalonSRX shooterHood = null;
   private CANCoder hoodEncoder = null;
+  private LimeLight limeLight = null;
 
-  public Shooter() {
+  public Shooter(LimeLight limeLight) {
     flywheel1 = new CANSparkMax(Settings.FLYWHEEL_1_PORT, MotorType.kBrushless);
     flywheel2 = new CANSparkMax(Settings.FLYWHEEL_2_PORT, MotorType.kBrushless);
     shooterEncoder = new CANCoder(Settings.FLYWHEEL_ENCODER_PORT);
     shooterHood = new WPI_TalonSRX(Settings.SHOOTER_HOOD_PORT);
     hoodEncoder = new CANCoder(Settings.HOOD_ENCODER_PORT);
+    this.limeLight = limeLight;
+  
   }
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
@@ -57,5 +61,13 @@ public class Shooter implements Subsystem {
 
   public double getEncoder() {
     return hoodEncoder.getAbsolutePosition();
+  }
+
+  public double getDistanceFromTarget() {
+    return limeLight.getDistanceFromTarget();
+  }
+  
+  public double getAngleToTarget() {
+    return limeLight.getAngleToTarget();
   }
 }

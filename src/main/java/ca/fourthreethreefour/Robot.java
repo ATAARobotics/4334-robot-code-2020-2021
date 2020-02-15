@@ -38,9 +38,9 @@ public class Robot extends TimedRobot {
   private Drive driveSubsystem = new Drive();
   private Cartridge cartridgeSubsystem = new Cartridge();
   private Intake rollerSubsystem = new Intake();
-  private Shooter shooterSubsystem = new Shooter();
-  private Climb climbSubsystem = new Climb();
   private LimeLight limeLight = new LimeLight();
+  private Shooter shooterSubsystem = new Shooter(limeLight);
+  private Climb climbSubsystem = new Climb();
   private DrivePID drivePID = null;
   private TurnPID turnPID = null;
   private FlywheelPID flywheelPID = null;
