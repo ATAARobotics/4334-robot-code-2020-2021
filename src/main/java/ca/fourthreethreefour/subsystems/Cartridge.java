@@ -32,11 +32,14 @@ public class Cartridge implements Subsystem {
     lasersharkStart = new Lasershark(Settings.LINESHARK_START_PORT);
     lasersharkEnd = new Lasershark(Settings.LINESHARK_END_PORT);
     lasersharkIndexer = new Lasershark(Settings.LINESHARK_INDEXER_PORT);
+
+    outerBelt.setInverted(false);
+    innerBelt.setInverted(true);
   }
   
   public void beltSet(double speed) {
-    innerBelt.set(speed);
-    outerBelt.set(speed);
+    innerBelt.set(speed * Settings.CARTRIDGE_INNER_SPEED);
+    outerBelt.set(speed * Settings.CARTRIDGE_OUTER_SPEED);
   }
   
   public void indexerSet(double speed) {
@@ -60,40 +63,33 @@ public class Cartridge implements Subsystem {
   boolean startBoolean = false;
   boolean hasSeen = false;
   public boolean cartridgeStart() {
-    // if (startLoop >= 75) {
       if (startBoolean) {
-        if (!(lasersharkStart.getDistanceInches() <= 4 || hasSeen)) {
+        if (!(lasersharkStart.getDistanceInches() <= 3 || hasSeen)) {
           startBoolean = false;
         }
         return false;
-      } else if (lasersharkStart.getDistanceInches() <= 4 || hasSeen) {
-        if (startLoop < 30) {
-          hasSeen = true;
-          startLoop++;
-          return false;
-        } else {
+      } else if (lasersharkStart.getDistanceInches() <= 3 || hasSeen) {
+        // if (startLoop < 1) {
+          // hasSeen = true;
+          // startLoop++;
+          // return false;
+        // } else {
           hasSeen = false;
           startBoolean = true;
           startLoop = 0;
           return true;
-        } 
       } else {
         startLoop = 0;
         return false;
       }
-    // } else {
-    //   startLoop++;
-    //   return false;
-    // }
   }
 
   public boolean cartridgeEnd() {
-    if (lasersharkEnd.getDistanceInches() <= 4) {
+    if (lasersharkEnd.getDistanceInches() <= 3) {
       return true;
     } else {
       return false;
     }
-  
   }
 
 
