@@ -20,8 +20,8 @@ public class Settings {
     static public int LEFT_ENCODER_PORT = settingsFile.getIntProperty("LEFT_ENCODER_PORT", 20);
     static public int RIGHT_ENCODER_PORT = settingsFile.getIntProperty("RIGHT_ENCODER_PORT", 21);
 
-    static public int INNER_BELT_PORT = settingsFile.getIntProperty("INNER_BELT_PORT", 0);
-    static public int OUTER_BELT_PORT = settingsFile.getIntProperty("OUTER_BELT_PORT", 1);
+    static public int INNER_BELT_PORT = settingsFile.getIntProperty("INNER_BELT_PORT", 30);
+    static public int OUTER_BELT_PORT = settingsFile.getIntProperty("OUTER_BELT_PORT", 31);
     static public int INDEXER_PORT = settingsFile.getIntProperty("INDEXER_PORT", 2);
   
     static public int ROLLER_PORT = settingsFile.getIntProperty("ROLLER_PORT", 3);
@@ -31,7 +31,7 @@ public class Settings {
     static public int FLYWHEEL_2_PORT = settingsFile.getIntProperty("FLYWHEEL_2_PORT", 6);
     static public int FLYWHEEL_ENCODER_PORT = settingsFile.getIntProperty("FLYWHEEL_ENCODER_PORT", 22); 
     static public double FLYWHEEL_RPM_SETPOINT = settingsFile.getIntProperty("FLYWHEEL_RPM_SETPOINT", 2000);
-    static public int SHOOTER_HOOD_PORT = settingsFile.getIntProperty("SHOOTER_HOOD_PORT", 30);
+    static public int SHOOTER_HOOD_PORT = settingsFile.getIntProperty("SHOOTER_HOOD_PORT", 40);
 
     static public int LINESHARK_START_PORT = settingsFile.getIntProperty("LINESHARK_START_PORT", 0);
     static public int LINESHARK_END_PORT = settingsFile.getIntProperty("LINESHARK_END_PORT", 1);
@@ -50,8 +50,8 @@ public class Settings {
     static public double TURN_SPEED = settingsFile.getDoubleProperty("TURN_SPEED", 0.9);
     static public double DRIVE_MAX_SPEED = settingsFile.getDoubleProperty("DRIVE_MAX_SPEED", 1);
 
-    static public double CARTRIDGE_INNER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_INNER_SPEED", 0.6);
-    static public double CARTRIDGE_OUTER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_OUTER_SPEED", 0.6);
+    static public double CARTRIDGE_INNER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_INNER_SPEED", 0.5);
+    static public double CARTRIDGE_OUTER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_OUTER_SPEED", 0.5);
     static public double INDEXER_SPEED = settingsFile.getDoubleProperty("INDEXER_SPEED", 0.6);
 
     static public double ROLLER_SPEED = settingsFile.getDoubleProperty("ROLLER_SPEED", 0.8);
@@ -71,8 +71,8 @@ public class Settings {
         DRIVE_SPEED = settingsFile.getDoubleProperty("DRIVE_SPEED", 1);
         TURN_SPEED = settingsFile.getDoubleProperty("TURN_SPEED", 0.85);
 
-        CARTRIDGE_INNER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_INNER_SPEED", 0.6);
-        CARTRIDGE_OUTER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_OUTER_SPEED", 0.6);
+        CARTRIDGE_INNER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_INNER_SPEED", 0.5);
+        CARTRIDGE_OUTER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_OUTER_SPEED", 0.5);
         INDEXER_SPEED = settingsFile.getDoubleProperty("INDEXER_SPEED", 0.6);
 
         ROLLER_SPEED = settingsFile.getDoubleProperty("ROLLER_SPEED", 0.8);
