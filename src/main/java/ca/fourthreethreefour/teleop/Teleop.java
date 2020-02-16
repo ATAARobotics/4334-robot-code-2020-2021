@@ -90,7 +90,9 @@ public class Teleop {
         }
         driveSubsystem.arcadeDrive(speed, turn, false);
 
-        System.out.println(driveSubsystem.getVelocity());
+        // System.out.println(driveSubsystem.getVelocity());
+        // System.out.println(driveSubsystem.getLeftEncoder());
+        // System.out.println(driveSubsystem.getRightEncoder());
 
         if (Math.abs(controllerDriver.getY(Hand.kLeft)) < 0.05 || Math.abs(controllerDriver.getX(Hand.kRight)) > 0.05) {
             driveSubsystem.speedLow();
@@ -110,8 +112,6 @@ public class Teleop {
             } else if (controllerOperator.getTriggerAxis(Hand.kLeft) > 0.1) {
                 double cartridgeSpeed = -controllerOperator.getTriggerAxis(Hand.kLeft);
                 cartridgeSubsystem.beltSet(cartridgeSpeed);
-            } else {
-                cartridgeSubsystem.beltSet(0);
             }
             if (controllerOperator.getAButton() == true) {
                 cartridgeSubsystem.indexerSet(1);
@@ -142,6 +142,8 @@ public class Teleop {
                         cartridgeRun = false;
                     }
                 }
+            } else {  
+                cartridgeSubsystem.beltSet(0);
             }
         }
         
@@ -197,6 +199,8 @@ public class Teleop {
         if (rollerSubsystem.intakeSensor()) {
             cartridgeRun = true;
         }
+
+        System.out.println(cartridgeRun);
       
         if (controllerOperator.getBumper(Hand.kLeft)) {
             shooterSubsystem.shooterHoodSet(1);
