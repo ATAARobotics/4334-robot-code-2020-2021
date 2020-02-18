@@ -1,5 +1,6 @@
 package ca.fourthreethreefour.teleop;
 
+import ca.fourthreethreefour.logging.Logging;
 import ca.fourthreethreefour.settings.Settings;
 import ca.fourthreethreefour.subsystems.Cartridge;
 import ca.fourthreethreefour.subsystems.Climb;
@@ -11,6 +12,7 @@ import ca.fourthreethreefour.subsystems.pid.FlywheelPID;
 import ca.fourthreethreefour.vision.LimeLight;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Teleop {
     private XboxController controllerDriver = new XboxController(Settings.CONTROLLER_DRIVER_PORT);
@@ -113,13 +115,11 @@ public class Teleop {
                 double cartridgeSpeed = -controllerOperator.getTriggerAxis(Hand.kLeft);
                 cartridgeSubsystem.beltSet(cartridgeSpeed);
             }
-            if (controllerOperator.getAButton() == true) {
+            if (controllerOperator.getBButton() == true) {
                 cartridgeSubsystem.indexerSet(1);
-            } else if (controllerOperator.getBButton() == true) { 
+            } else if (controllerOperator.getAButton() == true) { 
                 cartridgeSubsystem.indexerSet(-1);
-            } else {
-                cartridgeSubsystem.indexerSet(0);
-            }
+            } 
         } else {
             if (cartridgeRun) {
                 if (cartridgeSubsystem.cartridgeEnd()) {
@@ -144,6 +144,7 @@ public class Teleop {
                 }
             } else {  
                 cartridgeSubsystem.beltSet(0);
+                cartridgeSubsystem.indexerSet(0);
             }
         }
         
@@ -155,16 +156,22 @@ public class Teleop {
             rollerSubsystem.intakeSet(0);
         }
 
-        if (controllerDriver.getYButton()) {
+        Logging.put("RPM", shooterSubsystem.getRPM());
+
+        if (controllerOperator.getYButton()) {
+            shooterSubsystem.flywheelSet(1);
+        } else if (controllerDriver.getYButton()) {
             if (!flywheelPID.isEnabled()) {
                 flywheelPID.enable();
             }
             shooterSubsystem.flywheelSet(flywheelPID.getSpeed());
-
             if (flywheelPID.getController().atSetpoint()) {
-                cartridgeSubsystem.indexerSet(1);
-                if (!cartridgeSubsystem.indexerSensor()) {
-                    cartridgeSubsystem.beltSet(1);
+                System.out.println("Hit!");
+                if (true) {
+                    cartridgeSubsystem.indexerSet(1);
+                    if (!cartridgeSubsystem.indexerSensor()) {
+                        cartridgeSubsystem.beltSet(1);
+                    }
                 }
             }
         } else {
@@ -187,7 +194,6 @@ public class Teleop {
         } else {
             climbSubsystem.releaseSet(0);
         }
-
         // TODO: Make sure this changes
          if (controllerOperator.getStartButtonPressed()) {
              cartridgeRun = true;
@@ -199,8 +205,6 @@ public class Teleop {
         if (rollerSubsystem.intakeSensor()) {
             cartridgeRun = true;
         }
-
-        System.out.println(cartridgeRun);
       
         if (controllerOperator.getBumper(Hand.kLeft)) {
             shooterSubsystem.shooterHoodSet(1);
@@ -211,5 +215,7 @@ public class Teleop {
         }
 
         rollerSubsystem.releaseSet(controllerOperator.getY(Hand.kRight));
+
+        
     }
 }
