@@ -8,6 +8,7 @@
 package ca.fourthreethreefour.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.cuforge.libcu.Lasershark;
 
 import ca.fourthreethreefour.settings.Settings;
@@ -19,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 public class Cartridge implements Subsystem {
   private WPI_TalonSRX innerBelt = null;
   private WPI_TalonSRX outerBelt = null;
-  private WPI_TalonSRX indexer = null;
+  private WPI_VictorSPX indexer = null;
   private Lasershark lasersharkStart = null;
   private Lasershark lasersharkEnd = null;
   private Lasershark lasersharkIndexer = null;
@@ -28,13 +29,14 @@ public class Cartridge implements Subsystem {
   public Cartridge() {
     innerBelt = new WPI_TalonSRX(Settings.INNER_BELT_PORT);
     outerBelt = new WPI_TalonSRX(Settings.OUTER_BELT_PORT);
-    indexer = new WPI_TalonSRX(Settings.INDEXER_PORT);
+    indexer = new WPI_VictorSPX(Settings.INDEXER_PORT);
     lasersharkStart = new Lasershark(Settings.LINESHARK_START_PORT);
     lasersharkEnd = new Lasershark(Settings.LINESHARK_END_PORT);
     lasersharkIndexer = new Lasershark(Settings.LINESHARK_INDEXER_PORT);
 
     outerBelt.setInverted(false);
     innerBelt.setInverted(true);
+    indexer.setInverted(true);
   }
   
   public void beltSet(double speed) {
@@ -57,6 +59,7 @@ public class Cartridge implements Subsystem {
 
   public void printUltrasonics() {
     System.out.println(lasersharkStart.getDistanceInches());
+    System.out.println(lasersharkEnd.getDistanceInches());
   }
   
   int startLoop = 0;
