@@ -6,7 +6,7 @@ import java.io.File;
 
 public class Settings {
 
-    static SettingsFile settingsFile = new SettingsFile(new File("/home/lvuser/files/settings.txt"));
+    static SettingsFile settingsFile = new SettingsFile(new File("/FILES/settings.txt"));
     String settingsActive = settingsFile.toString();
 
     static public int CONTROLLER_DRIVER_PORT = settingsFile.getIntProperty("CONTROLLER_DRIVER_PORT", 0);
@@ -22,15 +22,15 @@ public class Settings {
 
     static public int INNER_BELT_PORT = settingsFile.getIntProperty("INNER_BELT_PORT", 30);
     static public int OUTER_BELT_PORT = settingsFile.getIntProperty("OUTER_BELT_PORT", 31);
-    static public int INDEXER_PORT = settingsFile.getIntProperty("INDEXER_PORT", 2);
+    static public int INDEXER_PORT = settingsFile.getIntProperty("INDEXER_PORT", 32);
   
     static public int ROLLER_PORT = settingsFile.getIntProperty("ROLLER_PORT", 3);
     static public int ROLLER_RELEASE_PORT = settingsFile.getIntProperty("ROLLER_RELEASE_PORT", 60);
 
     static public int FLYWHEEL_1_PORT = settingsFile.getIntProperty("FLYWHEEL_1_PORT", 5);
     static public int FLYWHEEL_2_PORT = settingsFile.getIntProperty("FLYWHEEL_2_PORT", 6);
-    static public int FLYWHEEL_ENCODER_PORT = settingsFile.getIntProperty("FLYWHEEL_ENCODER_PORT", 22); 
-    static public double FLYWHEEL_RPM_SETPOINT = settingsFile.getIntProperty("FLYWHEEL_RPM_SETPOINT", 2000);
+    static public int FLYWHEEL_ENCODER_PORT = settingsFile.getIntProperty("FLYWHEEL_ENCODER_PORT", 23); 
+    static public double FLYWHEEL_RPM_SETPOINT = settingsFile.getIntProperty("FLYWHEEL_RPM_SETPOINT", 4000);
     static public int SHOOTER_HOOD_PORT = settingsFile.getIntProperty("SHOOTER_HOOD_PORT", 40);
 
     static public int LINESHARK_START_PORT = settingsFile.getIntProperty("LINESHARK_START_PORT", 0);
@@ -52,14 +52,13 @@ public class Settings {
 
     static public double CARTRIDGE_INNER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_INNER_SPEED", 0.5);
     static public double CARTRIDGE_OUTER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_OUTER_SPEED", 0.5);
-    static public double INDEXER_SPEED = settingsFile.getDoubleProperty("INDEXER_SPEED", 0.6);
+    static public double INDEXER_SPEED = settingsFile.getDoubleProperty("INDEXER_SPEED", 0.5);
 
     static public double ROLLER_SPEED = settingsFile.getDoubleProperty("ROLLER_SPEED", 0.8);
 
     static public double GONDOLA_SPEED = settingsFile.getDoubleProperty("GONDOLA_SPEED", 1);
 
-    static public double FLYWHEEL_SPEED = settingsFile.getDoubleProperty("FLYWHEEL_SPEED", 0.6);
-    static public int RPM_REFRESH_TIME = settingsFile.getIntProperty("RPM_REFRESH_TIME", 50);
+    static public double FLYWHEEL_SPEED = settingsFile.getDoubleProperty("FLYWHEEL_SPEED", 1);
     static public int TICKS_PER_FLYWHEEL_ROTATION = settingsFile.getIntProperty("TICKS_PER_FLYWHEEL_ROTATION", 4096);
 
     static public double LIMELIGHT_ANGLE_FROM_FLAT = settingsFile.getDoubleProperty("LIMELIGHT_ANGLE_FROM_FLAT", 0);
@@ -73,15 +72,13 @@ public class Settings {
 
         CARTRIDGE_INNER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_INNER_SPEED", 0.5);
         CARTRIDGE_OUTER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_OUTER_SPEED", 0.5);
-        INDEXER_SPEED = settingsFile.getDoubleProperty("INDEXER_SPEED", 0.6);
+        INDEXER_SPEED = settingsFile.getDoubleProperty("INDEXER_SPEED", 0.5);
 
         ROLLER_SPEED = settingsFile.getDoubleProperty("ROLLER_SPEED", 0.8);
 
         GONDOLA_SPEED = settingsFile.getDoubleProperty("GONDOLA_SPEED", 1);
 
-        FLYWHEEL_SPEED = settingsFile.getDoubleProperty("FLYWHEEL_SPEED", 0.6);
-        RPM_REFRESH_TIME = settingsFile.getIntProperty("RPM_REFRESH_TIME", 50);
-        TICKS_PER_FLYWHEEL_ROTATION = settingsFile.getIntProperty("TICKS_PER_FLYWHEEL_ROTATION", 1);
+        FLYWHEEL_SPEED = settingsFile.getDoubleProperty("FLYWHEEL_SPEED", 1);
 
         LIMELIGHT_ANGLE_FROM_FLAT = settingsFile.getDoubleProperty("LIMELIGHT_ANGLE_FROM_FLAT", 0);
         LIMELIGHT_DISTANCE_FROM_GROUND = settingsFile.getDoubleProperty("LIMELIGHT_DISTANCE_FROM_GROUND", 0);
