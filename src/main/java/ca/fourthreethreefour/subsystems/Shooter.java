@@ -35,6 +35,8 @@ public class Shooter implements Subsystem {
     shooterEncoder = new CANCoder(Settings.FLYWHEEL_ENCODER_PORT);
     shooterHood = new WPI_TalonSRX(Settings.SHOOTER_HOOD_PORT);
 
+    flywheel1.setInverted(false);
+    flywheel2.setInverted(false);
   }
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
