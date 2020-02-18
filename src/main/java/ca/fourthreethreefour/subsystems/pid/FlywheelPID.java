@@ -9,6 +9,7 @@ package ca.fourthreethreefour.subsystems.pid;
 
 import com.revrobotics.CANSparkMax;
 
+import ca.fourthreethreefour.settings.Settings;
 import ca.fourthreethreefour.subsystems.Shooter;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
@@ -23,12 +24,13 @@ public class FlywheelPID extends PIDSubsystem {
 
 
   public FlywheelPID(Shooter shooterSubsystem) {
-    super(new PIDController(0, 0, 0));
+    super(new PIDController(0.006, 0, 0));
     this.shooterSubsystem = shooterSubsystem;
+    getController().setTolerance(10);
   }
 
   @Override
-  public void useOutput(final double output, final double setpoint) {
+  public void useOutput(double output, double setpoint) {
     // Use the output here
     this.speed = output;
 
