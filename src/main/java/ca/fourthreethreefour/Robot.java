@@ -18,6 +18,7 @@ import ca.fourthreethreefour.subsystems.Shooter;
 import ca.fourthreethreefour.subsystems.pid.AlignPID;
 import ca.fourthreethreefour.subsystems.pid.DrivePID;
 import ca.fourthreethreefour.subsystems.pid.FlywheelPID;
+import ca.fourthreethreefour.subsystems.pid.HoodPID;
 import ca.fourthreethreefour.subsystems.pid.TurnPID;
 import ca.fourthreethreefour.teleop.Teleop;
 import ca.fourthreethreefour.vision.LimeLight;
@@ -38,13 +39,14 @@ public class Robot extends TimedRobot {
   private Drive driveSubsystem = new Drive();
   private Cartridge cartridgeSubsystem = new Cartridge();
   private Intake rollerSubsystem = new Intake();
-  private Shooter shooterSubsystem = new Shooter();
-  private Climb climbSubsystem = new Climb();
   private LimeLight limeLight = new LimeLight();
+  private Shooter shooterSubsystem = new Shooter(limeLight);
+  private Climb climbSubsystem = new Climb();
   private DrivePID drivePID = null;
   private TurnPID turnPID = null;
   private FlywheelPID flywheelPID = null;
   private AlignPID alignPID = null;
+  private HoodPID hoodPID = null;
   private Teleop teleop = null; 
   private Auto auto = null;
   
@@ -61,8 +63,9 @@ public class Robot extends TimedRobot {
     turnPID = new TurnPID(driveSubsystem);
     flywheelPID = new FlywheelPID(shooterSubsystem);
     alignPID = new AlignPID(limeLight);
+    hoodPID = new HoodPID(shooterSubsystem);
     teleop = new Teleop(driveSubsystem, cartridgeSubsystem, rollerSubsystem, shooterSubsystem, climbSubsystem, 
-        limeLight, flywheelPID, alignPID);
+        limeLight, flywheelPID, alignPID, hoodPID);
     auto = new Auto(driveSubsystem, shooterSubsystem, cartridgeSubsystem, rollerSubsystem, drivePID, turnPID,
         flywheelPID, alignPID);
   }

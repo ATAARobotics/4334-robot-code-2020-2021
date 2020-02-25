@@ -155,6 +155,10 @@ public class LimeLight {
         return (verticalFromCamera / Math.tan(Math.toRadians(angleToTarget)));
     }
 
+    public double getAngleToTarget() {
+        return (LIMELIGHT_ANGLE_FROM_FLAT + getTy());
+    }
+
     public enum CameraMode {
         Drive,
         Vision,

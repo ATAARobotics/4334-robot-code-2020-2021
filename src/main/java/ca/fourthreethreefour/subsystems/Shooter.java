@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import ca.fourthreethreefour.settings.Settings;
+import ca.fourthreethreefour.vision.LimeLight;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
@@ -28,12 +29,17 @@ public class Shooter implements Subsystem {
  // private Counter shooterEncoder = new Counter(Settings.FLYWHEEL_COUNTER_PORT);
   private CANCoder shooterEncoder = null;
   private WPI_TalonSRX shooterHood = null;
+  private CANCoder hoodEncoder = null;
+  private LimeLight limeLight = null;
 
-  public Shooter() {
+  public Shooter(LimeLight limeLight) {
     flywheel1 = new CANSparkMax(Settings.FLYWHEEL_1_PORT, MotorType.kBrushless);
     flywheel2 = new CANSparkMax(Settings.FLYWHEEL_2_PORT, MotorType.kBrushless);
     shooterEncoder = new CANCoder(Settings.FLYWHEEL_ENCODER_PORT);
     shooterHood = new WPI_TalonSRX(Settings.SHOOTER_HOOD_PORT);
+    hoodEncoder = new CANCoder(Settings.HOOD_ENCODER_PORT);
+    this.limeLight = limeLight;
+  
 
     flywheel1.setInverted(false);
     flywheel2.setInverted(false);
@@ -51,40 +57,20 @@ public class Shooter implements Subsystem {
 
     return RPM;
   }
-
-  /**
-   * Manual calculation code. Based on a sensor that activates magnetically.
-   */
-  // public double getRPMManual() {
-
-  //   double changeTime = (System.currentTimeMillis() - lastTime);
-
-  //   if (changeTime < Settings.RPM_REFRESH_TIME) {
-  //     return currentRPM;
-  //   }
-
-  //   lastTime = System.currentTimeMillis();
-
-  //   double currentTicks = shooterEncoder.get();
-  //   double rate = (currentTicks - lastTicks)/ changeTime;
-
-  //   System.out.println(rate);
-
-  //   if (rate <= 0) {
-  //     return 0;
-  //   }
-    
-  //   lastTicks = currentTicks;
-
-  //   double preCalculatedRPM = (rate / Settings.TICKS_PER_FLYWHEEL_ROTATION) * 60 * 1000;
-  //   currentRPM = currentRPM * 0.7 + preCalculatedRPM * 0.3;
-  //   return currentRPM;
-  // }
-
-
-  
   
   public void shooterHoodSet(double speed) {
     shooterHood.set(speed);
+  }
+
+  public double getEncoder() {
+    return hoodEncoder.getAbsolutePosition();
+  }
+
+  public double getDistanceFromTarget() {
+    return limeLight.getDistanceFromTarget();
+  }
+  
+  public double getAngleToTarget() {
+    return limeLight.getAngleToTarget();
   }
 }

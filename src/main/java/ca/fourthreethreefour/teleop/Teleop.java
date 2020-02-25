@@ -9,6 +9,7 @@ import ca.fourthreethreefour.subsystems.Intake;
 import ca.fourthreethreefour.subsystems.Shooter;
 import ca.fourthreethreefour.subsystems.pid.AlignPID;
 import ca.fourthreethreefour.subsystems.pid.FlywheelPID;
+import ca.fourthreethreefour.subsystems.pid.HoodPID;
 import ca.fourthreethreefour.vision.LimeLight;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
@@ -27,8 +28,9 @@ public class Teleop {
 
     private FlywheelPID flywheelPID = null;
     private AlignPID alignPID = null;
+    private HoodPID hoodPID = null;
 
-    public Teleop(Drive driveSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, Shooter shooterSubsystem, Climb climbSubsystem, LimeLight limeLight, FlywheelPID flywheelPID, AlignPID alignPID) {
+    public Teleop(Drive driveSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, Shooter shooterSubsystem, Climb climbSubsystem, LimeLight limeLight, FlywheelPID flywheelPID, AlignPID alignPID, HoodPID hoodPID) {
         this.driveSubsystem = driveSubsystem;
         this.cartridgeSubsystem = cartridgeSubsystem;
         this.rollerSubsystem = rollerSubsystem;
@@ -36,6 +38,7 @@ public class Teleop {
         this.climbSubsystem = climbSubsystem;
         this.flywheelPID = flywheelPID;
         this.alignPID = alignPID;
+        this.hoodPID = hoodPID;
         this.limeLight = limeLight;
     }
     public void teleopInit() {
@@ -47,6 +50,7 @@ public class Teleop {
 
     private double previousSpeed = 0;
     private double previousTurn = 0;
+    private double hoodSpeed = 0;
     boolean cartridgeRun = false;   
     boolean highGear = false;
     
@@ -207,12 +211,42 @@ public class Teleop {
         }
       
         if (controllerOperator.getBumper(Hand.kLeft)) {
-            shooterSubsystem.shooterHoodSet(1);
+            if (hoodPID.isEnabled()) {
+                hoodPID.disable();
+            }
+            hoodSpeed = 1;
         } else if (controllerOperator.getBumper(Hand.kRight)) {
-            shooterSubsystem.shooterHoodSet(-1);
-        } else {
-            shooterSubsystem.shooterHoodSet(0);
+            if (hoodPID.isEnabled()) {
+                hoodPID.disable();
+            }
+            hoodSpeed = -1;
+        } else if (!hoodPID.isEnabled()) {
+            hoodSpeed = 0;
         }
+
+        if (controllerDriver.getPOV() == 0) {
+            hoodPID.setSetpoint(Settings.HOOD_PID_UP);
+            hoodPID.enable();
+        } else if (controllerDriver.getPOV() == 90) {
+            hoodPID.setSetpoint(Settings.HOOD_PID_RIGHT);
+            hoodPID.enable();
+        } else if (controllerDriver.getPOV() == 180) {
+            hoodPID.setSetpoint(Settings.HOOD_PID_DOWN);
+            hoodPID.enable();
+        } else if (controllerDriver.getPOV() == 270) {
+            hoodPID.setSetpoint(Settings.HOOD_PID_LEFT);
+            hoodPID.enable();
+        } else if (controllerDriver.getAButtonPressed()) {
+            hoodPID.setSetpoint(0); //TODO: add automated distance calculations 
+            hoodPID.enable(); 
+        } else if (hoodPID.isEnabled() && hoodPID.getController().atSetpoint()) {
+            hoodPID.disable();
+        }
+
+        if (hoodPID.isEnabled()) {
+            hoodSpeed = hoodPID.getSpeed();
+        }
+        shooterSubsystem.shooterHoodSet(hoodSpeed);
 
         rollerSubsystem.releaseSet(controllerOperator.getY(Hand.kRight));
 

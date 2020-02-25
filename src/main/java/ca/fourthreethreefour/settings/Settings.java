@@ -30,9 +30,11 @@ public class Settings {
 
     static public int FLYWHEEL_1_PORT = settingsFile.getIntProperty("FLYWHEEL_1_PORT", 5);
     static public int FLYWHEEL_2_PORT = settingsFile.getIntProperty("FLYWHEEL_2_PORT", 6);
+  
     static public int FLYWHEEL_ENCODER_PORT = settingsFile.getIntProperty("FLYWHEEL_ENCODER_PORT", 23); 
     static public double FLYWHEEL_RPM_SETPOINT = settingsFile.getIntProperty("FLYWHEEL_RPM_SETPOINT", 4000);
     static public int SHOOTER_HOOD_PORT = settingsFile.getIntProperty("SHOOTER_HOOD_PORT", 34);
+    static public int HOOD_ENCODER_PORT = settingsFile.getIntProperty("HOOD_ENCODER_PORT", 24);
 
     static public int LINESHARK_START_PORT = settingsFile.getIntProperty("LINESHARK_START_PORT", 0);
     static public int LINESHARK_END_PORT = settingsFile.getIntProperty("LINESHARK_END_PORT", 1);
@@ -64,6 +66,11 @@ public class Settings {
     static public double HOOD_SPEED = settingsFile.getDoubleProperty("HOOD_SPEED", 0.5);
     static public int TICKS_PER_FLYWHEEL_ROTATION = settingsFile.getIntProperty("TICKS_PER_FLYWHEEL_ROTATION", 4096);
 
+    static public double HOOD_PID_LEFT = settingsFile.getIntProperty("HOOD_PID_LEFT", 0);
+    static public double HOOD_PID_RIGHT = settingsFile.getIntProperty("HOOD_PID_RIGHT", 0);
+    static public double HOOD_PID_UP = settingsFile.getIntProperty("HOOD_PID_UP", 0);
+    static public double HOOD_PID_DOWN = settingsFile.getIntProperty("HOOD_PID_DOWN", 0);
+
     static public double LIMELIGHT_ANGLE_FROM_FLAT = settingsFile.getDoubleProperty("LIMELIGHT_ANGLE_FROM_FLAT", 0);
     static public double LIMELIGHT_DISTANCE_FROM_GROUND = settingsFile.getDoubleProperty("LIMELIGHT_DISTANCE_FROM_GROUND", 0);
     static public double TARGET_DEFAULT_HEIGHT = settingsFile.getDoubleProperty("TARGET_DEFAULT_HEIGHT", 0);
@@ -82,6 +89,11 @@ public class Settings {
         GONDOLA_SPEED = settingsFile.getDoubleProperty("GONDOLA_SPEED", 1);
 
         FLYWHEEL_SPEED = settingsFile.getDoubleProperty("FLYWHEEL_SPEED", 0.6);
+
+        HOOD_PID_LEFT = settingsFile.getIntProperty("HOOD_PID_LEFT", 0);
+        HOOD_PID_RIGHT = settingsFile.getIntProperty("HOOD_PID_RIGHT", 0);
+        HOOD_PID_UP = settingsFile.getIntProperty("HOOD_PID_UP", 0);
+        HOOD_PID_DOWN = settingsFile.getIntProperty("HOOD_PID_DOWN", 0);
 
         LIMELIGHT_ANGLE_FROM_FLAT = settingsFile.getDoubleProperty("LIMELIGHT_ANGLE_FROM_FLAT", 0);
         LIMELIGHT_DISTANCE_FROM_GROUND = settingsFile.getDoubleProperty("LIMELIGHT_DISTANCE_FROM_GROUND", 0);
