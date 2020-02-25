@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
   private Auto auto = null;
   
 
-  private PowerDistributionPanel pdp = new PowerDistributionPanel(1);
+  private PowerDistributionPanel pdp = new PowerDistributionPanel(0);
 
   /**%
    * This function is run when the robot is first started up and should be used
