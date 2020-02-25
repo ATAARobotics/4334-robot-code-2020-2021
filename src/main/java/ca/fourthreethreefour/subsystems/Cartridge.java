@@ -18,25 +18,25 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
  * Add your docs here.
  */
 public class Cartridge implements Subsystem {
-  private WPI_TalonSRX innerBelt = null;
+  private WPI_VictorSPX innerBelt = null;
   private WPI_TalonSRX outerBelt = null;
-  private WPI_VictorSPX indexer = null;
+  private WPI_TalonSRX indexer = null;
   private Lasershark lasersharkStart = null;
   private Lasershark lasersharkEnd = null;
   private Lasershark lasersharkIndexer = null;
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   public Cartridge() {
-    innerBelt = new WPI_TalonSRX(Settings.INNER_BELT_PORT);
+    innerBelt = new WPI_VictorSPX(Settings.INNER_BELT_PORT);
     outerBelt = new WPI_TalonSRX(Settings.OUTER_BELT_PORT);
-    indexer = new WPI_VictorSPX(Settings.INDEXER_PORT);
+    indexer = new WPI_TalonSRX(Settings.INDEXER_PORT);
     lasersharkStart = new Lasershark(Settings.LINESHARK_START_PORT);
     lasersharkEnd = new Lasershark(Settings.LINESHARK_END_PORT);
     lasersharkIndexer = new Lasershark(Settings.LINESHARK_INDEXER_PORT);
 
     outerBelt.setInverted(false);
     innerBelt.setInverted(true);
-    indexer.setInverted(true);
+    indexer.setInverted(false);
   }
   
   public void beltSet(double speed) {
@@ -60,6 +60,7 @@ public class Cartridge implements Subsystem {
   public void printUltrasonics() {
     System.out.println(lasersharkStart.getDistanceInches());
     System.out.println(lasersharkEnd.getDistanceInches());
+    System.out.println(lasersharkIndexer.getDistanceInches());
   }
   
   int startLoop = 0;
