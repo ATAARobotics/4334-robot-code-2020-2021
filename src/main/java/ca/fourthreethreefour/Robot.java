@@ -25,6 +25,7 @@ import ca.fourthreethreefour.vision.LimeLight;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -50,7 +51,7 @@ public class Robot extends TimedRobot {
   private Auto auto = null;
   
 
-  private PowerDistributionPanel pdp = new PowerDistributionPanel(1);
+  private PowerDistributionPanel pdp = new PowerDistributionPanel(0);
 
   /**%
    * This function is run when the robot is first started up and should be used
@@ -87,17 +88,19 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     auto.autoPeriodic();
+    CommandScheduler.getInstance().run();
   }
 
   @Override
   public void teleopInit() {
-    // auto.autoDisabled();ss
+    auto.autoDisabled();
     teleop.teleopInit();
   }
 
   @Override
   public void teleopPeriodic() {
     teleop.teleopPeriodic();
+    CommandScheduler.getInstance().run();
   }
 
   @Override
@@ -110,7 +113,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-    // auto.autoDisabled();
+    auto.autoDisabled();
   }
 
 }

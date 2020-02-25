@@ -1,5 +1,6 @@
 package ca.fourthreethreefour.teleop;
 
+import ca.fourthreethreefour.logging.Logging;
 import ca.fourthreethreefour.settings.Settings;
 import ca.fourthreethreefour.subsystems.Cartridge;
 import ca.fourthreethreefour.subsystems.Climb;
@@ -12,6 +13,7 @@ import ca.fourthreethreefour.subsystems.pid.HoodPID;
 import ca.fourthreethreefour.vision.LimeLight;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Teleop {
     private XboxController controllerDriver = new XboxController(Settings.CONTROLLER_DRIVER_PORT);
@@ -94,7 +96,9 @@ public class Teleop {
         }
         driveSubsystem.arcadeDrive(speed, turn, false);
 
-        System.out.println(driveSubsystem.getVelocity());
+        // System.out.println(driveSubsystem.getVelocity());
+        // System.out.println(driveSubsystem.getLeftEncoder());
+        // System.out.println(driveSubsystem.getRightEncoder());
 
         if (Math.abs(controllerDriver.getY(Hand.kLeft)) < 0.05 || Math.abs(controllerDriver.getX(Hand.kRight)) > 0.05) {
             driveSubsystem.speedLow();
@@ -114,16 +118,12 @@ public class Teleop {
             } else if (controllerOperator.getTriggerAxis(Hand.kLeft) > 0.1) {
                 double cartridgeSpeed = -controllerOperator.getTriggerAxis(Hand.kLeft);
                 cartridgeSubsystem.beltSet(cartridgeSpeed);
-            } else {
-                cartridgeSubsystem.beltSet(0);
             }
-            if (controllerOperator.getAButton() == true) {
+            if (controllerOperator.getBButton() == true) {
                 cartridgeSubsystem.indexerSet(1);
-            } else if (controllerOperator.getBButton() == true) { 
+            } else if (controllerOperator.getAButton() == true) { 
                 cartridgeSubsystem.indexerSet(-1);
-            } else {
-                cartridgeSubsystem.indexerSet(0);
-            }
+            } 
         } else {
             if (cartridgeRun) {
                 if (cartridgeSubsystem.cartridgeEnd()) {
@@ -146,6 +146,9 @@ public class Teleop {
                         cartridgeRun = false;
                     }
                 }
+            } else {  
+                cartridgeSubsystem.beltSet(0);
+                cartridgeSubsystem.indexerSet(0);
             }
         }
         
@@ -157,16 +160,22 @@ public class Teleop {
             rollerSubsystem.intakeSet(0);
         }
 
-        if (controllerDriver.getYButton()) {
+        Logging.put("RPM", shooterSubsystem.getRPM());
+
+        if (controllerOperator.getYButton()) {
+            shooterSubsystem.flywheelSet(1);
+        } else if (controllerDriver.getYButton()) {
             if (!flywheelPID.isEnabled()) {
                 flywheelPID.enable();
             }
             shooterSubsystem.flywheelSet(flywheelPID.getSpeed());
-
             if (flywheelPID.getController().atSetpoint()) {
-                cartridgeSubsystem.indexerSet(1);
-                if (!cartridgeSubsystem.indexerSensor()) {
-                    cartridgeSubsystem.beltSet(1);
+                System.out.println("Hit!");
+                if (true) {
+                    cartridgeSubsystem.indexerSet(1);
+                    if (!cartridgeSubsystem.indexerSensor()) {
+                        cartridgeSubsystem.beltSet(1);
+                    }
                 }
             }
         } else {
@@ -184,12 +193,11 @@ public class Teleop {
             climbSubsystem.gondolaSet(0);
         }
 
-        if (controllerDriver.getStartButton() && controllerOperator.getStartButton()) {
+        if (controllerDriver.getStartButton() && controllerOperator.getStartButton() && !climbSubsystem.climbLimit()) {
             climbSubsystem.releaseSet(1);
         } else {
             climbSubsystem.releaseSet(0);
         }
-
         // TODO: Make sure this changes
          if (controllerOperator.getStartButtonPressed()) {
              cartridgeRun = true;
@@ -241,5 +249,7 @@ public class Teleop {
         shooterSubsystem.shooterHoodSet(hoodSpeed);
 
         rollerSubsystem.releaseSet(controllerOperator.getY(Hand.kRight));
+
+        
     }
 }

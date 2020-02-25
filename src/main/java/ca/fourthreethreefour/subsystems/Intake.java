@@ -8,6 +8,7 @@
 package ca.fourthreethreefour.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.cuforge.libcu.Lasershark;
 
 import ca.fourthreethreefour.settings.Settings;
@@ -17,15 +18,19 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
  * Add your docs here.
  */
 public class Intake implements Subsystem {
-  private WPI_TalonSRX rollerIntake = null;
-  private WPI_TalonSRX rollerRelease = null;
+  private WPI_VictorSPX rollerIntake = null;
+  private WPI_VictorSPX rollerRelease1 = null;
   private Lasershark lasersharkIntake = null;
+  private WPI_VictorSPX rollerRelease2 = null;
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   public Intake() {
-    rollerIntake = new WPI_TalonSRX(Settings.ROLLER_PORT);
-    rollerRelease = new WPI_TalonSRX(Settings.ROLLER_RELEASE_PORT);
+    rollerIntake = new WPI_VictorSPX(Settings.ROLLER_PORT);
+    rollerRelease1 = new WPI_VictorSPX(Settings.ROLLER_RELEASE_1_PORT);
     lasersharkIntake = new Lasershark(Settings.LINESHARK_INTAKE_PORT);
+    rollerRelease2 = new WPI_VictorSPX(Settings.ROLLER_RELEASE_2_PORT);
+
+    rollerRelease2.setInverted(true);
   }
 
   public void intakeSet(double speed) {
@@ -33,7 +38,8 @@ public class Intake implements Subsystem {
   }
 
   public void releaseSet(double speed) {
-    rollerRelease.set(speed);
+    rollerRelease1.set(speed * Settings.RELEASE_SPEED);
+    rollerRelease2.set(speed * Settings.RELEASE_SPEED);
   }
 
   public boolean intakeSensor() {

@@ -24,7 +24,7 @@ public class Auto {
         try {
             autoFile.init(new File("/auto.txt"));
         } catch (Exception e) {
-            DriverStation.reportWarning("no auto file detected!", true);
+            DriverStation.reportWarning("no auto file detected!", false);
         }
     }
 
