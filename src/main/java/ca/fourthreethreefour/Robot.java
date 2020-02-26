@@ -9,6 +9,7 @@ package ca.fourthreethreefour;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import ca.fourthreethreefour.auto.Auto;
+import ca.fourthreethreefour.logging.Logging;
 import ca.fourthreethreefour.settings.Settings;
 import ca.fourthreethreefour.subsystems.Cartridge;
 import ca.fourthreethreefour.subsystems.Climb;
@@ -67,7 +68,7 @@ public class Robot extends TimedRobot {
     teleop = new Teleop(driveSubsystem, cartridgeSubsystem, rollerSubsystem, shooterSubsystem, climbSubsystem, 
         limeLight, flywheelPID, alignPID, hoodPID);
     auto = new Auto(driveSubsystem, shooterSubsystem, cartridgeSubsystem, rollerSubsystem, drivePID, turnPID,
-        flywheelPID, alignPID);
+        flywheelPID, alignPID, hoodPID);
   }
 
   @Override
