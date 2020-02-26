@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Vector;
 
+import ca.fourthreethreefour.auto.commands.Aim;
+import ca.fourthreethreefour.auto.commands.AutoAim;
 import ca.fourthreethreefour.auto.commands.AutoAlign;
 import ca.fourthreethreefour.auto.commands.DriveBlind;
 import ca.fourthreethreefour.auto.commands.DriveStraight;
@@ -23,6 +25,7 @@ import ca.fourthreethreefour.subsystems.Shooter;
 import ca.fourthreethreefour.subsystems.pid.AlignPID;
 import ca.fourthreethreefour.subsystems.pid.DrivePID;
 import ca.fourthreethreefour.subsystems.pid.FlywheelPID;
+import ca.fourthreethreefour.subsystems.pid.HoodPID;
 import ca.fourthreethreefour.subsystems.pid.TurnPID;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -35,10 +38,11 @@ public class AutoFile {
     private TurnPID turnPID = null;
     private FlywheelPID flywheelPID = null;
     private AlignPID alignPID = null;
+    private HoodPID hoodPID = null;
   
     private Vector<Entry> commands = new Vector<>();
 
-    public AutoFile(Drive driveSubsystem, Shooter shooterSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, DrivePID drivePID, TurnPID turnPID, FlywheelPID flywheelPID, AlignPID alignPID) {
+    public AutoFile(Drive driveSubsystem, Shooter shooterSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, DrivePID drivePID, TurnPID turnPID, FlywheelPID flywheelPID, AlignPID alignPID, HoodPID hoodPID) {
         this.driveSubsystem = driveSubsystem;
         this.shooterSubsystem = shooterSubsystem;
         this.cartridgeSubsystem = cartridgeSubsystem;
@@ -47,6 +51,7 @@ public class AutoFile {
         this.turnPID = turnPID;
         this.flywheelPID = flywheelPID;
         this.alignPID = alignPID;
+        this.hoodPID = hoodPID;
     }
 
     public Command selectCommand(String key, String[] args) {
@@ -69,9 +74,9 @@ public class AutoFile {
                 command = new DriveStraight(driveSubsystem, drivePID, turnPID, distance).withTimeout(timeout);
                 return command;
             case "turn":
-                double angle = Double.parseDouble(args[0]);
+                double turnAngle = Double.parseDouble(args[0]);
                 timeout = args.length > 1 ? Double.parseDouble(args[1]) : 5;
-                command = new Turn(driveSubsystem, turnPID, angle).withTimeout(timeout);
+                command = new Turn(driveSubsystem, turnPID, turnAngle).withTimeout(timeout);
                 return command;
             case "wait":
                 timeout = Double.parseDouble(args[0]);
@@ -95,6 +100,15 @@ public class AutoFile {
             case "autoalign":
                 timeout = Double.parseDouble(args[0]);
                 command = new AutoAlign(alignPID, driveSubsystem).withTimeout(timeout);
+                return command;
+            case "aim":
+                timeout = Double.parseDouble(args[0]);
+                double hoodAngle = Double.parseDouble(args[1]);
+                command = new Aim(hoodPID, shooterSubsystem, hoodAngle);
+                return command;
+            case "autoaim":
+                timeout = Double.parseDouble(args[0]);
+                command = new AutoAim(hoodPID, shooterSubsystem);
                 return command;
             default:
                 throw new Error(key + " is not a valid command!");
