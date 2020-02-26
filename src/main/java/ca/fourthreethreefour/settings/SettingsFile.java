@@ -80,6 +80,21 @@ public class SettingsFile extends Properties {
 			return defaultValue;
 		}
 	}
+
+	/**
+	 * Returns a string specified by the "key" string in the settings file. If the value of the key 
+	 * cannot be found, returns the default value specified in the constructor.
+	 * @param key The string used to locate the value
+	 * @param defaultValue The value returned if no value is found
+	 * @return Value read from the settings file, or the default value if the specified key cannot be found
+	 */
+	String getStringProperty(String key, String defaultValue) {
+		if (stringPropertyNames().contains(key)) {
+			return getProperty(key);
+		} else {
+			return defaultValue;
+		}
+	}
 	
 	/**
 	 * Reloads the settings file.
