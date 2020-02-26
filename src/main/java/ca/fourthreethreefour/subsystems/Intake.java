@@ -43,7 +43,7 @@ public class Intake implements Subsystem {
   }
 
   public boolean intakeSensor() {
-    if (lasersharkIntake.getDistanceInches() <= 7) {
+    if (lasersharkIntake.getDistanceInches() <= 4) {
       return true;
     } else {
       return false;
