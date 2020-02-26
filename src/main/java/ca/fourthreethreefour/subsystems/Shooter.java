@@ -8,6 +8,7 @@
 package ca.fourthreethreefour.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -28,21 +29,21 @@ public class Shooter implements Subsystem {
   private double currentRPM;
  // private Counter shooterEncoder = new Counter(Settings.FLYWHEEL_COUNTER_PORT);
   private CANCoder shooterEncoder = null;
-  private WPI_TalonSRX shooterHood = null;
   private CANCoder hoodEncoder = null;
   private LimeLight limeLight = null;
+  private WPI_VictorSPX shooterHood = null;
 
   public Shooter(LimeLight limeLight) {
     flywheel1 = new CANSparkMax(Settings.FLYWHEEL_1_PORT, MotorType.kBrushless);
     flywheel2 = new CANSparkMax(Settings.FLYWHEEL_2_PORT, MotorType.kBrushless);
     shooterEncoder = new CANCoder(Settings.FLYWHEEL_ENCODER_PORT);
-    shooterHood = new WPI_TalonSRX(Settings.SHOOTER_HOOD_PORT);
     hoodEncoder = new CANCoder(Settings.HOOD_ENCODER_PORT);
     this.limeLight = limeLight;
-  
+    shooterHood = new WPI_VictorSPX(Settings.SHOOTER_HOOD_PORT);
 
     flywheel1.setInverted(false);
     flywheel2.setInverted(false);
+
   }
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
@@ -59,7 +60,7 @@ public class Shooter implements Subsystem {
   }
   
   public void shooterHoodSet(double speed) {
-    shooterHood.set(speed);
+    shooterHood.set(speed * Settings.HOOD_SPEED);
   }
 
   public double getEncoder() {

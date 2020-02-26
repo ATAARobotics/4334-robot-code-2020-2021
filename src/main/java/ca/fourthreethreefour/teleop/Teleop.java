@@ -55,6 +55,9 @@ public class Teleop {
     boolean highGear = false;
     
     public void teleopPeriodic() {
+
+        cartridgeSubsystem.printUltrasonics();
+
         double speed;
         double turn;
         if (controllerDriver.getStickButton(Hand.kRight)) {
@@ -131,7 +134,7 @@ public class Teleop {
                         cartridgeSubsystem.indexerSet(0);
                         cartridgeRun = false;
                     } else {
-                        cartridgeSubsystem.indexerSet(1);
+                        cartridgeSubsystem.indexerSet(-1);
                         if (!cartridgeSubsystem.cartridgeStart()) {
                             cartridgeSubsystem.beltSet(1);
                         } else {

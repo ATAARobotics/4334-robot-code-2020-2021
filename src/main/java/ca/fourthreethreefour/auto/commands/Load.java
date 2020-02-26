@@ -45,7 +45,7 @@ public class Load extends CommandBase {
               cartridgeSubsystem.indexerSet(0);
               cartridgeRun = false;
           } else {
-              cartridgeSubsystem.indexerSet(1);
+              cartridgeSubsystem.indexerSet(-1);
               if (!cartridgeSubsystem.cartridgeStart()) {
                   cartridgeSubsystem.beltSet(1);
               } else {
