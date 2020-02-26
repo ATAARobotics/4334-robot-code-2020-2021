@@ -31,10 +31,10 @@ public class Settings {
     static public int FLYWHEEL_1_PORT = settingsFile.getIntProperty("FLYWHEEL_1_PORT", 5);
     static public int FLYWHEEL_2_PORT = settingsFile.getIntProperty("FLYWHEEL_2_PORT", 6);
   
-    static public int FLYWHEEL_ENCODER_PORT = settingsFile.getIntProperty("FLYWHEEL_ENCODER_PORT", 23); 
+    static public int FLYWHEEL_ENCODER_PORT = settingsFile.getIntProperty("FLYWHEEL_ENCODER_PORT", 22); 
     static public double FLYWHEEL_RPM_SETPOINT = settingsFile.getIntProperty("FLYWHEEL_RPM_SETPOINT", 4000);
     static public int SHOOTER_HOOD_PORT = settingsFile.getIntProperty("SHOOTER_HOOD_PORT", 34);
-    static public int HOOD_ENCODER_PORT = settingsFile.getIntProperty("HOOD_ENCODER_PORT", 24);
+    static public int HOOD_ENCODER_PORT = settingsFile.getIntProperty("HOOD_ENCODER_PORT", 23);
 
     static public int LINESHARK_START_PORT = settingsFile.getIntProperty("LINESHARK_START_PORT", 0);
     static public int LINESHARK_END_PORT = settingsFile.getIntProperty("LINESHARK_END_PORT", 1);
@@ -62,7 +62,7 @@ public class Settings {
 
     static public double GONDOLA_SPEED = settingsFile.getDoubleProperty("GONDOLA_SPEED", 1);
 
-    static public double FLYWHEEL_SPEED = settingsFile.getDoubleProperty("FLYWHEEL_SPEED", 0.6);
+    static public double FLYWHEEL_SPEED = settingsFile.getDoubleProperty("FLYWHEEL_SPEED", 1);
     static public double HOOD_SPEED = settingsFile.getDoubleProperty("HOOD_SPEED", 0.5);
     static public int TICKS_PER_FLYWHEEL_ROTATION = settingsFile.getIntProperty("TICKS_PER_FLYWHEEL_ROTATION", 4096);
 
@@ -75,6 +75,8 @@ public class Settings {
     static public double LIMELIGHT_DISTANCE_FROM_GROUND = settingsFile.getDoubleProperty("LIMELIGHT_DISTANCE_FROM_GROUND", 0);
     static public double TARGET_DEFAULT_HEIGHT = settingsFile.getDoubleProperty("TARGET_DEFAULT_HEIGHT", 0);
 
+    static public String AUTO_ROUTINE = settingsFile.getStringProperty("AUTO_ROUTINE", "default");
+
     public void settingsValueUpdate() {
         LOGGING_ENABLED = settingsFile.getBooleanProperty("LOGGING_ENABLED", false);
         DRIVE_SPEED = settingsFile.getDoubleProperty("DRIVE_SPEED", 1);
@@ -85,10 +87,12 @@ public class Settings {
         INDEXER_SPEED = settingsFile.getDoubleProperty("INDEXER_SPEED", 0.2);
 
         ROLLER_SPEED = settingsFile.getDoubleProperty("ROLLER_SPEED", 0.8);
+        RELEASE_SPEED = settingsFile.getDoubleProperty("RELEASE_SPEED", 0.5);
 
         GONDOLA_SPEED = settingsFile.getDoubleProperty("GONDOLA_SPEED", 1);
 
         FLYWHEEL_SPEED = settingsFile.getDoubleProperty("FLYWHEEL_SPEED", 0.6);
+        FLYWHEEL_RPM_SETPOINT = settingsFile.getIntProperty("FLYWHEEL_RPM_SETPOINT", 4000);
 
         HOOD_PID_LEFT = settingsFile.getIntProperty("HOOD_PID_LEFT", 0);
         HOOD_PID_RIGHT = settingsFile.getIntProperty("HOOD_PID_RIGHT", 0);
