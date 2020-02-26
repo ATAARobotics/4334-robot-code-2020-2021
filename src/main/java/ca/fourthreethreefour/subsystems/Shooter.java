@@ -49,8 +49,8 @@ public class Shooter implements Subsystem {
   // here. Call these from Commands.
 
   public void flywheelSet(double speed) {
-    flywheel1.set(speed * Settings.FLYWHEEL_SPEED);
-    flywheel2.set(speed * Settings.FLYWHEEL_SPEED);
+    flywheel1.set(speed);
+    flywheel2.set(speed);
   }
   public double getRPM() {
     double TPM = shooterEncoder.getVelocity() * 600;//TPM = ticks per minute
@@ -73,5 +73,9 @@ public class Shooter implements Subsystem {
   
   public double getAngleToTarget() {
     return limeLight.getAngleToTarget();
+  }
+
+  public double getAngleToShoot() {
+    return 0;
   }
 }
