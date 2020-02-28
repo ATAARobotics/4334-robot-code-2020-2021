@@ -64,6 +64,7 @@ public class Settings {
 
     static public double FLYWHEEL_SPEED = settingsFile.getDoubleProperty("FLYWHEEL_SPEED", 1);
     static public double HOOD_SPEED = settingsFile.getDoubleProperty("HOOD_SPEED", 0.5);
+    static public double HOOD_NEO_SPEED = settingsFile.getDoubleProperty("HOOD_NEO_SPEED", 0.5); //hi
     static public int TICKS_PER_FLYWHEEL_ROTATION = settingsFile.getIntProperty("TICKS_PER_FLYWHEEL_ROTATION", 4096);
 
     static public double HOOD_PID_LEFT = settingsFile.getIntProperty("HOOD_PID_LEFT", 0);

@@ -57,6 +57,7 @@ public class Teleop {
     public void teleopPeriodic() {
 
         cartridgeSubsystem.printUltrasonics();
+        rollerSubsystem.printUltrasonics();
 
         double speed;
         double turn;
@@ -64,11 +65,7 @@ public class Teleop {
             speed = 0;
             turn = 0;
         } else {
-            if (highGear) {
-                speed = controllerDriver.getY(Hand.kLeft) * 0.2 + previousSpeed * 0.8;
-            } else {
-                speed = controllerDriver.getY(Hand.kLeft) * 0.1 + previousSpeed * 0.9;
-            }
+            speed = controllerDriver.getY(Hand.kLeft) * 0.2 + previousSpeed * 0.8;
             previousSpeed = speed;
             speed = Math.copySign(speed * speed, speed);
             if (Math.abs(controllerDriver.getX(Hand.kRight)) >= 0.1) {
