@@ -26,7 +26,7 @@ public class Settings {
   
     static public int ROLLER_PORT = settingsFile.getIntProperty("ROLLER_PORT", 33);
     static public int ROLLER_RELEASE_1_PORT = settingsFile.getIntProperty("ROLLER_RELEASE_1_PORT", 32);
-    static public int ROLLER_RELEASE_2_PORT = settingsFile.getIntProperty("ROLLER_RELEASE_2_PORT", 36);
+    static public int ROLLER_RELEASE_2_PORT = settingsFile.getIntProperty("ROLLER_RELEASE_2_PORT", 7);
 
     static public int FLYWHEEL_1_PORT = settingsFile.getIntProperty("FLYWHEEL_1_PORT", 5);
     static public int FLYWHEEL_2_PORT = settingsFile.getIntProperty("FLYWHEEL_2_PORT", 6);
@@ -40,7 +40,7 @@ public class Settings {
     static public int LINESHARK_END_PORT = settingsFile.getIntProperty("LINESHARK_END_PORT", 1);
 
     static public int LINESHARK_INDEXER_PORT = settingsFile.getIntProperty("LINESHARK_INDEXER_PORT", 2);
-    static public int LINESHARK_INTAKE_PORT = settingsFile.getIntProperty("LINESHARK_INTAKE_PORT", 8);
+    static public int LINESHARK_INTAKE_PORT = settingsFile.getIntProperty("LINESHARK_INTAKE_PORT", 3);
 
     static public int CLIMB_RELEASE_1_PORT = settingsFile.getIntProperty("CLIMB_RELEASE_1_PORT", 7);
     static public int CLIMB_RELEASE_2_PORT = settingsFile.getIntProperty("CLIMB_RELEASE_2_PORT", 8);
@@ -98,6 +98,7 @@ public class Settings {
         HOOD_PID_RIGHT = settingsFile.getIntProperty("HOOD_PID_RIGHT", 0);
         HOOD_PID_UP = settingsFile.getIntProperty("HOOD_PID_UP", 0);
         HOOD_PID_DOWN = settingsFile.getIntProperty("HOOD_PID_DOWN", 0);
+        HOOD_SPEED = settingsFile.getDoubleProperty("HOOD_SPEED", 0.5);
 
         LIMELIGHT_ANGLE_FROM_FLAT = settingsFile.getDoubleProperty("LIMELIGHT_ANGLE_FROM_FLAT", 0);
         LIMELIGHT_DISTANCE_FROM_GROUND = settingsFile.getDoubleProperty("LIMELIGHT_DISTANCE_FROM_GROUND", 0);
