@@ -173,10 +173,10 @@ public class Teleop {
             shooterSubsystem.flywheelSet(flywheelPID.getSpeed());
             if (flywheelPID.getController().atSetpoint()) {
                 cartridgeSubsystem.indexerSet(1);
+            } else {
                 if (!cartridgeSubsystem.indexerSensor()) {
                     cartridgeSubsystem.beltSet(1);
                 }
-            } else {
                 cartridgeSubsystem.indexerSet(-1);
             }
         } else {
