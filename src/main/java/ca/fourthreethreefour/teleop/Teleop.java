@@ -164,7 +164,7 @@ public class Teleop {
         Logging.put("RPM", shooterSubsystem.getRPM());
         Logging.put("RPM_VALUE", shooterSubsystem.getRPM());
 
-        if (controllerOperator.getYButton()) {
+        if (controllerDriver.getBButton()) {
             shooterSubsystem.flywheelSet(1 * Settings.FLYWHEEL_SPEED);
         } else if (controllerDriver.getYButton()) {
             if (!flywheelPID.isEnabled()) {
