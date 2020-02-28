@@ -31,7 +31,7 @@ public class Intake implements Subsystem {
     rollerRelease1 = new WPI_VictorSPX(Settings.ROLLER_RELEASE_1_PORT);
     lasersharkIntake = new Lasershark(Settings.LINESHARK_INTAKE_PORT);
     rollerRelease2 = new CANSparkMax(Settings.ROLLER_RELEASE_2_PORT, MotorType.kBrushless);
-    rollerRelease2.setInverted(true);
+    rollerRelease2.setInverted(false);
   }
 
   public void intakeSet(double speed) {
@@ -45,18 +45,22 @@ public class Intake implements Subsystem {
   boolean hasSeen = false;
   int startLoop = 0;
   public boolean intakeSensor() {
-    if (lasersharkIntake.getDistanceInches() <= 4 || hasSeen) {
-      hasSeen = true;
-      if (startLoop <= 50){
-        startLoop++;
-        return false;
-      } else {
-        hasSeen = false;
-        startLoop = 0;
-        return true;
-      } 
-    } else {
-      return false;
-    }
+    // if (lasersharkIntake.getDistanceInches() <= 4 || hasSeen) {
+    //   hasSeen = true;
+    //   if (startLoop <= 50){
+    //     startLoop++;
+    //     return false;
+    //   } else {
+    //     hasSeen = false;
+    //     startLoop = 0;
+    //     return true;
+    //   } 
+    // } else {
+    //   return false;
+    // }
+    return false;
+  }
+  public void printUltrasonics() {
+    System.out.println(lasersharkIntake.getDistanceInches());
   }
 }
