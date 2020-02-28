@@ -114,13 +114,11 @@ public class Teleop {
             highGear = false; 
         }
 
-        if (controllerOperator.getTriggerAxis(Hand.kRight) > 0.1 || controllerOperator.getTriggerAxis(Hand.kLeft) > 0.1 || controllerOperator.getAButton() || controllerOperator.getBButton()) {
-            if (controllerOperator.getTriggerAxis(Hand.kRight) > 0.1) {
-                double cartridgeSpeed = -controllerOperator.getTriggerAxis(Hand.kRight);
-                cartridgeSubsystem.beltSet(cartridgeSpeed);
-            } else if (controllerOperator.getTriggerAxis(Hand.kLeft) > 0.1) {
-                double cartridgeSpeed = controllerOperator.getTriggerAxis(Hand.kLeft);
-                cartridgeSubsystem.beltSet(cartridgeSpeed);
+        if (controllerOperator.getBumper(Hand.kRight) || controllerOperator.getBumper(Hand.kLeft) || controllerOperator.getAButton() || controllerOperator.getBButton()) {
+            if (controllerOperator.getBumper(Hand.kRight)) {
+                cartridgeSubsystem.beltSet(-1);
+            } else if (controllerOperator.getBumper(Hand.kLeft)) {
+                cartridgeSubsystem.beltSet(1);
             }
             if (controllerOperator.getBButton() == true) {
                 cartridgeSubsystem.indexerSet(1);
