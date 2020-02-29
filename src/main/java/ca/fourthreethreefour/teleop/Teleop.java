@@ -78,7 +78,7 @@ public class Teleop {
                     limeLight.ledOff();
                     alignPID.disable();
                 }
-                turn = controllerDriver.getX(Hand.kRight) * 0.1 + previousTurn * 0.9;
+                turn = -controllerDriver.getX(Hand.kRight) * 0.1 + previousTurn * 0.9;
                 previousTurn = turn;
                 turn = Math.copySign(turn * turn, turn);
             } else if (controllerDriver.getXButton()) {
@@ -233,7 +233,7 @@ public class Teleop {
             if (hoodPID.isEnabled()) {
                 hoodPID.disable();
             }
-            hoodSpeed = controllerOperator.getY(Hand.kLeft) * Settings.HOOD_SPEED;
+            hoodSpeed = -controllerOperator.getY(Hand.kLeft) * Settings.HOOD_SPEED;
         } else if (!hoodPID.isEnabled()) {
             hoodSpeed = 0;
         }

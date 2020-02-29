@@ -81,7 +81,7 @@ public class Drive implements Subsystem {
   }
 
   public double getNavX() {
-    return navX.getAngle();
+    return navX.getPitch();
   } 
 
   public double getLeftEncoder() {
