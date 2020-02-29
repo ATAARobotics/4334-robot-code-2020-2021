@@ -13,6 +13,7 @@ import ca.fourthreethreefour.subsystems.pid.HoodPID;
 import ca.fourthreethreefour.vision.LimeLight;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Teleop {
@@ -45,7 +46,7 @@ public class Teleop {
     public void teleopInit() {
         driveSubsystem.teleopInit();
         driveSubsystem.reset();
-        flywheelPID.setSetpoint(Settings.FLYWHEEL_RPM_SETPOINT);
+        flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_RIGHT);
 
     }
 
@@ -54,12 +55,14 @@ public class Teleop {
     private double hoodSpeed = 0;
     boolean cartridgeRun = false;   
     boolean highGear = false;
+    boolean disableIntakeSensor = false;
     
     public void teleopPeriodic() {
 
         //cartridgeSubsystem.printUltrasonics();
         //rollerSubsystem.printUltrasonics();
         System.out.println(driveSubsystem.getNavX());
+        Logging.put("Hood Position", shooterSubsystem.getEncoder());
 
         double speed;
         double turn;
@@ -206,42 +209,55 @@ public class Teleop {
             climbSubsystem.releaseSet(0);
         }
         // TODO: Make sure this changes
-         if (controllerOperator.getStartButtonPressed()) {
+        if (controllerOperator.getStartButtonPressed()) {
              cartridgeRun = true;
-         }
-         if (controllerOperator.getBackButtonPressed()) {
+        }
+        if (controllerOperator.getBackButtonPressed()) {
              cartridgeRun = false;
-         }
-      
-        if (rollerSubsystem.intakeSensor()) {
-            cartridgeRun = true;
+        }
+         
+        if (!disableIntakeSensor || !controllerOperator.getBumper(Hand.kRight)) {       
+            if (rollerSubsystem.intakeSensor()) {
+                cartridgeRun = true;
+            }
+            Logging.put("Intake Disabled", false);
+        } else {
+            Logging.put("Intake Disabled", true);
+        }
+
+        if (controllerOperator.getStickButtonPressed(Hand.kRight)) {
+            disableIntakeSensor = !disableIntakeSensor;
         }
       
         if (Math.abs(controllerOperator.getY(Hand.kLeft)) > 0.05) {
             if (hoodPID.isEnabled()) {
                 hoodPID.disable();
             }
-            hoodSpeed = controllerOperator.getY(Hand.kLeft);
+            hoodSpeed = controllerOperator.getY(Hand.kLeft) * Settings.HOOD_SPEED;
         } else if (!hoodPID.isEnabled()) {
             hoodSpeed = 0;
         }
 
         if (controllerDriver.getPOV() == 0) {
             hoodPID.setSetpoint(Settings.HOOD_PID_UP);
+            flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_UP);
             hoodPID.enable();
         } else if (controllerDriver.getPOV() == 90) {
             hoodPID.setSetpoint(Settings.HOOD_PID_RIGHT);
+            flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_RIGHT);
             hoodPID.enable();
         } else if (controllerDriver.getPOV() == 180) {
             hoodPID.setSetpoint(Settings.HOOD_PID_DOWN);
+            flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_DOWN);
             hoodPID.enable();
         } else if (controllerDriver.getPOV() == 270) {
             hoodPID.setSetpoint(Settings.HOOD_PID_LEFT);
+            flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_LEFT);
             hoodPID.enable();
         } else if (controllerDriver.getAButtonPressed()) {
-            hoodPID.setSetpoint(shooterSubsystem.getAngleToShoot()); //TODO: add automated distance calculations 
-            hoodPID.enable(); 
-        } else if (hoodPID.isEnabled() && hoodPID.getController().atSetpoint()) {
+            // hoodPID.setSetpoint(shooterSubsystem.getAngleToShoot()); //TODO: add automated distance calculations 
+            // hoodPID.enable(); 
+        } else if (hoodPID.isEnabled() && hoodPID.isDone()) {
             hoodPID.disable();
         }
 

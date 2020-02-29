@@ -40,25 +40,24 @@ public class Intake implements Subsystem {
 
   public void releaseSet(double speed) {
     rollerRelease1.set(speed * Settings.RELEASE_SPEED);
-    rollerRelease2.set(speed * Settings.RELEASE_SPEED);
+    rollerRelease2.set(speed * Settings.RELEASE_NEO_SPEED);
   }
   boolean hasSeen = false;
   int startLoop = 0;
   public boolean intakeSensor() {
-    // if (lasersharkIntake.getDistanceInches() <= 4 || hasSeen) {
-    //   hasSeen = true;
-    //   if (startLoop <= 50){
-    //     startLoop++;
-    //     return false;
-    //   } else {
-    //     hasSeen = false;
-    //     startLoop = 0;
-    //     return true;
-    //   } 
-    // } else {
-    //   return false;
-    // }
-    return false;
+    if ((lasersharkIntake.getDistanceInches() <= 4 && lasersharkIntake.getDistanceInches() > 0) || hasSeen) {
+      hasSeen = true;
+      if (startLoop <= 2){
+        startLoop++;
+        return false;
+      } else {
+        hasSeen = false;
+        startLoop = 0;
+        return true;
+      } 
+    } else {
+      return false;
+    }
   }
   public void printUltrasonics() {
     System.out.println(lasersharkIntake.getDistanceInches());

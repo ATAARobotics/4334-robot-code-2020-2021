@@ -60,7 +60,7 @@ public class Shooter implements Subsystem {
   }
   
   public void shooterHoodSet(double speed) {
-    shooterHood.set(speed * Settings.HOOD_SPEED);
+    shooterHood.set(speed);
   }
 
   public double getEncoder() {
