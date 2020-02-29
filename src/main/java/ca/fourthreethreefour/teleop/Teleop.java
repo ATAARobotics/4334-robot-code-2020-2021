@@ -23,6 +23,7 @@ public class Teleop {
     private Intake rollerSubsystem = null;
     private Shooter shooterSubsystem = null;
     private Climb climbSubsystem = null; 
+
     
     private LimeLight limeLight = null;
 
@@ -56,8 +57,9 @@ public class Teleop {
     
     public void teleopPeriodic() {
 
-        cartridgeSubsystem.printUltrasonics();
-        rollerSubsystem.printUltrasonics();
+        //cartridgeSubsystem.printUltrasonics();
+        //rollerSubsystem.printUltrasonics();
+        System.out.println(driveSubsystem.getNavX());
 
         double speed;
         double turn;

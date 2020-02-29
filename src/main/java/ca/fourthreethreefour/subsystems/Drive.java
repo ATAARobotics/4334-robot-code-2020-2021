@@ -52,8 +52,8 @@ public class Drive implements Subsystem {
 
     drive = new DifferentialDrive(leftMotors, rightMotors);
     
-    leftMotors.setInverted(true);
-    rightMotors.setInverted(true);
+    leftMotors.setInverted(false);
+    rightMotors.setInverted(false);
 
     try {
       navX = new AHRS(SPI.Port.kMXP);
