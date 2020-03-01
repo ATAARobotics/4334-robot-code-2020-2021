@@ -55,15 +55,17 @@ public class Teleop {
     private double hoodSpeed = 0;
     boolean cartridgeRun = false;   
     boolean highGear = false;
-    boolean disableIntakeSensor = false;
+    boolean disableIntakeSensor = true;
+    boolean trigger = true;
     
     public void teleopPeriodic() {
 
         //cartridgeSubsystem.printUltrasonics();
         //rollerSubsystem.printUltrasonics();
-        System.out.println(driveSubsystem.getNavX());
+        //System.out.println(driveSubsystem.getNavX());
+        Logging.put("Intake Toggle", disableIntakeSensor);
         Logging.put("Hood Position", shooterSubsystem.getEncoder());
-
+    
         double speed;
         double turn;
         if (controllerDriver.getStickButton(Hand.kRight)) {
@@ -104,7 +106,7 @@ public class Teleop {
         // System.out.println(driveSubsystem.getVelocity());
         // System.out.println(driveSubsystem.getLeftEncoder());
         // System.out.println(driveSubsystem.getRightEncoder());
-
+        
         if (Math.abs(controllerDriver.getY(Hand.kLeft)) < 0.05 || Math.abs(controllerDriver.getX(Hand.kRight)) > 0.05) {
             driveSubsystem.speedLow();
             highGear = false;
@@ -264,9 +266,22 @@ public class Teleop {
         if (hoodPID.isEnabled()) {
             hoodSpeed = hoodPID.getSpeed();
         }
+        
         shooterSubsystem.shooterHoodSet(hoodSpeed);
 
-        rollerSubsystem.releaseSet(controllerOperator.getY(Hand.kRight));
+        if(Math.abs(controllerOperator.getY(Hand.kRight)) > 0.05 ){
+            trigger = false;
+        } else if (rollerSubsystem.releaseSetLimit()) {
+            trigger = true;
+
+        } else if(trigger){
+            rollerSubsystem.runNeo(0.05);
+            rollerSubsystem.stopVictor();
+        }else{
+            rollerSubsystem.releaseSet(-controllerOperator.getY(Hand.kRight));
+        }
+        
+       
 
         
     }

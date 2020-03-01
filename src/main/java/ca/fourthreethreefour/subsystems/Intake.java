@@ -14,6 +14,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import ca.fourthreethreefour.settings.Settings;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 /**
@@ -24,6 +25,7 @@ public class Intake implements Subsystem {
   private WPI_VictorSPX rollerRelease1 = null;
   private Lasershark lasersharkIntake = null;
   private CANSparkMax rollerRelease2 = null;
+  private DigitalInput rollerReleaseLimit = null;
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   public Intake() {
@@ -31,6 +33,7 @@ public class Intake implements Subsystem {
     rollerRelease1 = new WPI_VictorSPX(Settings.ROLLER_RELEASE_1_PORT);
     lasersharkIntake = new Lasershark(Settings.LINESHARK_INTAKE_PORT);
     rollerRelease2 = new CANSparkMax(Settings.ROLLER_RELEASE_2_PORT, MotorType.kBrushless);
+    rollerReleaseLimit = new DigitalInput(Settings.ROLLER_RELEASE_LIMIT_PORT);
     rollerRelease2.setInverted(false);
   }
 
@@ -58,6 +61,18 @@ public class Intake implements Subsystem {
     } else {
       return false;
     }
+  }
+  int i = 0;
+  boolean hasTriggered= false;
+
+  public boolean releaseSetLimit() {
+    return rollerReleaseLimit.get();
+  }
+  public void runNeo(double speed){
+   rollerRelease2.set(speed * Settings.RELEASE_NEO_SPEED);
+  }
+  public void stopVictor() {
+    rollerRelease1.set(0* Settings.RELEASE_SPEED);
   }
   public void printUltrasonics() {
     System.out.println(lasersharkIntake.getDistanceInches());
