@@ -298,9 +298,9 @@ public class Teleop {
         //     intakeSubsystem.stopVictor();
         // }
         
-        if (controllerOperator.getY(Hand.kRight) > 0.05 && !intakeSubsystem.intakeLimitTop()) {
+        if (controllerOperator.getY(Hand.kRight) < 0.05 && intakeSubsystem.intakeLimitTop()) {
             intakeSubsystem.releaseSet(controllerOperator.getY(Hand.kRight));
-        } else if (controllerOperator.getY(Hand.kRight) < 0.05 && !intakeSubsystem.intakeLimitBottom()){
+        } else if (controllerOperator.getY(Hand.kRight) > 0.05 && intakeSubsystem.intakeLimitBottom()){
             intakeSubsystem.releaseSet(controllerOperator.getY(Hand.kRight));
         } else {
             intakeSubsystem.releaseSet(0);
