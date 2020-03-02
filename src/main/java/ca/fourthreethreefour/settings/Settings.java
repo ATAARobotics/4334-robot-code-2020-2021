@@ -54,12 +54,12 @@ public class Settings {
     static public double DRIVE_MAX_SPEED = settingsFile.getDoubleProperty("DRIVE_MAX_SPEED", 1);
 
     static public double CARTRIDGE_INNER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_INNER_SPEED", 0.5);
-    static public double CARTRIDGE_OUTER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_OUTER_SPEED", 0.5);
-    static public double INDEXER_SPEED = settingsFile.getDoubleProperty("INDEXER_SPEED", 0.2);
+    static public double CARTRIDGE_OUTER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_OUTER_SPEED", 0.4);
+    static public double INDEXER_SPEED = settingsFile.getDoubleProperty("INDEXER_SPEED", 0.4);
 
     static public double ROLLER_SPEED = settingsFile.getDoubleProperty("ROLLER_SPEED", 0.8);
     static public double RELEASE_SPEED = settingsFile.getDoubleProperty("RELEASE_SPEED", 0.5);
-    static public double RELEASE_NEO_SPEED = settingsFile.getDoubleProperty("RELEASE_NEO_SPEED", 0.5); //hi
+    static public double RELEASE_NEO_SPEED = settingsFile.getDoubleProperty("RELEASE_NEO_SPEED", 0.5); 
 
     static public double GONDOLA_SPEED = settingsFile.getDoubleProperty("GONDOLA_SPEED", 1);
 

@@ -56,13 +56,13 @@ public class Teleop {
     boolean cartridgeRun = false;   
     boolean highGear = false;
     boolean disableIntakeSensor = true;
-    boolean trigger = true;
+    boolean trigger = false;
     
     public void teleopPeriodic() {
 
         //cartridgeSubsystem.printUltrasonics();
         //rollerSubsystem.printUltrasonics();
-        //System.out.println(driveSubsystem.getNavX());
+        System.out.println(driveSubsystem.getNavX());
         Logging.put("Intake Toggle", disableIntakeSensor);
         Logging.put("Hood Position", shooterSubsystem.getEncoder());
     
@@ -217,18 +217,22 @@ public class Teleop {
         if (controllerOperator.getBackButtonPressed()) {
              cartridgeRun = false;
         }
+        if (controllerOperator.getStickButtonPressed(Hand.kRight)) {
+            disableIntakeSensor = !disableIntakeSensor;
+        }
          
-        if (!disableIntakeSensor || !controllerOperator.getBumper(Hand.kRight)) {       
+        if (!(disableIntakeSensor || controllerOperator.getBumper(Hand.kRight))) {       
             if (rollerSubsystem.intakeSensor()) {
                 cartridgeRun = true;
             }
             Logging.put("Intake Disabled", false);
         } else {
+            if(!disableIntakeSensor) { // if they want to see when its disable when bumper overides the auto, delete this
+                Logging.put("Intake Disabled", false);
+            }else {
             Logging.put("Intake Disabled", true);
-        }
-
-        if (controllerOperator.getStickButtonPressed(Hand.kRight)) {
-            disableIntakeSensor = !disableIntakeSensor;
+            }
+                cartridgeRun = false;
         }
       
         if (Math.abs(controllerOperator.getY(Hand.kLeft)) > 0.05) {
@@ -259,6 +263,7 @@ public class Teleop {
         } else if (controllerDriver.getAButtonPressed()) {
             // hoodPID.setSetpoint(shooterSubsystem.getAngleToShoot()); //TODO: add automated distance calculations 
             // hoodPID.enable(); 
+            
         } else if (hoodPID.isEnabled() && hoodPID.isDone()) {
             hoodPID.disable();
         }
@@ -268,17 +273,17 @@ public class Teleop {
         }
         
         shooterSubsystem.shooterHoodSet(hoodSpeed);
-
+        Logging.put("Trigger", trigger);
         if(Math.abs(controllerOperator.getY(Hand.kRight)) > 0.05 ){
+            rollerSubsystem.releaseSet(-controllerOperator.getY(Hand.kRight));
             trigger = false;
         } else if (rollerSubsystem.releaseSetLimit()) {
             trigger = true;
 
-        } else if(trigger){
+        } 
+        if(trigger){
             rollerSubsystem.runNeo(0.05);
             rollerSubsystem.stopVictor();
-        }else{
-            rollerSubsystem.releaseSet(-controllerOperator.getY(Hand.kRight));
         }
         
        
