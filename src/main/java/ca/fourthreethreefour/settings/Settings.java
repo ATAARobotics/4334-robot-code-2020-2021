@@ -37,14 +37,14 @@ public class Settings {
     static public int SHOOTER_HOOD_PORT = settingsFile.getIntProperty("SHOOTER_HOOD_PORT", 34);
     static public int HOOD_ENCODER_PORT = settingsFile.getIntProperty("HOOD_ENCODER_PORT", 23);
 
-    static public int LINESHARK_START_PORT = settingsFile.getIntProperty("LINESHARK_START_PORT", 0);
+    static public int LINESHARK_START_PORT = settingsFile.getIntProperty("LINESHARK_START_PORT", 2);
     static public int LINESHARK_END_PORT = settingsFile.getIntProperty("LINESHARK_END_PORT", 1);
 
-    static public int LINESHARK_INDEXER_PORT = settingsFile.getIntProperty("LINESHARK_INDEXER_PORT", 2);
+    static public int LINESHARK_INDEXER_PORT = settingsFile.getIntProperty("LINESHARK_INDEXER_PORT", 0);
     static public int LINESHARK_INTAKE_PORT = settingsFile.getIntProperty("LINESHARK_INTAKE_PORT", 3);
 
-    static public int CLIMB_RELEASE_1_PORT = settingsFile.getIntProperty("CLIMB_RELEASE_1_PORT", 7);
-    static public int CLIMB_RELEASE_2_PORT = settingsFile.getIntProperty("CLIMB_RELEASE_2_PORT", 8);
+    static public int CLIMB_RELEASE_1_PORT = settingsFile.getIntProperty("CLIMB_RELEASE_1_PORT", 36);
+    static public int CLIMB_RELEASE_2_PORT = settingsFile.getIntProperty("CLIMB_RELEASE_2_PORT", 37);
     static public int CLIMB_GONDOLA_OF_DEATH_PORT = settingsFile.getIntProperty("CLIMB_GONDOLA_PORT", 9);
     static public int CLIMB_LIMIT_PORT =  settingsFile.getIntProperty("CLIMB_LIMIT_PORT", 9);
 
@@ -63,20 +63,21 @@ public class Settings {
     static public double RELEASE_NEO_SPEED = settingsFile.getDoubleProperty("RELEASE_NEO_SPEED", 0.5); 
 
     static public double GONDOLA_SPEED = settingsFile.getDoubleProperty("GONDOLA_SPEED", 1);
+    static public double CLIMB_SPEED = settingsFile.getDoubleProperty("CLIMB_SPEED", 0.5);
 
     static public double FLYWHEEL_SPEED = settingsFile.getDoubleProperty("FLYWHEEL_SPEED", 1);
     static public double HOOD_SPEED = settingsFile.getDoubleProperty("HOOD_SPEED", 0.5);
     static public int TICKS_PER_FLYWHEEL_ROTATION = settingsFile.getIntProperty("TICKS_PER_FLYWHEEL_ROTATION", 4096);
 
-    static public double HOOD_PID_LEFT = settingsFile.getIntProperty("HOOD_PID_LEFT", 32);
-    static public double HOOD_PID_RIGHT = settingsFile.getIntProperty("HOOD_PID_RIGHT", 2);
-    static public double HOOD_PID_UP = settingsFile.getIntProperty("HOOD_PID_UP", 35);
-    static public double HOOD_PID_DOWN = settingsFile.getIntProperty("HOOD_PID_DOWN", 28);
+    static public double HOOD_PID_FAR_TRENCH = settingsFile.getIntProperty("HOOD_PID_LEFT", 32);
+    static public double HOOD_PID_LINE = settingsFile.getIntProperty("HOOD_PID_RIGHT", 2);
+    static public double HOOD_PID_TOWER = settingsFile.getIntProperty("HOOD_PID_UP", 35);
+    static public double HOOD_PID_CLOSE_TRENCH = settingsFile.getIntProperty("HOOD_PID_DOWN", 28);
 
-    static public double FLYWHEEL_SPEED_LEFT = settingsFile.getIntProperty("FLYWHEEL_SPEED_LEFT", 6000);
-    static public double FLYWHEEL_SPEED_RIGHT = settingsFile.getIntProperty("FLYWHEEL_SPEED_RIGHT", 5000);
-    static public double FLYWHEEL_SPEED_UP = settingsFile.getIntProperty("FLYWHEEL_SPEED_UP", 8200);
-    static public double FLYWHEEL_SPEED_DOWN = settingsFile.getIntProperty("FLYWHEEL_SPEED_DOWN", 5000);
+    static public double FLYWHEEL_SPEED_FAR_TRENCH = settingsFile.getIntProperty("FLYWHEEL_SPEED_FAR_TRENCH", 8300);
+    static public double FLYWHEEL_SPEED_LINE = settingsFile.getIntProperty("FLYWHEEL_SPEED_LINE", 6000);
+    static public double FLYWHEEL_SPEED_TOWER = settingsFile.getIntProperty("FLYWHEEL_SPEED_TOWER", 6000);
+    static public double FLYWHEEL_SPEED_CLOSE_TRENCH = settingsFile.getIntProperty("FLYWHEEL_SPEED_CLOSE_TRENCH", 6000);
 
     static public double LIMELIGHT_ANGLE_FROM_FLAT = settingsFile.getDoubleProperty("LIMELIGHT_ANGLE_FROM_FLAT", 0);
     static public double LIMELIGHT_DISTANCE_FROM_GROUND = settingsFile.getDoubleProperty("LIMELIGHT_DISTANCE_FROM_GROUND", 0);
@@ -98,19 +99,20 @@ public class Settings {
         RELEASE_NEO_SPEED = settingsFile.getDoubleProperty("RELEASE_NEO_SPEED", 0.5); //hi
 
         GONDOLA_SPEED = settingsFile.getDoubleProperty("GONDOLA_SPEED", 1);
+        CLIMB_SPEED = settingsFile.getDoubleProperty("CLIMB_SPEED", 0.5);
 
         FLYWHEEL_SPEED = settingsFile.getDoubleProperty("FLYWHEEL_SPEED", 0.6);
 
-        HOOD_PID_LEFT = settingsFile.getIntProperty("HOOD_PID_LEFT", 0);
-        HOOD_PID_RIGHT = settingsFile.getIntProperty("HOOD_PID_RIGHT", 0);
-        HOOD_PID_UP = settingsFile.getIntProperty("HOOD_PID_UP", 0);
-        HOOD_PID_DOWN = settingsFile.getIntProperty("HOOD_PID_DOWN", 0);
+        HOOD_PID_FAR_TRENCH = settingsFile.getIntProperty("HOOD_PID_FAR_TRENCH", 0);
+        HOOD_PID_LINE = settingsFile.getIntProperty("HOOD_PID_LINE", 0);
+        HOOD_PID_TOWER = settingsFile.getIntProperty("HOOD_PID_TOWER", 0);
+        HOOD_PID_CLOSE_TRENCH = settingsFile.getIntProperty("HOOD_PID_CLOSE_TRENCH", 0);
         HOOD_SPEED = settingsFile.getDoubleProperty("HOOD_SPEED", 0.5);
 
-        FLYWHEEL_SPEED_LEFT = settingsFile.getIntProperty("FLYWHEEL_SPEED_LEFT", 6000);
-        FLYWHEEL_SPEED_RIGHT = settingsFile.getIntProperty("FLYWHEEL_SPEED_RIGHT", 5000);
-        FLYWHEEL_SPEED_UP = settingsFile.getIntProperty("FLYWHEEL_SPEED_UP", 8200);
-        FLYWHEEL_SPEED_DOWN = settingsFile.getIntProperty("FLYWHEEL_SPEED_DOWN", 5000);
+        FLYWHEEL_SPEED_FAR_TRENCH = settingsFile.getIntProperty("FLYWHEEL_SPEED_FAR_TRENCH", 6000);
+        FLYWHEEL_SPEED_LINE = settingsFile.getIntProperty("FLYWHEEL_SPEED_LINE", 6000);
+        FLYWHEEL_SPEED_TOWER = settingsFile.getIntProperty("FLYWHEEL_SPEED_TOWER", 6000);
+        FLYWHEEL_SPEED_CLOSE_TRENCH = settingsFile.getIntProperty("FLYWHEEL_SPEED_CLOSE_TRENCH", 5000);
 
         LIMELIGHT_ANGLE_FROM_FLAT = settingsFile.getDoubleProperty("LIMELIGHT_ANGLE_FROM_FLAT", 0);
         LIMELIGHT_DISTANCE_FROM_GROUND = settingsFile.getDoubleProperty("LIMELIGHT_DISTANCE_FROM_GROUND", 0);

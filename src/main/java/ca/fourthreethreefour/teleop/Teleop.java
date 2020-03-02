@@ -46,7 +46,7 @@ public class Teleop {
     public void teleopInit() {
         driveSubsystem.teleopInit();
         driveSubsystem.reset();
-        flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_RIGHT);
+        flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_LINE);
 
     }
 
@@ -55,17 +55,17 @@ public class Teleop {
     private double hoodSpeed = 0;
     boolean cartridgeRun = false;   
     boolean highGear = false;
-    boolean disableIntakeSensor = true;
+    boolean disableIntakeSensor = false;
     boolean trigger = false;
+    int indexerFeed = 0;
     
     public void teleopPeriodic() {
 
-        //cartridgeSubsystem.printUltrasonics();
-        //intakeSubsystem.printUltrasonics();
         //System.out.println(driveSubsystem.getNavX());
         driveSubsystem.printEverything();
         Logging.put("Intake Toggle", disableIntakeSensor);
         Logging.put("Hood Position", shooterSubsystem.getEncoder());
+        Logging.put("Intake Limit", intakeSubsystem.intakeLimitBottom());
     
         double speed;
         double turn;
@@ -132,12 +132,21 @@ public class Teleop {
             } 
         } else {
             if (cartridgeRun) {
+                if (cartridgeSubsystem.indexerSensor()) {
+                    if( indexerFeed < 5) {
+                        cartridgeSubsystem.indexerSet(0.75);
+                        indexerFeed++;
+                    } else {
+                        cartridgeSubsystem.indexerSet(0);
+                    }
+                } else {
+                    indexerFeed = 0;
+                    cartridgeSubsystem.indexerSet(-1);
+                }
                 if (cartridgeSubsystem.cartridgeEnd()) {
                     if (cartridgeSubsystem.indexerSensor()) {
-                        cartridgeSubsystem.indexerSet(0);
                         cartridgeRun = false;
                     } else {
-                        cartridgeSubsystem.indexerSet(-1);
                         if (!cartridgeSubsystem.cartridgeStart()) {
                             cartridgeSubsystem.beltSet(1);
                         } else {
@@ -155,6 +164,7 @@ public class Teleop {
             } else {  
                 cartridgeSubsystem.beltSet(0);
                 cartridgeSubsystem.indexerSet(0);
+                
             }
         }
         
@@ -206,7 +216,7 @@ public class Teleop {
             climbSubsystem.gondolaSet(0);
         }
 
-        if (controllerDriver.getStartButton() && controllerOperator.getStartButton() && !climbSubsystem.climbLimit()) {
+        if (controllerDriver.getBackButton() && controllerOperator.getBackButton()) {
             climbSubsystem.releaseSet(1);
         } else {
             climbSubsystem.releaseSet(0);
@@ -245,22 +255,24 @@ public class Teleop {
             hoodSpeed = 0;
         }
 
+        Logging.put("Flywheel Setpoint", flywheelPID.getController().getSetpoint());
+
         if (controllerDriver.getPOV() == 0) {
-            hoodPID.setSetpoint(Settings.HOOD_PID_UP);
-            flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_UP);
-            hoodPID.enable();
+            hoodPID.setSetpoint(Settings.HOOD_PID_TOWER);
+            flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_TOWER);
+            // hoodPID.enable();
         } else if (controllerDriver.getPOV() == 90) {
-            hoodPID.setSetpoint(Settings.HOOD_PID_RIGHT);
-            flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_RIGHT);
-            hoodPID.enable();
+            hoodPID.setSetpoint(Settings.HOOD_PID_LINE);
+            flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_LINE);
+            // hoodPID.enable();
         } else if (controllerDriver.getPOV() == 180) {
-            hoodPID.setSetpoint(Settings.HOOD_PID_DOWN);
-            flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_DOWN);
-            hoodPID.enable();
+            hoodPID.setSetpoint(Settings.HOOD_PID_CLOSE_TRENCH);
+            flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_CLOSE_TRENCH);
+            //hoodPID.enable();
         } else if (controllerDriver.getPOV() == 270) {
-            hoodPID.setSetpoint(Settings.HOOD_PID_LEFT);
-            flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_LEFT);
-            hoodPID.enable();
+            hoodPID.setSetpoint(Settings.HOOD_PID_FAR_TRENCH);
+            flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_FAR_TRENCH);
+            // hoodPID.enable();
         } else if (controllerDriver.getAButtonPressed()) {
             // hoodPID.setSetpoint(shooterSubsystem.getAngleToShoot()); //TODO: add automated distance calculations 
             // hoodPID.enable(); 
@@ -274,7 +286,6 @@ public class Teleop {
         }
         
         shooterSubsystem.shooterHoodSet(hoodSpeed);
-        Logging.put("Trigger", trigger);
         // if(Math.abs(controllerOperator.getY(Hand.kRight)) > 0.05 ){
         //     intakeSubsystem.releaseSet(-controllerOperator.getY(Hand.kRight));
         //     trigger = false;
@@ -286,6 +297,7 @@ public class Teleop {
         //     intakeSubsystem.runNeo(0.05);
         //     intakeSubsystem.stopVictor();
         // }
+        
         if (controllerOperator.getY(Hand.kRight) > 0.05 && !intakeSubsystem.intakeLimitTop()) {
             intakeSubsystem.releaseSet(controllerOperator.getY(Hand.kRight));
         } else if (controllerOperator.getY(Hand.kRight) < 0.05 && !intakeSubsystem.intakeLimitBottom()){

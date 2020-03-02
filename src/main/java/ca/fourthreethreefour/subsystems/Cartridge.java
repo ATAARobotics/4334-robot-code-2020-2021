@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.cuforge.libcu.Lasershark;
 
+import ca.fourthreethreefour.logging.Logging;
 import ca.fourthreethreefour.settings.Settings;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
@@ -58,9 +59,9 @@ public class Cartridge implements Subsystem {
   }
 
   public void printUltrasonics() {
-    System.out.println(lasersharkStart.getDistanceInches());
-    System.out.println(lasersharkEnd.getDistanceInches());
-    System.out.println(lasersharkIndexer.getDistanceInches());
+    Logging.put("Start Sensor", lasersharkStart.getDistanceInches());
+    Logging.put("End Sensor", lasersharkEnd.getDistanceInches());
+    Logging.put("Indexer Sensor", lasersharkIndexer.getDistanceInches());
   }
   
   int startLoop = 0;

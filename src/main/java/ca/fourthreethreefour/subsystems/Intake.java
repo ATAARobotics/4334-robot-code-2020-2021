@@ -13,6 +13,7 @@ import com.cuforge.libcu.Lasershark;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import ca.fourthreethreefour.logging.Logging;
 import ca.fourthreethreefour.settings.Settings;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -81,6 +82,6 @@ public class Intake implements Subsystem {
     intakeRelease1.set(0* Settings.RELEASE_SPEED);
   }
   public void printUltrasonics() {
-    System.out.println(lasersharkIntake.getDistanceInches());
+    Logging.put("Intake Sensor", lasersharkIntake.getDistanceInches());
   }
 }
