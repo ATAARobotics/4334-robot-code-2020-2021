@@ -12,6 +12,7 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import ca.fourthreethreefour.logging.Logging;
 import ca.fourthreethreefour.settings.Settings;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -81,8 +82,15 @@ public class Drive implements Subsystem {
   }
 
   public double getNavX() {
-    return navX.getRoll(); //getPitch is returning with value 0.0
+    return navX.getPitch(); //getPitch is returning with value 0.0
   } 
+
+  public void printEverything() {
+    Logging.put("Angle", navX.getAngle());
+    Logging.put("Pitch", navX.getPitch());
+    Logging.put("Yaw", navX.getYaw());
+    Logging.put("Roll", navX.getRoll());
+  }
 
   public double getLeftEncoder() {
     return leftEncoder.getPosition();

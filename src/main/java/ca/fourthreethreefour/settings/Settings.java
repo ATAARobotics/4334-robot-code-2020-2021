@@ -27,7 +27,8 @@ public class Settings {
     static public int ROLLER_PORT = settingsFile.getIntProperty("ROLLER_PORT", 33);
     static public int ROLLER_RELEASE_1_PORT = settingsFile.getIntProperty("ROLLER_RELEASE_1_PORT", 32);
     static public int ROLLER_RELEASE_2_PORT = settingsFile.getIntProperty("ROLLER_RELEASE_2_PORT", 7);
-    static public int ROLLER_RELEASE_LIMIT_PORT = settingsFile.getIntProperty("ROLLER_RELEASE_LIMIT_PORT", 4);
+    static public int ROLLER_LIMIT_TOP_PORT = settingsFile.getIntProperty("ROLLER_LIMIT_TOP_PORT", 4);
+    static public int ROLLER_LIMIT_BOTTOM_PORT = settingsFile.getIntProperty("ROLLER_LIMIT_BOTTOM_PORT", 5);
 
     static public int FLYWHEEL_1_PORT = settingsFile.getIntProperty("FLYWHEEL_1_PORT", 5);
     static public int FLYWHEEL_2_PORT = settingsFile.getIntProperty("FLYWHEEL_2_PORT", 6);

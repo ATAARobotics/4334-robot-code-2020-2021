@@ -62,7 +62,8 @@ public class Teleop {
 
         //cartridgeSubsystem.printUltrasonics();
         //rollerSubsystem.printUltrasonics();
-        System.out.println(driveSubsystem.getNavX());
+        //System.out.println(driveSubsystem.getNavX());
+        driveSubsystem.printEverything();
         Logging.put("Intake Toggle", disableIntakeSensor);
         Logging.put("Hood Position", shooterSubsystem.getEncoder());
     
@@ -274,16 +275,23 @@ public class Teleop {
         
         shooterSubsystem.shooterHoodSet(hoodSpeed);
         Logging.put("Trigger", trigger);
-        if(Math.abs(controllerOperator.getY(Hand.kRight)) > 0.05 ){
-            rollerSubsystem.releaseSet(-controllerOperator.getY(Hand.kRight));
-            trigger = false;
-        } else if (rollerSubsystem.releaseSetLimit()) {
-            trigger = true;
+        // if(Math.abs(controllerOperator.getY(Hand.kRight)) > 0.05 ){
+        //     rollerSubsystem.releaseSet(-controllerOperator.getY(Hand.kRight));
+        //     trigger = false;
+        // } else if (rollerSubsystem.intakeLimitTop()) {
+        //     trigger = true;
 
-        } 
-        if(trigger){
-            rollerSubsystem.runNeo(0.05);
-            rollerSubsystem.stopVictor();
+        // } 
+        // if(trigger){
+        //     rollerSubsystem.runNeo(0.05);
+        //     rollerSubsystem.stopVictor();
+        // }
+        if (controllerOperator.getY(Hand.kRight) > 0.05 && !rollerSubsystem.intakeLimitTop()) {
+            rollerSubsystem.releaseSet(controllerOperator.getY(Hand.kRight));
+        } else if (controllerOperator.getY(Hand.kRight) < 0.05 && !rollerSubsystem.intakeLimitBottom()){
+            rollerSubsystem.releaseSet(controllerOperator.getY(Hand.kRight));
+        } else {
+            rollerSubsystem.releaseSet(0);
         }
         
        
