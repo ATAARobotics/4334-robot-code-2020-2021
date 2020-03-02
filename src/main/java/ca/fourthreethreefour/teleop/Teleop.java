@@ -21,7 +21,7 @@ public class Teleop {
     private XboxController controllerOperator = new XboxController(Settings.CONTROLLER_OPERATOR_PORT);
     private Drive driveSubsystem = null;
     private Cartridge cartridgeSubsystem = null;
-    private Intake rollerSubsystem = null;
+    private Intake intakeSubsystem = null;
     private Shooter shooterSubsystem = null;
     private Climb climbSubsystem = null; 
 
@@ -32,10 +32,10 @@ public class Teleop {
     private AlignPID alignPID = null;
     private HoodPID hoodPID = null;
 
-    public Teleop(Drive driveSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, Shooter shooterSubsystem, Climb climbSubsystem, LimeLight limeLight, FlywheelPID flywheelPID, AlignPID alignPID, HoodPID hoodPID) {
+    public Teleop(Drive driveSubsystem, Cartridge cartridgeSubsystem, Intake intakeSubsystem, Shooter shooterSubsystem, Climb climbSubsystem, LimeLight limeLight, FlywheelPID flywheelPID, AlignPID alignPID, HoodPID hoodPID) {
         this.driveSubsystem = driveSubsystem;
         this.cartridgeSubsystem = cartridgeSubsystem;
-        this.rollerSubsystem = rollerSubsystem;
+        this.intakeSubsystem = intakeSubsystem;
         this.shooterSubsystem = shooterSubsystem;
         this.climbSubsystem = climbSubsystem;
         this.flywheelPID = flywheelPID;
@@ -61,7 +61,7 @@ public class Teleop {
     public void teleopPeriodic() {
 
         //cartridgeSubsystem.printUltrasonics();
-        //rollerSubsystem.printUltrasonics();
+        //intakeSubsystem.printUltrasonics();
         //System.out.println(driveSubsystem.getNavX());
         driveSubsystem.printEverything();
         Logging.put("Intake Toggle", disableIntakeSensor);
@@ -159,11 +159,11 @@ public class Teleop {
         }
         
         if (controllerDriver.getTriggerAxis(Hand.kRight) > 0.1) {
-            rollerSubsystem.intakeSet(controllerDriver.getTriggerAxis(Hand.kRight));
+            intakeSubsystem.intakeSet(controllerDriver.getTriggerAxis(Hand.kRight));
         } else if (controllerDriver.getTriggerAxis(Hand.kLeft) > 0.1) {
-            rollerSubsystem.intakeSet(-controllerDriver.getTriggerAxis(Hand.kLeft));
+            intakeSubsystem.intakeSet(-controllerDriver.getTriggerAxis(Hand.kLeft));
         } else {
-            rollerSubsystem.intakeSet(0);
+            intakeSubsystem.intakeSet(0);
         }
 
         Logging.put("RPM", shooterSubsystem.getRPM());
@@ -223,7 +223,7 @@ public class Teleop {
         }
          
         if (!(disableIntakeSensor || controllerOperator.getBumper(Hand.kRight))) {       
-            if (rollerSubsystem.intakeSensor()) {
+            if (intakeSubsystem.intakeSensor()) {
                 cartridgeRun = true;
             }
             Logging.put("Intake Disabled", false);
@@ -276,22 +276,22 @@ public class Teleop {
         shooterSubsystem.shooterHoodSet(hoodSpeed);
         Logging.put("Trigger", trigger);
         // if(Math.abs(controllerOperator.getY(Hand.kRight)) > 0.05 ){
-        //     rollerSubsystem.releaseSet(-controllerOperator.getY(Hand.kRight));
+        //     intakeSubsystem.releaseSet(-controllerOperator.getY(Hand.kRight));
         //     trigger = false;
-        // } else if (rollerSubsystem.intakeLimitTop()) {
+        // } else if (intakeSubsystem.intakeLimitTop()) {
         //     trigger = true;
 
         // } 
         // if(trigger){
-        //     rollerSubsystem.runNeo(0.05);
-        //     rollerSubsystem.stopVictor();
+        //     intakeSubsystem.runNeo(0.05);
+        //     intakeSubsystem.stopVictor();
         // }
-        if (controllerOperator.getY(Hand.kRight) > 0.05 && !rollerSubsystem.intakeLimitTop()) {
-            rollerSubsystem.releaseSet(controllerOperator.getY(Hand.kRight));
-        } else if (controllerOperator.getY(Hand.kRight) < 0.05 && !rollerSubsystem.intakeLimitBottom()){
-            rollerSubsystem.releaseSet(controllerOperator.getY(Hand.kRight));
+        if (controllerOperator.getY(Hand.kRight) > 0.05 && !intakeSubsystem.intakeLimitTop()) {
+            intakeSubsystem.releaseSet(controllerOperator.getY(Hand.kRight));
+        } else if (controllerOperator.getY(Hand.kRight) < 0.05 && !intakeSubsystem.intakeLimitBottom()){
+            intakeSubsystem.releaseSet(controllerOperator.getY(Hand.kRight));
         } else {
-            rollerSubsystem.releaseSet(0);
+            intakeSubsystem.releaseSet(0);
         }
         
        

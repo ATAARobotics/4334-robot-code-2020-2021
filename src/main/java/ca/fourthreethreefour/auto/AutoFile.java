@@ -33,7 +33,7 @@ public class AutoFile {
     private Drive driveSubsystem = null;
     private Shooter shooterSubsystem = null;
     private Cartridge cartridgeSubsystem = null;
-    private Intake rollerSubsystem = null;
+    private Intake intakeSubsystem = null;
     private DrivePID drivePID = null;
     private TurnPID turnPID = null;
     private FlywheelPID flywheelPID = null;
@@ -42,11 +42,11 @@ public class AutoFile {
   
     private Vector<Entry> commands = new Vector<>();
 
-    public AutoFile(Drive driveSubsystem, Shooter shooterSubsystem, Cartridge cartridgeSubsystem, Intake rollerSubsystem, DrivePID drivePID, TurnPID turnPID, FlywheelPID flywheelPID, AlignPID alignPID, HoodPID hoodPID) {
+    public AutoFile(Drive driveSubsystem, Shooter shooterSubsystem, Cartridge cartridgeSubsystem, Intake intakeSubsystem, DrivePID drivePID, TurnPID turnPID, FlywheelPID flywheelPID, AlignPID alignPID, HoodPID hoodPID) {
         this.driveSubsystem = driveSubsystem;
         this.shooterSubsystem = shooterSubsystem;
         this.cartridgeSubsystem = cartridgeSubsystem;
-        this.rollerSubsystem = rollerSubsystem;
+        this.intakeSubsystem = intakeSubsystem;
         this.drivePID = drivePID;
         this.turnPID = turnPID;
         this.flywheelPID = flywheelPID;
@@ -95,7 +95,7 @@ public class AutoFile {
                 return command;
             case "load":
                 timeout = Double.parseDouble(args[0]);
-                command = new Load(cartridgeSubsystem, rollerSubsystem).withTimeout(timeout);
+                command = new Load(cartridgeSubsystem, intakeSubsystem).withTimeout(timeout);
                 return command;
             case "autoalign":
                 timeout = Double.parseDouble(args[0]);

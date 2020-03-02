@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
   private Settings settings = new Settings();
   private Drive driveSubsystem = new Drive();
   private Cartridge cartridgeSubsystem = new Cartridge();
-  private Intake rollerSubsystem = new Intake();
+  private Intake intakeSubsystem = new Intake();
   private LimeLight limeLight = new LimeLight();
   private Shooter shooterSubsystem = new Shooter(limeLight);
   private Climb climbSubsystem = new Climb();
@@ -65,9 +65,9 @@ public class Robot extends TimedRobot {
     flywheelPID = new FlywheelPID(shooterSubsystem);
     alignPID = new AlignPID(limeLight);
     hoodPID = new HoodPID(shooterSubsystem);
-    teleop = new Teleop(driveSubsystem, cartridgeSubsystem, rollerSubsystem, shooterSubsystem, climbSubsystem, 
+    teleop = new Teleop(driveSubsystem, cartridgeSubsystem, intakeSubsystem, shooterSubsystem, climbSubsystem, 
         limeLight, flywheelPID, alignPID, hoodPID);
-    auto = new Auto(driveSubsystem, shooterSubsystem, cartridgeSubsystem, rollerSubsystem, drivePID, turnPID,
+    auto = new Auto(driveSubsystem, shooterSubsystem, cartridgeSubsystem, intakeSubsystem, drivePID, turnPID,
         flywheelPID, alignPID, hoodPID);
   }
 

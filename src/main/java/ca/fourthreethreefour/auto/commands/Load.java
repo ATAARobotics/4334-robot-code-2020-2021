@@ -13,15 +13,15 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Load extends CommandBase {
   private Cartridge cartridgeSubsystem = null;
-  private Intake rollerSubsystem = null;
+  private Intake intakeSubsystem = null;
 
   private boolean cartridgeRun = false;
   /**
    * Creates a new Load.
    */
-  public Load(Cartridge cartridgeSubsystem, Intake rollerSubsystem) {
+  public Load(Cartridge cartridgeSubsystem, Intake intakeSubsystem) {
     this.cartridgeSubsystem = cartridgeSubsystem;
-    this.rollerSubsystem = rollerSubsystem;
+    this.intakeSubsystem = intakeSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -33,9 +33,9 @@ public class Load extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    rollerSubsystem.intakeSet(1);
+    intakeSubsystem.intakeSet(1);
 
-    if (rollerSubsystem.intakeSensor()) {
+    if (intakeSubsystem.intakeSensor()) {
       cartridgeRun = true;
     }
 
@@ -66,7 +66,7 @@ public class Load extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    rollerSubsystem.intakeSet(0);
+    intakeSubsystem.intakeSet(0);
     cartridgeSubsystem.beltSet(0);
     cartridgeSubsystem.indexerSet(0);
   }

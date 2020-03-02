@@ -24,11 +24,11 @@ public class Settings {
     static public int OUTER_BELT_PORT = settingsFile.getIntProperty("OUTER_BELT_PORT", 31);
     static public int INDEXER_PORT = settingsFile.getIntProperty("INDEXER_PORT", 30);
   
-    static public int ROLLER_PORT = settingsFile.getIntProperty("ROLLER_PORT", 33);
-    static public int ROLLER_RELEASE_1_PORT = settingsFile.getIntProperty("ROLLER_RELEASE_1_PORT", 32);
-    static public int ROLLER_RELEASE_2_PORT = settingsFile.getIntProperty("ROLLER_RELEASE_2_PORT", 7);
-    static public int ROLLER_LIMIT_TOP_PORT = settingsFile.getIntProperty("ROLLER_LIMIT_TOP_PORT", 4);
-    static public int ROLLER_LIMIT_BOTTOM_PORT = settingsFile.getIntProperty("ROLLER_LIMIT_BOTTOM_PORT", 5);
+    static public int INTAKE_PORT = settingsFile.getIntProperty("INTAKE_PORT", 33);
+    static public int INTAKE_RELEASE_1_PORT = settingsFile.getIntProperty("INTAKE_RELEASE_1_PORT", 32);
+    static public int INTAKE_RELEASE_2_PORT = settingsFile.getIntProperty("INTAKE_RELEASE_2_PORT", 7);
+    static public int INTAKE_LIMIT_TOP_PORT = settingsFile.getIntProperty("INTAKE_LIMIT_TOP_PORT", 4);
+    static public int INTAKE_LIMIT_BOTTOM_PORT = settingsFile.getIntProperty("INTAKE_LIMIT_BOTTOM_PORT", 5);
 
     static public int FLYWHEEL_1_PORT = settingsFile.getIntProperty("FLYWHEEL_1_PORT", 5);
     static public int FLYWHEEL_2_PORT = settingsFile.getIntProperty("FLYWHEEL_2_PORT", 6);
@@ -58,7 +58,7 @@ public class Settings {
     static public double CARTRIDGE_OUTER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_OUTER_SPEED", 0.4);
     static public double INDEXER_SPEED = settingsFile.getDoubleProperty("INDEXER_SPEED", 0.4);
 
-    static public double ROLLER_SPEED = settingsFile.getDoubleProperty("ROLLER_SPEED", 0.8);
+    static public double INTAKE_SPEED = settingsFile.getDoubleProperty("INTAKE_SPEED", 0.8);
     static public double RELEASE_SPEED = settingsFile.getDoubleProperty("RELEASE_SPEED", 0.5);
     static public double RELEASE_NEO_SPEED = settingsFile.getDoubleProperty("RELEASE_NEO_SPEED", 0.5); 
 
@@ -93,7 +93,7 @@ public class Settings {
         CARTRIDGE_OUTER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_OUTER_SPEED", 0.5);
         INDEXER_SPEED = settingsFile.getDoubleProperty("INDEXER_SPEED", 0.2);
 
-        ROLLER_SPEED = settingsFile.getDoubleProperty("ROLLER_SPEED", 0.8);
+        INTAKE_SPEED = settingsFile.getDoubleProperty("INTAKE_SPEED", 0.8);
         RELEASE_SPEED = settingsFile.getDoubleProperty("RELEASE_SPEED", 0.5);
         RELEASE_NEO_SPEED = settingsFile.getDoubleProperty("RELEASE_NEO_SPEED", 0.5); //hi
 
