@@ -55,7 +55,7 @@ public class Teleop {
     private double hoodSpeed = 0;
     boolean cartridgeRun = false;   
     boolean highGear = false;
-    boolean disableIntakeSensor = false;
+    boolean disableIntakeSensor = true;
     boolean trigger = false;
     int indexerFeed = 0;
     int cartridgeTime = 0;
@@ -325,9 +325,9 @@ public class Teleop {
         //     intakeSubsystem.stopVictor();
         // }
         
-        if (controllerOperator.getY(Hand.kRight) < 0.05 && intakeSubsystem.intakeLimitTop()) {
+        if (controllerOperator.getY(Hand.kRight) < 0.1 && intakeSubsystem.intakeLimitTop()) {
             intakeSubsystem.releaseSet(controllerOperator.getY(Hand.kRight));
-        } else if (controllerOperator.getY(Hand.kRight) > 0.05 && intakeSubsystem.intakeLimitBottom()){
+        } else if (controllerOperator.getY(Hand.kRight) > 0.1 && intakeSubsystem.intakeLimitBottom()){
             intakeSubsystem.releaseSet(controllerOperator.getY(Hand.kRight));
         } else {
             intakeSubsystem.releaseSet(0);
