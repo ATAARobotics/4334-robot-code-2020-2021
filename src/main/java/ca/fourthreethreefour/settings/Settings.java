@@ -70,12 +70,12 @@ public class Settings {
     static public double HOOD_SPEED_UP = settingsFile.getDoubleProperty("HOOD_SPEED_UP", 0.5);
     static public int TICKS_PER_FLYWHEEL_ROTATION = settingsFile.getIntProperty("TICKS_PER_FLYWHEEL_ROTATION", 4096);
 
-    static public double HOOD_PID_FAR_TRENCH = settingsFile.getIntProperty("HOOD_PID_LEFT", 32);
-    static public double HOOD_PID_LINE = settingsFile.getIntProperty("HOOD_PID_RIGHT", 2);
-    static public double HOOD_PID_TOWER = settingsFile.getIntProperty("HOOD_PID_UP", 35);
-    static public double HOOD_PID_CLOSE_TRENCH = settingsFile.getIntProperty("HOOD_PID_DOWN", 28);
+    static public double HOOD_PID_FAR_TRENCH = settingsFile.getIntProperty("HOOD_PID_FAR_TRENCH", 36);
+    static public double HOOD_PID_LINE = settingsFile.getIntProperty("HOOD_PID_LINE", 28);
+    static public double HOOD_PID_TOWER = settingsFile.getIntProperty("HOOD_PID_TOWER", 2);
+    static public double HOOD_PID_CLOSE_TRENCH = settingsFile.getIntProperty("HOOD_PID_CLOSE_TRENCH", 32);
 
-    static public double FLYWHEEL_SPEED_FAR_TRENCH = settingsFile.getIntProperty("FLYWHEEL_SPEED_FAR_TRENCH", 8300);
+    static public double FLYWHEEL_SPEED_FAR_TRENCH = settingsFile.getIntProperty("FLYWHEEL_SPEED_FAR_TRENCH", 7000);
     static public double FLYWHEEL_SPEED_LINE = settingsFile.getIntProperty("FLYWHEEL_SPEED_LINE", 6000);
     static public double FLYWHEEL_SPEED_TOWER = settingsFile.getIntProperty("FLYWHEEL_SPEED_TOWER", 6000);
     static public double FLYWHEEL_SPEED_CLOSE_TRENCH = settingsFile.getIntProperty("FLYWHEEL_SPEED_CLOSE_TRENCH", 6000);
@@ -88,12 +88,12 @@ public class Settings {
 
     public void settingsValueUpdate() {
         LOGGING_ENABLED = settingsFile.getBooleanProperty("LOGGING_ENABLED", false);
-        DRIVE_SPEED = settingsFile.getDoubleProperty("DRIVE_SPEED", 1);
-        TURN_SPEED = settingsFile.getDoubleProperty("TURN_SPEED", 0.85);
+        DRIVE_SPEED = settingsFile.getDoubleProperty("DRIVE_SPEED", 0.7);
+        TURN_SPEED = settingsFile.getDoubleProperty("TURN_SPEED", 0.9);
 
         CARTRIDGE_INNER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_INNER_SPEED", 0.5);
-        CARTRIDGE_OUTER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_OUTER_SPEED", 0.5);
-        INDEXER_SPEED = settingsFile.getDoubleProperty("INDEXER_SPEED", 0.2);
+        CARTRIDGE_OUTER_SPEED = settingsFile.getDoubleProperty("CARTRIDGE_OUTER_SPEED", 0.4);
+        INDEXER_SPEED = settingsFile.getDoubleProperty("INDEXER_SPEED", 0.4);
 
         INTAKE_SPEED = settingsFile.getDoubleProperty("INTAKE_SPEED", 0.8);
         RELEASE_SPEED = settingsFile.getDoubleProperty("RELEASE_SPEED", 0.5);
@@ -102,20 +102,21 @@ public class Settings {
         GONDOLA_SPEED = settingsFile.getDoubleProperty("GONDOLA_SPEED", 1);
         CLIMB_SPEED = settingsFile.getDoubleProperty("CLIMB_SPEED", 0.5);
 
-        FLYWHEEL_SPEED = settingsFile.getDoubleProperty("FLYWHEEL_SPEED", 0.6);
+        FLYWHEEL_SPEED = settingsFile.getDoubleProperty("FLYWHEEL_SPEED", 1);
 
-        HOOD_PID_FAR_TRENCH = settingsFile.getIntProperty("HOOD_PID_FAR_TRENCH", 0);
-        HOOD_PID_LINE = settingsFile.getIntProperty("HOOD_PID_LINE", 0);
-        HOOD_PID_TOWER = settingsFile.getIntProperty("HOOD_PID_TOWER", 0);
-        HOOD_PID_CLOSE_TRENCH = settingsFile.getIntProperty("HOOD_PID_CLOSE_TRENCH", 0);
+        HOOD_PID_FAR_TRENCH = settingsFile.getIntProperty("HOOD_PID_FAR_TRENCH", 36);
+        HOOD_PID_LINE = settingsFile.getIntProperty("HOOD_PID_LINE", 28);
+        HOOD_PID_TOWER = settingsFile.getIntProperty("HOOD_PID_TOWER", 2);
+        HOOD_PID_CLOSE_TRENCH = settingsFile.getIntProperty("HOOD_PID_CLOSE_TRENCH", 32);
+
         HOOD_SPEED_DOWN = settingsFile.getDoubleProperty("HOOD_SPEED_DOWN", 0.5);
         HOOD_SPEED_UP = settingsFile.getDoubleProperty("HOOD_SPEED_UP", 0.5);
 
 
-        FLYWHEEL_SPEED_FAR_TRENCH = settingsFile.getIntProperty("FLYWHEEL_SPEED_FAR_TRENCH", 6000);
+        FLYWHEEL_SPEED_FAR_TRENCH = settingsFile.getIntProperty("FLYWHEEL_SPEED_FAR_TRENCH", 7000);
         FLYWHEEL_SPEED_LINE = settingsFile.getIntProperty("FLYWHEEL_SPEED_LINE", 6000);
         FLYWHEEL_SPEED_TOWER = settingsFile.getIntProperty("FLYWHEEL_SPEED_TOWER", 6000);
-        FLYWHEEL_SPEED_CLOSE_TRENCH = settingsFile.getIntProperty("FLYWHEEL_SPEED_CLOSE_TRENCH", 5000);
+        FLYWHEEL_SPEED_CLOSE_TRENCH = settingsFile.getIntProperty("FLYWHEEL_SPEED_CLOSE_TRENCH", 6000);
 
         LIMELIGHT_ANGLE_FROM_FLAT = settingsFile.getDoubleProperty("LIMELIGHT_ANGLE_FROM_FLAT", 0);
         LIMELIGHT_DISTANCE_FROM_GROUND = settingsFile.getDoubleProperty("LIMELIGHT_DISTANCE_FROM_GROUND", 0);
