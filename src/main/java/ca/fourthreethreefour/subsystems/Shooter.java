@@ -44,6 +44,8 @@ public class Shooter implements Subsystem {
     flywheel1.setInverted(false);
     flywheel2.setInverted(false);
 
+    shooterHood.setInverted(true);
+
   }
   // Put methods for controlling this subsystem
   // here. Call these from Commands.

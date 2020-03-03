@@ -33,10 +33,11 @@ public class Auto {
     }
 
     public void autoInit() {
+        System.out.println("AUTO PATH SELECTED: " + selectedAuto.getSelected().toString());
         try {
             autoFile.init(selectedAuto.getSelected());
         } catch (Exception e) {
-            DriverStation.reportWarning("no auto file detected!", false);
+            DriverStation.reportWarning("No auto file detected!", false);
         }
     }
 

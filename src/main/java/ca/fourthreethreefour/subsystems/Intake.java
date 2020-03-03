@@ -52,7 +52,7 @@ public class Intake implements Subsystem {
   boolean hasSeen = false;
   int startLoop = 0;
   public boolean intakeSensor() {
-    if ((lasersharkIntake.getDistanceInches() <= 4 && lasersharkIntake.getDistanceInches() > 0) || hasSeen) {
+    if ((lasersharkIntake.getDistanceInches() <= 3.5 && lasersharkIntake.getDistanceInches() > 0) || hasSeen) {
       hasSeen = true;
       if (startLoop <= 2){
         startLoop++;

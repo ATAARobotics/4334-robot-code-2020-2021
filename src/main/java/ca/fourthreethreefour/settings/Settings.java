@@ -66,7 +66,8 @@ public class Settings {
     static public double CLIMB_SPEED = settingsFile.getDoubleProperty("CLIMB_SPEED", 0.5);
 
     static public double FLYWHEEL_SPEED = settingsFile.getDoubleProperty("FLYWHEEL_SPEED", 1);
-    static public double HOOD_SPEED = settingsFile.getDoubleProperty("HOOD_SPEED", 0.5);
+    static public double HOOD_SPEED_DOWN = settingsFile.getDoubleProperty("HOOD_SPEED_DOWN", 0.5);
+    static public double HOOD_SPEED_UP = settingsFile.getDoubleProperty("HOOD_SPEED_UP", 0.5);
     static public int TICKS_PER_FLYWHEEL_ROTATION = settingsFile.getIntProperty("TICKS_PER_FLYWHEEL_ROTATION", 4096);
 
     static public double HOOD_PID_FAR_TRENCH = settingsFile.getIntProperty("HOOD_PID_LEFT", 32);
@@ -107,7 +108,9 @@ public class Settings {
         HOOD_PID_LINE = settingsFile.getIntProperty("HOOD_PID_LINE", 0);
         HOOD_PID_TOWER = settingsFile.getIntProperty("HOOD_PID_TOWER", 0);
         HOOD_PID_CLOSE_TRENCH = settingsFile.getIntProperty("HOOD_PID_CLOSE_TRENCH", 0);
-        HOOD_SPEED = settingsFile.getDoubleProperty("HOOD_SPEED", 0.5);
+        HOOD_SPEED_DOWN = settingsFile.getDoubleProperty("HOOD_SPEED_DOWN", 0.5);
+        HOOD_SPEED_UP = settingsFile.getDoubleProperty("HOOD_SPEED_UP", 0.5);
+
 
         FLYWHEEL_SPEED_FAR_TRENCH = settingsFile.getIntProperty("FLYWHEEL_SPEED_FAR_TRENCH", 6000);
         FLYWHEEL_SPEED_LINE = settingsFile.getIntProperty("FLYWHEEL_SPEED_LINE", 6000);

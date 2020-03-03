@@ -27,11 +27,11 @@ public class FlywheelPID extends PIDSubsystem {
 
 
   public FlywheelPID(Shooter shooterSubsystem) {
-    super(new PIDController(0.0045, 0, 0.0005));
+    super(new PIDController(0.0045, 0, 0.0005)); //0.0045, 0, 0.0005
     
     this.shooterSubsystem = shooterSubsystem;
     getController().setTolerance(200);
-    feedforward = new SimpleMotorFeedforward(0.00, 0.00012);
+    feedforward = new SimpleMotorFeedforward(0.00, 0.00012); //0.00, 0.00012
   }
 
   @Override

@@ -16,6 +16,7 @@ public class Shoot extends CommandBase {
   Shooter shooterSubsystem = null;
   Cartridge cartridgeSubsystem = null;
   FlywheelPID flywheelPID = null;
+  int shootFeed = 0;
 
   /**
    * Creates a new Shoot.
@@ -40,10 +41,22 @@ public class Shoot extends CommandBase {
 
     if (flywheelPID.getController().atSetpoint()) {
       cartridgeSubsystem.indexerSet(1);
-      if (!cartridgeSubsystem.indexerSensor()) {
+      if (!cartridgeSubsystem.indexerSensor()){
         cartridgeSubsystem.beltSet(1);
+        shootFeed = 0;
+      } else if (shootFeed < 3){
+        shootFeed++;
+        cartridgeSubsystem.beltSet(0.5);
+      } 
+    } else {
+        if (!cartridgeSubsystem.indexerSensor()) {
+            cartridgeSubsystem.beltSet(1);
+            cartridgeSubsystem.indexerSet(-1);
+        } else {
+            cartridgeSubsystem.beltSet(0);
+            cartridgeSubsystem.indexerSet(0);
+        }
       }
-    }
   }
 
   // Called once the command ends or is interrupted.
