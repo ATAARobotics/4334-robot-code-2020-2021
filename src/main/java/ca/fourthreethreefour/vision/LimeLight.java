@@ -28,7 +28,7 @@ public class LimeLight {
     private double TARGET_DEFAULT_HEIGHT = Settings.TARGET_DEFAULT_HEIGHT;
 
     public LimeLight(){
-        table = NetworkTableInstance.getDefault().getTable("limelight");
+        table = NetworkTableInstance.getDefault().getTable("limelight-ata");
         tv = table.getEntry("tv");
         tx = table.getEntry("tx");
         ty = table.getEntry("ty");

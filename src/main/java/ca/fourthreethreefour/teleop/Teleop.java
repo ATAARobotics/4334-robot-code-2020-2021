@@ -2,19 +2,14 @@ package ca.fourthreethreefour.teleop;
 
 import ca.fourthreethreefour.logging.Logging;
 import ca.fourthreethreefour.settings.Settings;
-import ca.fourthreethreefour.subsystems.Cartridge;
-import ca.fourthreethreefour.subsystems.Climb;
-import ca.fourthreethreefour.subsystems.Drive;
-import ca.fourthreethreefour.subsystems.Intake;
-import ca.fourthreethreefour.subsystems.Shooter;
+import ca.fourthreethreefour.subsystems.*;
 import ca.fourthreethreefour.subsystems.pid.AlignPID;
 import ca.fourthreethreefour.subsystems.pid.FlywheelPID;
 import ca.fourthreethreefour.subsystems.pid.HoodPID;
 import ca.fourthreethreefour.vision.LimeLight;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj.XboxController;
 
 public class Teleop {
     private XboxController controllerDriver = new XboxController(Settings.CONTROLLER_DRIVER_PORT);
@@ -89,15 +84,23 @@ public class Teleop {
             } else if (controllerDriver.getXButton()) {
                 if (!alignPID.isEnabled()) {
                     limeLight.ledOn();
-                    alignPID.enable();
-                    alignPID.getController().setTolerance(2);
+                    alignPID.getController().setTolerance(5);
                     alignPID.setSetpoint(0);
+                    alignPID.enable();
                 }
-                turn = alignPID.getRotateSpeed();
+                if(alignPID.isEnabled() && alignPID.getController().atSetpoint() && limeLight.getTx() != 0){
+                    turn = 0;
+                    //controllerDriver.setRumble(GenericHID.RumbleType.kRightRumble, 0.5);
+                    //controllerDriver.setRumble(GenericHID.RumbleType.kLeftRumble, 0.5);
+                } else {
+                    turn = alignPID.getRotateSpeed();
+                }
             } else {
                 if (alignPID.isEnabled()) {
                     limeLight.ledOff();
                     alignPID.disable();
+                    controllerDriver.setRumble(GenericHID.RumbleType.kRightRumble, 0);
+                    controllerDriver.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
                 }
                 turn = previousTurn * 0.9;
                 previousTurn = turn;
