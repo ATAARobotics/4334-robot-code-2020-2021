@@ -9,6 +9,7 @@ import ca.fourthreethreefour.subsystems.pid.HoodPID;
 import ca.fourthreethreefour.vision.LimeLight;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.XboxController;
 
 public class Teleop {
@@ -55,13 +56,13 @@ public class Teleop {
     int indexerFeed = 0;
     int cartridgeTime = 0;
     int shootFeed = 0;
+    boolean shootAutoFeed = true;
     
     public void teleopPeriodic() {
 
         //System.out.println(driveSubsystem.getNavX());
-        driveSubsystem.printEverything();
+        // driveSubsystem.printEverything();
         Logging.put("Intake Toggle", disableIntakeSensor);
-        Logging.put("Hood Position", shooterSubsystem.getEncoder());
         Logging.put("Intake Limit", intakeSubsystem.intakeLimitBottom());
     
         double speed;
@@ -135,7 +136,9 @@ public class Teleop {
             } else if (controllerOperator.getAButton() == true) { 
                 cartridgeSubsystem.indexerSet(-1);
             } 
+            shootAutoFeed = false;
         } else {
+            shootAutoFeed = true;
             if (cartridgeRun) {
                 if (cartridgeSubsystem.indexerSensor()) {
                     if( indexerFeed < 5) {
@@ -191,40 +194,41 @@ public class Teleop {
             intakeSubsystem.intakeSet(0);
         }
 
-        Logging.put("RPM", shooterSubsystem.getRPM());
+        SmartDashboard.putNumber("RPM", shooterSubsystem.getRPM());
         Logging.put("RPM_VALUE", shooterSubsystem.getRPM());
 
-        if (controllerDriver.getBButton()) {
+        if (controllerOperator.getXButton()) {
             shooterSubsystem.flywheelSet(1 * Settings.FLYWHEEL_SPEED);
-        } else if (controllerDriver.getYButton()) {
+        } else if (controllerOperator.getYButton()) {
             if (!flywheelPID.isEnabled()) {
                 flywheelPID.enable();
             }
             shooterSubsystem.flywheelSet(flywheelPID.getSpeed());
-            if (flywheelPID.getController().atSetpoint()) {
-                cartridgeSubsystem.indexerSet(1);
-                if (!cartridgeSubsystem.indexerSensor()){
-                    cartridgeSubsystem.beltSet(1);
-                    shootFeed = 0;
-                } else if (shootFeed < 3){
-                    shootFeed++;
-                    cartridgeSubsystem.beltSet(0.5);
-                }
-            } else {
-                if (!cartridgeSubsystem.indexerSensor()) {
-                    cartridgeSubsystem.beltSet(1);
-                    cartridgeSubsystem.indexerSet(-1);
-                    indexerFeed = 0;
+            if (shootAutoFeed) {
+                if (flywheelPID.getController().atSetpoint()) {
+                    cartridgeSubsystem.indexerSet(1);
+                    if (!cartridgeSubsystem.indexerSensor()){
+                        cartridgeSubsystem.beltSet(1);
+                        shootFeed = 0;
+                    } else if (shootFeed < 3){
+                        shootFeed++;
+                        cartridgeSubsystem.beltSet(0.5);
+                    }
                 } else {
-                    cartridgeSubsystem.beltSet(0);
-                    if( indexerFeed < 2) {
-                        cartridgeSubsystem.indexerSet(0.75);
-                        indexerFeed++;
+                    if (!cartridgeSubsystem.indexerSensor()) {
+                        cartridgeSubsystem.beltSet(1);
+                        cartridgeSubsystem.indexerSet(-1);
+                        indexerFeed = 0;
                     } else {
-                        cartridgeSubsystem.indexerSet(0);
+                        cartridgeSubsystem.beltSet(0);
+                        if( indexerFeed < 2) {
+                            cartridgeSubsystem.indexerSet(0.75);
+                            indexerFeed++;
+                        } else {
+                            cartridgeSubsystem.indexerSet(0);
+                        }
                     }
                 }
-                
             }
         } else {
             if (flywheelPID.isEnabled()) {
@@ -247,13 +251,13 @@ public class Teleop {
             climbSubsystem.releaseSet(0);
         }
         // TODO: Make sure this changes
-        if (controllerOperator.getStartButtonPressed()) {
-             cartridgeRun = true;
-        }
+        // if (controllerOperator.getStartButtonPressed()) {
+            //  cartridgeRun = true;
+        // }
         if (controllerOperator.getBackButtonPressed()) {
              cartridgeRun = false;
         }
-        if (controllerOperator.getXButtonPressed()) {
+        if (controllerOperator.getStartButtonPressed()) {
             disableIntakeSensor = !disableIntakeSensor;
         }
          
@@ -261,12 +265,12 @@ public class Teleop {
             if (intakeSubsystem.intakeSensor()) {
                 cartridgeRun = true;
             }
-            Logging.put("Intake Disabled", false);
+            SmartDashboard.putBoolean("Intake Disabled", false);
         } else {
             if(!disableIntakeSensor) { // if they want to see when its disable when bumper overides the auto, delete this
-                Logging.put("Intake Disabled", false);
-            }else {
-            Logging.put("Intake Disabled", true);
+                SmartDashboard.putBoolean("Intake Disabled", false);
+            } else {
+                SmartDashboard.putBoolean("Intake Disabled", true);
             }
                 cartridgeRun = false;
         }
@@ -285,30 +289,34 @@ public class Teleop {
             hoodSpeed = 0;
         }
 
-        Logging.put("Flywheel Setpoint", flywheelPID.getController().getSetpoint());
+        SmartDashboard.putNumber("Flywheel Setpoint", flywheelPID.getController().getSetpoint());
+        Logging.put("Hood Setpoint", hoodPID.getController().getSetpoint());
+        Logging.put("Hood Value", shooterSubsystem.getEncoder());
+        Logging.put("Potentiometer", shooterSubsystem.getPotentiometer());
 
         if (controllerDriver.getPOV() == 0) {
             hoodPID.setSetpoint(Settings.HOOD_PID_TOWER);
             flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_TOWER);
-            // hoodPID.enable();
+            hoodPID.enable();
         } else if (controllerDriver.getPOV() == 90) {
             hoodPID.setSetpoint(Settings.HOOD_PID_LINE);
             flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_LINE);
-            // hoodPID.enable();
+            hoodPID.enable();
         } else if (controllerDriver.getPOV() == 180) {
             hoodPID.setSetpoint(Settings.HOOD_PID_CLOSE_TRENCH);
             flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_CLOSE_TRENCH);
-            //hoodPID.enable();
+            hoodPID.enable();
         } else if (controllerDriver.getPOV() == 270) {
             hoodPID.setSetpoint(Settings.HOOD_PID_FAR_TRENCH);
             flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_FAR_TRENCH);
-            // hoodPID.enable();
+            hoodPID.enable();
         } else if (controllerDriver.getAButtonPressed()) {
             // hoodPID.setSetpoint(shooterSubsystem.getAngleToShoot()); //TODO: add automated distance calculations 
             // hoodPID.enable(); 
             
-        } else if (hoodPID.isEnabled() && hoodPID.isDone()) {
-            hoodPID.disable();
+        // } else if (hoodPID.isEnabled() && hoodPID.isDone()) {
+        //     hoodPID.disable();
+        // }
         }
 
         if (hoodPID.isEnabled()) {
@@ -328,13 +336,25 @@ public class Teleop {
         //     intakeSubsystem.stopVictor();
         // }
         
-        if (controllerOperator.getY(Hand.kRight) < 0.1 && intakeSubsystem.intakeLimitTop()) {
-            intakeSubsystem.releaseSet(controllerOperator.getY(Hand.kRight));
-        } else if (controllerOperator.getY(Hand.kRight) > 0.1 && intakeSubsystem.intakeLimitBottom()){
-            intakeSubsystem.releaseSet(controllerOperator.getY(Hand.kRight));
-        } else {
-            intakeSubsystem.releaseSet(0);
+        
+        double intakeSpeed = controllerOperator.getY(Hand.kRight);
+
+        if (Math.abs(controllerOperator.getY(Hand.kRight)) < 0.15) {
+            intakeSpeed = 0;
         }
+
+        Logging.log(""+controllerOperator.getY(Hand.kRight));
+        if (intakeSpeed < 0) {
+            if (!intakeSubsystem.intakeLimitTop()) {
+                intakeSpeed = 0;
+            }
+        } else if (intakeSpeed > 0) {
+            if (!intakeSubsystem.intakeLimitBottom()) {
+                intakeSpeed = 0;
+            }
+        }
+
+        intakeSubsystem.releaseSet(intakeSpeed);
         
        
 

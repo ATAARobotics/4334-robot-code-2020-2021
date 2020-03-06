@@ -2,6 +2,7 @@ package ca.fourthreethreefour.logging;
 
 import java.io.FileWriter;
 
+import ca.fourthreethreefour.settings.Settings;
 import ca.fourthreethreefour.subsystems.Drive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -25,34 +26,34 @@ public class Logging {
     }
 
     public static void put(String key, double value) {
-        if (true) {
+        if (Settings.LOGGING_ENABLED) {
             // key.setDouble(value);
             SmartDashboard.putNumber(key, value);
         }
     }
     
     public static void put(String key, String value) {
-        if (true) {
+        if (Settings.LOGGING_ENABLED) {
             // key.setString(value);
             SmartDashboard.putString(key, value);
         }
     }
     
     public static void put(String key, boolean value) {
-        if (true) {
+        if (Settings.LOGGING_ENABLED) {
             // key.setBoolean(value);
             SmartDashboard.putBoolean(key, value);
         }
     }
 
     public static void log(String str) {
-        if (true) {
+        if (Settings.LOGGING_ENABLED) {
             System.out.println(str);
         }
     }
     
     public static void logf(String format, Object... args) {
-        if (true) {
+        if (Settings.LOGGING_ENABLED) {
             System.out.printf(format + "\n", args);
         }
     }

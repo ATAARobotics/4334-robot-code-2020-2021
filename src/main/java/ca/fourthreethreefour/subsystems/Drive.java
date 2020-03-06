@@ -64,8 +64,6 @@ public class Drive implements Subsystem {
     
     leftEncoder = new CANCoder(Settings.LEFT_ENCODER_PORT);
     rightEncoder = new CANCoder(Settings.RIGHT_ENCODER_PORT);
-
-    
   }
 
   public void teleopInit() {
@@ -82,7 +80,7 @@ public class Drive implements Subsystem {
   }
 
   public double getNavX() {
-    return navX.getPitch(); //getPitch is returning with value 0.0
+    return -navX.getAngle(); //getPitch is returning with value 0.0
   } 
 
   public void printEverything() {
@@ -93,11 +91,11 @@ public class Drive implements Subsystem {
   }
 
   public double getLeftEncoder() {
-    return leftEncoder.getPosition();
+    return leftEncoder.getPosition() / 4096 * 25;
   }
 
   public double getRightEncoder() {
-    return rightEncoder.getPosition();    
+    return rightEncoder.getPosition() / 4096 * 25;    
   }
 
   public double getLeftVelocity() {

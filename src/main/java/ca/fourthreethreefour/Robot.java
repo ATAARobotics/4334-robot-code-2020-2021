@@ -73,6 +73,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
+    Logging.put("Left Encoder", driveSubsystem.getLeftEncoder());
+    Logging.put("Right Encoder", driveSubsystem.getRightEncoder());
+    Logging.put("Encoder Total", driveSubsystem.getEncoder());
+    Logging.put("NavX Angle", driveSubsystem.getNavX());
+    SmartDashboard.putNumber("Hood Angle", shooterSubsystem.getEncoder());
     intakeSubsystem.printUltrasonics();
     cartridgeSubsystem.printUltrasonics();
   }
@@ -105,13 +110,25 @@ public class Robot extends TimedRobot {
     teleop.teleopPeriodic();
     CommandScheduler.getInstance().run();
   }
+  double angle;
 
   @Override
   public void testInit() {
+    angle = shooterSubsystem.getEncoder();
   }
 
+  double speed = 0;
   @Override
   public void testPeriodic() {
+    if (angle - shooterSubsystem.getEncoder() > 0.5) {
+      shooterSubsystem.shooterHoodSet(speed);
+      speed += 0.001;
+    }
+    Logging.put("Hood static", speed);
+    Logging.log(""+speed);
+
+
+    
   }
 
   @Override

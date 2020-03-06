@@ -36,6 +36,9 @@ public class Settings {
     static public int FLYWHEEL_ENCODER_PORT = settingsFile.getIntProperty("FLYWHEEL_ENCODER_PORT", 22); 
     static public int SHOOTER_HOOD_PORT = settingsFile.getIntProperty("SHOOTER_HOOD_PORT", 34);
     static public int HOOD_ENCODER_PORT = settingsFile.getIntProperty("HOOD_ENCODER_PORT", 23);
+    static public int POTENTIOMETER_ENCODER_PORT = settingsFile.getIntProperty("POTENTIOMETER_ENCODER_PORT", 0);
+    static public double HOOD_ENCODER_SCALE = settingsFile.getDoubleProperty("HOOD_ENCODER_SCALE", 110);
+    static public double HOOD_ENCODER_OFFSET = settingsFile.getDoubleProperty("HOOD_ENCODER_OFFSET", -39.5);
 
     static public int LINESHARK_START_PORT = settingsFile.getIntProperty("LINESHARK_START_PORT", 2);
     static public int LINESHARK_END_PORT = settingsFile.getIntProperty("LINESHARK_END_PORT", 1);

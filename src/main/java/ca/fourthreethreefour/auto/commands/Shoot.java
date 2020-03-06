@@ -16,21 +16,25 @@ public class Shoot extends CommandBase {
   Shooter shooterSubsystem = null;
   Cartridge cartridgeSubsystem = null;
   FlywheelPID flywheelPID = null;
+  double RPM;
   int shootFeed = 0;
+  int indexerFeed = 0;
 
   /**
    * Creates a new Shoot.
    */
-  public Shoot(Shooter shooterSubsystem, Cartridge cartridgeSubsystem, FlywheelPID flywheelPID) {
+  public Shoot(Shooter shooterSubsystem, Cartridge cartridgeSubsystem, FlywheelPID flywheelPID, double RPM) {
     this.shooterSubsystem = shooterSubsystem;
     this.cartridgeSubsystem = cartridgeSubsystem;
     this.flywheelPID = flywheelPID;
+    this.RPM = RPM;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    flywheelPID.setSetpoint(RPM);
     flywheelPID.enable();
   }
 
@@ -49,12 +53,18 @@ public class Shoot extends CommandBase {
         cartridgeSubsystem.beltSet(0.5);
       } 
     } else {
-        if (!cartridgeSubsystem.indexerSensor()) {
-            cartridgeSubsystem.beltSet(1);
-            cartridgeSubsystem.indexerSet(-1);
+      if (!cartridgeSubsystem.indexerSensor()) {
+        cartridgeSubsystem.beltSet(1);
+        cartridgeSubsystem.indexerSet(-1);
+        indexerFeed = 0;
         } else {
-            cartridgeSubsystem.beltSet(0);
+          cartridgeSubsystem.beltSet(0);
+          if( indexerFeed < 2) {
+            cartridgeSubsystem.indexerSet(0.75);
+            indexerFeed++;
+          } else {
             cartridgeSubsystem.indexerSet(0);
+          }
         }
       }
   }

@@ -24,9 +24,9 @@ public class HoodPID extends PIDSubsystem {
   public HoodPID(Shooter shooterSubsystem) {
     super(
         // The PIDController used by the subsystem
-        new PIDController(0.04, 0, 0));
+        new PIDController(-0.02, 0, 0));
     this.shooterSubsystem = shooterSubsystem;
-    getController().setTolerance(1);
+    getController().setTolerance(0.5);
   }
 
   @Override

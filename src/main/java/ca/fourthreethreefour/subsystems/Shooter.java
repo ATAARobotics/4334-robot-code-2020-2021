@@ -15,6 +15,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import ca.fourthreethreefour.settings.Settings;
 import ca.fourthreethreefour.vision.LimeLight;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
@@ -32,6 +33,7 @@ public class Shooter implements Subsystem {
   private CANCoder hoodEncoder = null;
   private LimeLight limeLight = null;
   private WPI_VictorSPX shooterHood = null;
+  private AnalogPotentiometer potentiometerEncoder = null;
 
   public Shooter(LimeLight limeLight) {
     flywheel1 = new CANSparkMax(Settings.FLYWHEEL_1_PORT, MotorType.kBrushless);
@@ -40,6 +42,7 @@ public class Shooter implements Subsystem {
     hoodEncoder = new CANCoder(Settings.HOOD_ENCODER_PORT);
     this.limeLight = limeLight;
     shooterHood = new WPI_VictorSPX(Settings.SHOOTER_HOOD_PORT);
+    potentiometerEncoder = new AnalogPotentiometer(Settings.POTENTIOMETER_ENCODER_PORT, Settings.HOOD_ENCODER_SCALE, Settings.HOOD_ENCODER_OFFSET);
 
     flywheel1.setInverted(false);
     flywheel2.setInverted(false);
@@ -59,6 +62,10 @@ public class Shooter implements Subsystem {
     double RPM = TPM / Settings.TICKS_PER_FLYWHEEL_ROTATION;
 
     return RPM;
+  }
+
+  public double getPotentiometer() {
+    return potentiometerEncoder.get();
   }
   
   public void shooterHoodSet(double speed) {

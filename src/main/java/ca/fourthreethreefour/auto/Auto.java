@@ -29,6 +29,7 @@ public class Auto {
         ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
         selectedAuto.setDefaultOption("Move off line", new File("/FILES/auto_moveoffline.txt"));
         selectedAuto.addOption("Test", new File("/FILES/auto_test.txt"));
+        selectedAuto.addOption("Shoot on the line", new File("/FILES/auto_shootonline.txt"));
         autoTab.add("Auto Selector", selectedAuto).withWidget(BuiltInWidgets.kComboBoxChooser);
     }
 
@@ -38,6 +39,11 @@ public class Auto {
             autoFile.init(selectedAuto.getSelected());
         } catch (Exception e) {
             DriverStation.reportWarning("No auto file detected!", false);
+            try {
+                autoFile.init(new File("/FILES/auto_moveoffline.txt"));
+            } catch (Exception f) {
+                DriverStation.reportError("OOPSY, YOUVE DONE A FUCKY WUCKY", true);
+            }
         }
     }
 

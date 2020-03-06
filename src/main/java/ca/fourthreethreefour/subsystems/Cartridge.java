@@ -13,6 +13,7 @@ import com.cuforge.libcu.Lasershark;
 
 import ca.fourthreethreefour.logging.Logging;
 import ca.fourthreethreefour.settings.Settings;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 /**
@@ -59,9 +60,9 @@ public class Cartridge implements Subsystem {
   }
 
   public void printUltrasonics() {
-    Logging.put("Start Sensor", lasersharkStart.getDistanceInches());
-    Logging.put("End Sensor", lasersharkEnd.getDistanceInches());
-    Logging.put("Indexer Sensor", lasersharkIndexer.getDistanceInches());
+    SmartDashboard.putNumber("Start Sensor", lasersharkStart.getDistanceInches());
+    SmartDashboard.putNumber("End Sensor", lasersharkEnd.getDistanceInches());
+    SmartDashboard.putNumber("Indexer Sensor", lasersharkIndexer.getDistanceInches());
   }
   
   int startLoop = 0;
