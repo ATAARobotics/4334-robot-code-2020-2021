@@ -40,6 +40,7 @@ public class Teleop {
         this.limeLight = limeLight;
     }
     public void teleopInit() {
+        limeLight.ledOff();
         driveSubsystem.teleopInit();
         driveSubsystem.reset();
         flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_LINE);
@@ -317,6 +318,10 @@ public class Teleop {
         // } else if (hoodPID.isEnabled() && hoodPID.isDone()) {
         //     hoodPID.disable();
         // }
+        } else if (controllerDriver.getBumperPressed(Hand.kLeft)) {
+            flywheelPID.setSetpoint((flywheelPID.getSpeed() - 250));
+        } else if (controllerDriver.getBumperPressed(Hand.kRight)) {
+            flywheelPID.setSetpoint((flywheelPID.getSpeed() + 250));
         }
 
         if (hoodPID.isEnabled()) {
