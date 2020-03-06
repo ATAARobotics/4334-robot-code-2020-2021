@@ -311,6 +311,12 @@ public class Teleop {
             hoodPID.setSetpoint(Settings.HOOD_PID_FAR_TRENCH);
             flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_FAR_TRENCH);
             hoodPID.enable();
+        } else if (controllerOperator.getPOV() == 0) {
+            hoodPID.setSetpoint(hoodPID.getController().getSetpoint() + 2 < 55 ? hoodPID.getController().getSetpoint() + 2 : hoodPID.getController().getSetpoint());
+            hoodPID.enable();
+        } else if (controllerOperator.getPOV() == 180) {
+            hoodPID.setSetpoint(hoodPID.getController().getSetpoint() - 2 > 2 ? hoodPID.getController().getSetpoint() - 2 : hoodPID.getController().getSetpoint());
+            hoodPID.enable();
         } else if (controllerDriver.getAButtonPressed()) {
             // hoodPID.setSetpoint(shooterSubsystem.getAngleToShoot()); //TODO: add automated distance calculations 
             // hoodPID.enable(); 
