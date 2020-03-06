@@ -315,7 +315,7 @@ public class Teleop {
             hoodPID.setSetpoint(hoodPID.getController().getSetpoint() + 2 < 55 ? hoodPID.getController().getSetpoint() + 2 : hoodPID.getController().getSetpoint());
             hoodPID.enable();
         } else if (controllerOperator.getPOV() == 180) {
-            hoodPID.setSetpoint(hoodPID.getController().getSetpoint() - 2 > 2 ? hoodPID.getController().getSetpoint() - 2 : hoodPID.getController().getSetpoint());
+            hoodPID.setSetpoint(hoodPID.getController().getSetpoint() - 2 > 1.9 ? hoodPID.getController().getSetpoint() - 2 : hoodPID.getController().getSetpoint());
             hoodPID.enable();
         } else if (controllerDriver.getAButtonPressed()) {
             // hoodPID.setSetpoint(shooterSubsystem.getAngleToShoot()); //TODO: add automated distance calculations 
@@ -325,9 +325,9 @@ public class Teleop {
         //     hoodPID.disable();
         // }
         } else if (controllerDriver.getBumperPressed(Hand.kLeft)) {
-            flywheelPID.setSetpoint((flywheelPID.getSpeed() - 250));
+            flywheelPID.setSetpoint((flywheelPID.getController().getSetpoint() - 250 > 249 ? flywheelPID.getController().getSetpoint() - 250 : flywheelPID.getController().getSetpoint()));
         } else if (controllerDriver.getBumperPressed(Hand.kRight)) {
-            flywheelPID.setSetpoint((flywheelPID.getSpeed() + 250));
+            flywheelPID.setSetpoint((flywheelPID.getController().getSetpoint() + 250 < 6726 ? flywheelPID.getController().getSetpoint() + 250 : flywheelPID.getController().getSetpoint()));
         }
 
         if (hoodPID.isEnabled()) {
