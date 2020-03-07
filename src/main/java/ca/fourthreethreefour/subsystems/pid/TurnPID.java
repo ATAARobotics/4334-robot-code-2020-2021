@@ -19,7 +19,7 @@ public class TurnPID extends PIDSubsystem {
    * Creates a new TurnPID.
    */
   public TurnPID(Drive driveSubsystem) {
-    super(new PIDController(0, 0, 0)); //TODO: Update PID values
+    super(new PIDController(0.02, 0, 0.001)); //TODO: Update PID values
     this.driveSubsystem = driveSubsystem;
   }
 

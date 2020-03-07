@@ -10,6 +10,7 @@ import java.util.Vector;
 import ca.fourthreethreefour.auto.commands.Aim;
 import ca.fourthreethreefour.auto.commands.AutoAim;
 import ca.fourthreethreefour.auto.commands.AutoAlign;
+import ca.fourthreethreefour.auto.commands.Crazy;
 import ca.fourthreethreefour.auto.commands.DriveBlind;
 import ca.fourthreethreefour.auto.commands.DriveStraight;
 import ca.fourthreethreefour.auto.commands.IntakeMove;
@@ -93,8 +94,9 @@ public class AutoFile {
                 command = new Stop(driveSubsystem, drivePID, turnPID);
                 return command;
             case "shoot":
-                timeout = Double.parseDouble(args[0]);
-                command = new Shoot(shooterSubsystem, cartridgeSubsystem, flywheelPID).withTimeout(timeout);
+                double RPM = Double.parseDouble(args[0]);
+                timeout = Double.parseDouble(args[1]);
+                command = new Shoot(shooterSubsystem, cartridgeSubsystem, flywheelPID, RPM).withTimeout(timeout);
                 return command;
             case "load":
                 timeout = Double.parseDouble(args[0]);
@@ -117,6 +119,11 @@ public class AutoFile {
                 String direction = args[0];
                 timeout = Double.parseDouble(args[1]);
                 command = new IntakeMove(intakeSubsystem, direction);
+                return command;
+            case "crazy": 
+                double aRPM = Double.parseDouble(args[0]);
+                timeout = Double.parseDouble(args[1]);
+                command = new Crazy(shooterSubsystem, cartridgeSubsystem, flywheelPID, aRPM, intakeSubsystem);
                 return command;
             default:
                 throw new Error(key + " is not a valid command!");

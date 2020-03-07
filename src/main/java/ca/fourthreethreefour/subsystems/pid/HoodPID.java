@@ -16,6 +16,7 @@ import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class HoodPID extends PIDSubsystem {
   private Shooter shooterSubsystem = null;
+  private SimpleMotorFeedforward hoodFeedforward = null;
 
   private double speed;
   /**
@@ -24,16 +25,17 @@ public class HoodPID extends PIDSubsystem {
   public HoodPID(Shooter shooterSubsystem) {
     super(
         // The PIDController used by the subsystem
-        new PIDController(0.04, 0, 0));
+        new PIDController(-0.02, 0, 0));
     this.shooterSubsystem = shooterSubsystem;
-    getController().setTolerance(1);
+    getController().setTolerance(0.5);
+    hoodFeedforward = new SimpleMotorFeedforward(0.12, 0);
   }
 
   @Override
   public void useOutput(double output, double setpoint) {
     MathUtil.clamp(output, -0.6, 0.6);
     Logging.put("Hood Output", output);
-    speed = output;
+    speed = output + hoodFeedforward.calculate(setpoint);
     // Use the output here
   }
 

@@ -8,14 +8,16 @@
 package ca.fourthreethreefour.auto.commands;
 
 import ca.fourthreethreefour.subsystems.Cartridge;
+import ca.fourthreethreefour.subsystems.Intake;
 import ca.fourthreethreefour.subsystems.Shooter;
 import ca.fourthreethreefour.subsystems.pid.FlywheelPID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class Shoot extends CommandBase {
+public class Crazy extends CommandBase {
   Shooter shooterSubsystem = null;
   Cartridge cartridgeSubsystem = null;
   FlywheelPID flywheelPID = null;
+  Intake intakeSubsystem = null;
   double RPM;
   int shootFeed = 0;
   int indexerFeed = 0;
@@ -23,11 +25,12 @@ public class Shoot extends CommandBase {
   /**
    * Creates a new Shoot.
    */
-  public Shoot(Shooter shooterSubsystem, Cartridge cartridgeSubsystem, FlywheelPID flywheelPID, double RPM) {
+  public Crazy(Shooter shooterSubsystem, Cartridge cartridgeSubsystem, FlywheelPID flywheelPID, double RPM, Intake intakeSubsystem) {
     this.shooterSubsystem = shooterSubsystem;
     this.cartridgeSubsystem = cartridgeSubsystem;
     this.flywheelPID = flywheelPID;
     this.RPM = RPM;
+    this.intakeSubsystem = intakeSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -43,30 +46,35 @@ public class Shoot extends CommandBase {
   public void execute() {
     shooterSubsystem.flywheelSet(flywheelPID.getSpeed());
 
-    if (flywheelPID.getController().atSetpoint()) {
-      cartridgeSubsystem.indexerSet(1);
-      if (!cartridgeSubsystem.indexerSensor()){
-        cartridgeSubsystem.beltSet(1);
-        shootFeed = 0;
-      } else if (shootFeed < 3){
-        shootFeed++;
-        cartridgeSubsystem.beltSet(0.5);
-      } 
-    } else {
-      if (!cartridgeSubsystem.indexerSensor()) {
-        cartridgeSubsystem.beltSet(1);
-        cartridgeSubsystem.indexerSet(-1);
-        indexerFeed = 0;
-        } else {
-          cartridgeSubsystem.beltSet(0);
-          if( indexerFeed < 2) {
-            cartridgeSubsystem.indexerSet(0.75);
-            indexerFeed++;
-          } else {
-            cartridgeSubsystem.indexerSet(0);
-          }
-        }
-      }
+    cartridgeSubsystem.indexerSet(1);
+    cartridgeSubsystem.beltSet(1);
+    intakeSubsystem.intakeSet(1);
+
+    // if (flywheelPID.getController().atSetpoint()) {
+    //   cartridgeSubsystem.indexerSet(1);
+    //   if (!cartridgeSubsystem.indexerSensor()){
+    //     cartridgeSubsystem.beltSet(1);
+    //     shootFeed = 0;
+    //   } else if (shootFeed < 3){
+    //     shootFeed++;
+    //     cartridgeSubsystem.beltSet(0.5);
+    //   } 
+    // } else {
+    //   if (!cartridgeSubsystem.indexerSensor()) {
+    //     cartridgeSubsystem.beltSet(1);
+    //     cartridgeSubsystem.indexerSet(-1);
+    //     indexerFeed = 0;
+    //     } else {
+    //       cartridgeSubsystem.beltSet(0);
+    //       if( indexerFeed < 2) {
+    //         cartridgeSubsystem.indexerSet(0.75);
+    //         indexerFeed++;
+    //       } else {
+    //         cartridgeSubsystem.indexerSet(0);
+    //       }
+    //     }
+    //   }
+
   }
 
   // Called once the command ends or is interrupted.
@@ -76,6 +84,7 @@ public class Shoot extends CommandBase {
     cartridgeSubsystem.indexerSet(0);
     cartridgeSubsystem.beltSet(0);
     shooterSubsystem.flywheelSet(0);
+    intakeSubsystem.intakeSet(0);
   }
 
   // Returns true when the command should end.

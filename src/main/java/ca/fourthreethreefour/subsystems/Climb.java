@@ -23,17 +23,17 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 public class Climb implements Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  private WPI_VictorSPX releaseMotor1 = null;
+  private WPI_TalonSRX releaseMotor1 = null;
   private WPI_VictorSPX releaseMotor2 = null;
   private WPI_TalonSRX gondolaMotor = null;
   private DigitalInput climbLimit = null;
 
   public Climb() {
-    releaseMotor1 = new WPI_VictorSPX(Settings.CLIMB_RELEASE_1_PORT);
+    releaseMotor1 = new WPI_TalonSRX(Settings.CLIMB_RELEASE_1_PORT);
     releaseMotor2 = new WPI_VictorSPX(Settings.CLIMB_RELEASE_2_PORT);
     gondolaMotor = new WPI_TalonSRX(Settings.CLIMB_GONDOLA_OF_DEATH_PORT);
     climbLimit = new DigitalInput(Settings.CLIMB_LIMIT_PORT);
-    releaseMotor1.setInverted(true);
+    releaseMotor1.setInverted(false);
     releaseMotor2.setInverted(false);
   }
 
