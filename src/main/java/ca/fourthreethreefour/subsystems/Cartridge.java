@@ -51,7 +51,7 @@ public class Cartridge implements Subsystem {
   }
 
   public boolean indexerSensor() {
-    if (lasersharkIndexer.getDistanceInches() <= 4) {
+    if (indexerGet() <= 4) {
       return true;
     } else {
       return false;
@@ -70,11 +70,11 @@ public class Cartridge implements Subsystem {
   boolean hasSeen = false;
   public boolean cartridgeStart() {
       if (startBoolean) {
-        if (!(lasersharkStart.getDistanceInches() <= 3 || hasSeen)) {
+        if (!(startGet() <= 3 || hasSeen)) {
           startBoolean = false;
         }
         return false;
-      } else if (lasersharkStart.getDistanceInches() <= 3 || hasSeen) {
+      } else if (startGet() <= 3 || hasSeen) {
         if (startLoop < 1) {
           hasSeen = true;
           startLoop++;
@@ -92,15 +92,24 @@ public class Cartridge implements Subsystem {
   }
 
   public boolean cartridgeEnd() {
-    if (lasersharkEnd.getDistanceInches() <= 3) {
+    if (endGet() <= 3) {
       return true;
     } else {
       return false;
     }
   }
 
+  public double indexerGet() {
+    return lasersharkIndexer.getDistanceInches();
+  }
 
+  public double endGet() {
+    return lasersharkEnd.getDistanceInches();
+  }
 
+  public double startGet() {
+    return lasersharkStart.getDistanceInches();
+  }
   // public void resetLoops() {
   //   startLoop = 0;
   // }

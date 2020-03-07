@@ -50,6 +50,7 @@ public class Robot extends TimedRobot {
   private HoodPID hoodPID = null;
   private Teleop teleop = null; 
   private Auto auto = null;
+  private Logging logging = null;
   
 
   private PowerDistributionPanel pdp = new PowerDistributionPanel(0);
@@ -69,6 +70,7 @@ public class Robot extends TimedRobot {
         limeLight, flywheelPID, alignPID, hoodPID);
     auto = new Auto(driveSubsystem, shooterSubsystem, cartridgeSubsystem, intakeSubsystem, drivePID, turnPID,
         flywheelPID, alignPID, hoodPID);
+    logging = new Logging(shooterSubsystem, flywheelPID, cartridgeSubsystem);
   }
 
   @Override
@@ -97,6 +99,7 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     auto.autoPeriodic();
     CommandScheduler.getInstance().run();
+    logging.record();
   }
 
   @Override
@@ -109,6 +112,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     teleop.teleopPeriodic();
     CommandScheduler.getInstance().run();
+    logging.record();
   }
   double angle;
 
@@ -122,7 +126,7 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
     if (angle - shooterSubsystem.getEncoder() > 0.5) {
       shooterSubsystem.shooterHoodSet(speed);
-      speed += 0.001;
+      speed -= 0.001;
     }
     Logging.put("Hood static", speed);
     Logging.log(""+speed);
@@ -134,6 +138,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     auto.autoDisabled();
+    logging.write();
   }
 
 }
