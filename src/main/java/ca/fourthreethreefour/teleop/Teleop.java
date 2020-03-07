@@ -207,7 +207,7 @@ public class Teleop {
             // if (!flywheelPID.isEnabled()) {
             //     flywheelPID.enable();
             // }
-            shooterSubsystem.flywheelSet(flywheelPID.getSpeed());
+            shooterSubsystem.flywheelVoltageSet(flywheelPID.getSpeed());
             if (shootAutoFeed) {
                 if (flywheelPID.getController().atSetpoint() || shootIndexRun) {
                     shootIndexRun = true;
@@ -239,7 +239,7 @@ public class Teleop {
             // if (flywheelPID.isEnabled()) {
             //     flywheelPID.disable();
             // }
-            shooterSubsystem.flywheelSet(0);
+            shooterSubsystem.flywheelVoltageSet(0);
         }
 
         if (shootIndexRun) {

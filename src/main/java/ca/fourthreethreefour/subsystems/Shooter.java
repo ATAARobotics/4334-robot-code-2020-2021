@@ -57,6 +57,12 @@ public class Shooter implements Subsystem {
     flywheel1.set(speed);
     flywheel2.set(speed);
   }
+
+  public void flywheelVoltageSet(double voltage) {
+    flywheel1.setVoltage(voltage);
+    flywheel2.setVoltage(voltage);
+  }
+
   public double getRPM() {
     double TPM = shooterEncoder.getVelocity() * 600;//TPM = ticks per minute
     double RPM = TPM / Settings.TICKS_PER_FLYWHEEL_ROTATION;

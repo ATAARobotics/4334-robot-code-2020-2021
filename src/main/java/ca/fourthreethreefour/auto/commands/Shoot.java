@@ -41,7 +41,7 @@ public class Shoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSubsystem.flywheelSet(flywheelPID.getSpeed());
+    shooterSubsystem.flywheelVoltageSet(flywheelPID.getSpeed());
 
     if (flywheelPID.getController().atSetpoint()) {
       cartridgeSubsystem.indexerSet(1);
@@ -75,7 +75,7 @@ public class Shoot extends CommandBase {
     flywheelPID.disable();
     cartridgeSubsystem.indexerSet(0);
     cartridgeSubsystem.beltSet(0);
-    shooterSubsystem.flywheelSet(0);
+    shooterSubsystem.flywheelVoltageSet(0);
   }
 
   // Returns true when the command should end.
