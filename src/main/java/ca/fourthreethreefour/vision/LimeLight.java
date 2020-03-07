@@ -28,7 +28,7 @@ public class LimeLight {
     private double TARGET_DEFAULT_HEIGHT = Settings.TARGET_DEFAULT_HEIGHT;
 
     public LimeLight(){
-        table = NetworkTableInstance.getDefault().getTable("limelight");
+        table = NetworkTableInstance.getDefault().getTable("limelight-ata");
         tv = table.getEntry("tv");
         tx = table.getEntry("tx");
         ty = table.getEntry("ty");
@@ -153,6 +153,10 @@ public class LimeLight {
         double angleToTarget = (LIMELIGHT_ANGLE_FROM_FLAT + getTy());
 
         return (verticalFromCamera / Math.tan(Math.toRadians(angleToTarget)));
+    }
+
+    public double getAngleToTarget() {
+        return (LIMELIGHT_ANGLE_FROM_FLAT + getTy());
     }
 
     public enum CameraMode {

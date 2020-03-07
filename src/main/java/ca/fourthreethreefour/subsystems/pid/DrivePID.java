@@ -21,7 +21,7 @@ public class DrivePID extends PIDSubsystem {
   private double speed;
   public DrivePID(Drive driveSubsystem) {
 
-    super(new PIDController(0, 0, 0)); // TODO: Update PID values
+    super(new PIDController(0.003, 0, 0.017)); // TODO: Update PID values
     this.driveSubsystem = driveSubsystem;
   }
 

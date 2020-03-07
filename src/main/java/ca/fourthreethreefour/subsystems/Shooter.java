@@ -8,11 +8,14 @@
 package ca.fourthreethreefour.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import ca.fourthreethreefour.settings.Settings;
+import ca.fourthreethreefour.vision.LimeLight;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
@@ -27,19 +30,32 @@ public class Shooter implements Subsystem {
   private double currentRPM;
  // private Counter shooterEncoder = new Counter(Settings.FLYWHEEL_COUNTER_PORT);
   private CANCoder shooterEncoder = null;
+  private CANCoder hoodEncoder = null;
+  private LimeLight limeLight = null;
+  private WPI_VictorSPX shooterHood = null;
+  private AnalogPotentiometer potentiometerEncoder = null;
 
-  public Shooter() {
+  public Shooter(LimeLight limeLight) {
     flywheel1 = new CANSparkMax(Settings.FLYWHEEL_1_PORT, MotorType.kBrushless);
     flywheel2 = new CANSparkMax(Settings.FLYWHEEL_2_PORT, MotorType.kBrushless);
     shooterEncoder = new CANCoder(Settings.FLYWHEEL_ENCODER_PORT);
+    hoodEncoder = new CANCoder(Settings.HOOD_ENCODER_PORT);
+    this.limeLight = limeLight;
+    shooterHood = new WPI_VictorSPX(Settings.SHOOTER_HOOD_PORT);
+    potentiometerEncoder = new AnalogPotentiometer(Settings.POTENTIOMETER_ENCODER_PORT, Settings.HOOD_ENCODER_SCALE, Settings.HOOD_ENCODER_OFFSET);
+
+    flywheel1.setInverted(false);
+    flywheel2.setInverted(false);
+
+    shooterHood.setInverted(true);
 
   }
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
   public void flywheelSet(double speed) {
-    flywheel1.set(speed * Settings.FLYWHEEL_SPEED);
-    flywheel2.set(speed * Settings.FLYWHEEL_SPEED);
+    flywheel1.set(speed);
+    flywheel2.set(speed);
   }
   public double getRPM() {
     double TPM = shooterEncoder.getVelocity() * 600;//TPM = ticks per minute
@@ -48,32 +64,27 @@ public class Shooter implements Subsystem {
     return RPM;
   }
 
-  /**
-   * Manual calculation code. Based on a sensor that activates magnetically.
-   */
-  // public double getRPMManual() {
+  public double getPotentiometer() {
+    return potentiometerEncoder.get();
+  }
+  
+  public void shooterHoodSet(double speed) {
+    shooterHood.set(speed);
+  }
 
-  //   double changeTime = (System.currentTimeMillis() - lastTime);
+  public double getEncoder() {
+    return hoodEncoder.getAbsolutePosition();
+  }
 
-  //   if (changeTime < Settings.RPM_REFRESH_TIME) {
-  //     return currentRPM;
-  //   }
+  public double getDistanceFromTarget() {
+    return limeLight.getDistanceFromTarget();
+  }
+  
+  public double getAngleToTarget() {
+    return limeLight.getAngleToTarget();
+  }
 
-  //   lastTime = System.currentTimeMillis();
-
-  //   double currentTicks = shooterEncoder.get();
-  //   double rate = (currentTicks - lastTicks)/ changeTime;
-
-  //   System.out.println(rate);
-
-  //   if (rate <= 0) {
-  //     return 0;
-  //   }
-    
-  //   lastTicks = currentTicks;
-
-  //   double preCalculatedRPM = (rate / Settings.TICKS_PER_FLYWHEEL_ROTATION) * 60 * 1000;
-  //   currentRPM = currentRPM * 0.7 + preCalculatedRPM * 0.3;
-  //   return currentRPM;
-  // }
+  public double getAngleToShoot() {
+    return 0;
+  }
 }

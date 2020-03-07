@@ -13,15 +13,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Load extends CommandBase {
   private Cartridge cartridgeSubsystem = null;
-  private Intake rollerSubsystem = null;
+  private Intake intakeSubsystem = null;
 
   private boolean cartridgeRun = false;
+  int indexerFeed = 0;
+  int cartridgeTime = 0;
   /**
    * Creates a new Load.
    */
-  public Load(Cartridge cartridgeSubsystem, Intake rollerSubsystem) {
+  public Load(Cartridge cartridgeSubsystem, Intake intakeSubsystem) {
     this.cartridgeSubsystem = cartridgeSubsystem;
-    this.rollerSubsystem = rollerSubsystem;
+    this.intakeSubsystem = intakeSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -33,32 +35,51 @@ public class Load extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    rollerSubsystem.set(1);
+    intakeSubsystem.intakeSet(1);
 
-    if (rollerSubsystem.intakeSensor()) {
+    if (intakeSubsystem.intakeSensor()) {
       cartridgeRun = true;
     }
 
     if (cartridgeRun) {
+      if (cartridgeTime < 20) {
+          cartridgeTime++;
+      } else {
+          cartridgeRun = false;
+      }
+    } else {
+      cartridgeTime = 0;
+    }
+
+    if (cartridgeRun) {
+      if (cartridgeSubsystem.indexerSensor()) {
+        if( indexerFeed < 5) {
+            cartridgeSubsystem.indexerSet(0.75);
+            indexerFeed++;
+        } else {
+            cartridgeSubsystem.indexerSet(0);
+        }
+      } else {
+        indexerFeed = 0;
+        cartridgeSubsystem.indexerSet(-1);
+      }
       if (cartridgeSubsystem.cartridgeEnd()) {
-          if (cartridgeSubsystem.indexerSensor()) {
-              cartridgeSubsystem.indexerSet(0);
-              cartridgeRun = false;
-          } else {
-              cartridgeSubsystem.indexerSet(1);
-              if (!cartridgeSubsystem.cartridgeStart()) {
-                  cartridgeSubsystem.beltSet(1);
-              } else {
-                  cartridgeSubsystem.beltSet(0);
-              }
+        if (cartridgeSubsystem.indexerSensor()) {
+            cartridgeRun = false;
+        } else {
+            if (!cartridgeSubsystem.cartridgeStart()) {
+                cartridgeSubsystem.beltSet(1);
+            } else {
+                cartridgeSubsystem.beltSet(0);
+            }
           }
       } else {
-          if (!cartridgeSubsystem.cartridgeStart()) {
-              cartridgeSubsystem.beltSet(1);
-          } else {
-              cartridgeSubsystem.beltSet(0);
-              cartridgeRun = false;
-          }
+        if (!cartridgeSubsystem.cartridgeStart()) {
+            cartridgeSubsystem.beltSet(1);
+        } else {
+            cartridgeSubsystem.beltSet(0);
+            cartridgeRun = false;
+        }
       }
     }
   }
@@ -66,7 +87,7 @@ public class Load extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    rollerSubsystem.set(0);
+    intakeSubsystem.intakeSet(0);
     cartridgeSubsystem.beltSet(0);
     cartridgeSubsystem.indexerSet(0);
   }

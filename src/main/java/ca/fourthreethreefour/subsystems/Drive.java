@@ -12,6 +12,7 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import ca.fourthreethreefour.logging.Logging;
 import ca.fourthreethreefour.settings.Settings;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -37,7 +38,7 @@ public class Drive implements Subsystem {
 
   private AHRS navX = null;
 
-  private double speed = Settings.DRIVE_SPEED;
+  private double speedModifier = Settings.DRIVE_SPEED;
   private CANCoder leftEncoder = null;
   private CANCoder rightEncoder = null;
 
@@ -52,8 +53,8 @@ public class Drive implements Subsystem {
 
     drive = new DifferentialDrive(leftMotors, rightMotors);
     
-    leftMotors.setInverted(true);
-    rightMotors.setInverted(true);
+    leftMotors.setInverted(false);
+    rightMotors.setInverted(false);
 
     try {
       navX = new AHRS(SPI.Port.kMXP);
@@ -71,7 +72,7 @@ public class Drive implements Subsystem {
   }
 
   public void arcadeDrive(double speed, double turn, boolean squared) {
-    drive.arcadeDrive(speed * Settings.DRIVE_SPEED, turn * Settings.TURN_SPEED, squared);
+    drive.arcadeDrive(speed * speedModifier, turn * Settings.TURN_SPEED, squared);
   }
   
   public void tankDrive(double leftSpeed, double rightSpeed) {
@@ -79,19 +80,42 @@ public class Drive implements Subsystem {
   }
 
   public double getNavX() {
-    return navX.getAngle();
+    return -navX.getAngle(); //getPitch is returning with value 0.0
   } 
 
+  public void printEverything() {
+    Logging.put("Angle", navX.getAngle());
+    Logging.put("Pitch", navX.getPitch());
+    Logging.put("Yaw", navX.getYaw());
+    Logging.put("Roll", navX.getRoll());
+  }
+
   public double getLeftEncoder() {
-    return leftEncoder.getPosition();
+    return leftEncoder.getPosition() / 4096 * 25;
   }
+
   public double getRightEncoder() {
-    return rightEncoder.getPosition();    
+    return rightEncoder.getPosition() / 4096 * 25;    
   }
+
+  public double getLeftVelocity() {
+    return leftEncoder.getVelocity();
+  }
+
+  public double getRightVelocity() {
+    return rightEncoder.getVelocity();
+  }
+
   public double getEncoder() {
     double meanEncoder = getLeftEncoder() + getRightEncoder();
     meanEncoder = meanEncoder/2;
     return meanEncoder;
+  }
+
+  public double getVelocity() {
+    double meanVelocity = getLeftVelocity() + getRightVelocity();
+    meanVelocity = meanVelocity/2;
+    return meanVelocity;
   }
 
   public void reset() {
@@ -111,11 +135,11 @@ public class Drive implements Subsystem {
   }
 
   public void speedHigh() {
-    speed = Settings.DRIVE_MAX_SPEED;
+    speedModifier = Settings.DRIVE_MAX_SPEED;
   }
 
   public void speedLow() {
-    speed = Settings.DRIVE_SPEED;
+    speedModifier = Settings.DRIVE_SPEED;
   }
 }
 
