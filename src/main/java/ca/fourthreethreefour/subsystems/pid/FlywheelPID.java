@@ -31,7 +31,7 @@ public class FlywheelPID extends PIDSubsystem {
     
     this.shooterSubsystem = shooterSubsystem;
     getController().setTolerance(200);
-    feedforward = new SimpleMotorFeedforward(0.00, 0.00014); //0.00, 0.00012
+    feedforward = new SimpleMotorFeedforward(0.00, 0.00012); //0.00, 0.00012
   }
 
   @Override

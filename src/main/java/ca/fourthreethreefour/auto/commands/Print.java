@@ -19,6 +19,6 @@ public class Print extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.print(string);
+    System.out.println(string);
   }
 }

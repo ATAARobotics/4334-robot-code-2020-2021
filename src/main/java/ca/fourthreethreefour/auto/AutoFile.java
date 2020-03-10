@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Vector;
 
 import ca.fourthreethreefour.auto.commands.Aim;
@@ -11,6 +12,7 @@ import ca.fourthreethreefour.auto.commands.AutoAim;
 import ca.fourthreethreefour.auto.commands.AutoAlign;
 import ca.fourthreethreefour.auto.commands.DriveBlind;
 import ca.fourthreethreefour.auto.commands.DriveStraight;
+import ca.fourthreethreefour.auto.commands.IntakeMove;
 import ca.fourthreethreefour.auto.commands.Load;
 import ca.fourthreethreefour.auto.commands.Print;
 import ca.fourthreethreefour.auto.commands.Shoot;
@@ -18,6 +20,7 @@ import ca.fourthreethreefour.auto.commands.Stop;
 import ca.fourthreethreefour.auto.commands.Turn;
 import ca.fourthreethreefour.auto.commands.Wait;
 import ca.fourthreethreefour.auto.commands.WaitUntil;
+import ca.fourthreethreefour.logging.Logging;
 import ca.fourthreethreefour.subsystems.Cartridge;
 import ca.fourthreethreefour.subsystems.Drive;
 import ca.fourthreethreefour.subsystems.Intake;
@@ -110,6 +113,11 @@ public class AutoFile {
                 timeout = Double.parseDouble(args[0]);
                 command = new AutoAim(hoodPID, shooterSubsystem);
                 return command;
+            case "intakemove":
+                String direction = args[0];
+                timeout = Double.parseDouble(args[1]);
+                command = new IntakeMove(intakeSubsystem, direction);
+                return command;
             default:
                 throw new Error(key + " is not a valid command!");
         }
@@ -128,6 +136,8 @@ public class AutoFile {
             this.e_key = key;
             this.e_state = state;
             this.e_arguments = arguments;
+
+            Logging.log(key + " " + state + " " + Arrays.toString(arguments));
         }
     }
 
@@ -141,6 +151,7 @@ public class AutoFile {
         bufferedReader.close();
 
         commands.clear();
+        Logging.logf("Size: ",contents.size());
         for (int i = 0; i < contents.size(); i++) {
             final int state;
             if (contents.get(i).charAt(0) == '!') {
@@ -160,6 +171,9 @@ public class AutoFile {
             Entry entry = commands.elementAt(i);
             entry.e_command = selectCommand(entry.e_key, entry.e_arguments);
         }
+
+        Logging.log("Auto File Parsed");
+        contents.clear();
     }
 
     private int queuePosition = 0;
@@ -191,5 +205,9 @@ public class AutoFile {
                 commands.get(i).e_command.cancel();
             }
         }
+        commands.clear();
+        queuePosition = 0;
+        finishedCheck = 0;
+        Logging.log("Auto file end");
     }
 }

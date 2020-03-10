@@ -19,7 +19,7 @@ public class AlignPID extends PIDSubsystem {
   public AlignPID(LimeLight limeLight) {
     super(
         // The PIDController used by the subsystem
-        new PIDController(0.1, 0, 0));
+        new PIDController(0.02, 0, 0.001));
     this.limeLight = limeLight;
   }
 

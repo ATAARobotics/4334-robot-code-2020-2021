@@ -74,15 +74,16 @@ public class Cartridge implements Subsystem {
         }
         return false;
       } else if (lasersharkStart.getDistanceInches() <= 3 || hasSeen) {
-        // if (startLoop < 1) {
-          // hasSeen = true;
-          // startLoop++;
-          // return false;
-        // } else {
+        if (startLoop < 1) {
+          hasSeen = true;
+          startLoop++;
+          return false;
+        } else {
           hasSeen = false;
           startBoolean = true;
           startLoop = 0;
           return true;
+        }
       } else {
         startLoop = 0;
         return false;
