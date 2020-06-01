@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class Print extends InstantCommand {
   private String string = null;
+  /**
+  * For debugging purposes, prints a string.
+  */
   public Print(String string) {
     this.string = string;
     // Use addRequirements() here to declare subsystem dependencies.

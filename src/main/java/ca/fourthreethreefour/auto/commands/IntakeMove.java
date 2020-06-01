@@ -15,7 +15,7 @@ public class IntakeMove extends CommandBase {
   private Intake intakeSubsystem = null;
   private String direction;
   /**
-   * Creates a new IntakeRaiseLower.
+   * Takes a specified direction (up/down) and moves the intake to those preset positions.
    */
   public IntakeMove(Intake intakeSubsystem, String direction) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -31,12 +31,12 @@ public class IntakeMove extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (direction.toLowerCase().equals("up") && intakeSubsystem.intakeLimitTop()) {
-      intakeSubsystem.releaseSet(-0.4);
-    } else if (direction.toLowerCase().equals("down") && intakeSubsystem.intakeLimitBottom()){
-      intakeSubsystem.releaseSet(0.4);
-    } else {
-      intakeSubsystem.releaseSet(0);
+    if (direction.toLowerCase().equals("up") && intakeSubsystem.intakeLimitTop()) { // If its told to go up, and the top limitswitch isn't pressed.
+      intakeSubsystem.releaseSet(-0.4); // Moves upwards slowly
+    } else if (direction.toLowerCase().equals("down") && intakeSubsystem.intakeLimitBottom()) { // If told to go down, and the bottom limitswitch isn't pressed.
+      intakeSubsystem.releaseSet(0.4); // Moves downwards slowly
+    } else { 
+      intakeSubsystem.releaseSet(0); // Ensures that it stops
     }
   }
 
@@ -50,9 +50,9 @@ public class IntakeMove extends CommandBase {
   @Override
   public boolean isFinished() {
     if (direction.toLowerCase().equals("up")) {
-      return !intakeSubsystem.intakeLimitTop();
+      return !intakeSubsystem.intakeLimitTop(); // If its told to go up, gets the top limitswitch state (false being that its pressed)
     } else if (direction.toLowerCase().equals("down")) {
-      return !intakeSubsystem.intakeLimitBottom();
+      return !intakeSubsystem.intakeLimitBottom(); // If its told to go down, gets the bottom limitswitch state
     } else {
       return false;
     }

@@ -19,7 +19,7 @@ public class Load extends CommandBase {
   int indexerFeed = 0;
   int cartridgeTime = 0;
   /**
-   * Creates a new Load.
+   * Designed to load the robot, to be ran alongside other commands such as moving. The logic here is exactly like the same code in Teleop.java, check there for comments.
    */
   public Load(Cartridge cartridgeSubsystem, Intake intakeSubsystem) {
     this.cartridgeSubsystem = cartridgeSubsystem;

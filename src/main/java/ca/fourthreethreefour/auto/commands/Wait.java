@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Wait extends CommandBase {
   /**
-   * Creates a new Wait.
+   * Waits for specified time.
    */
   public Wait() {
     // Use addRequirements() here to declare subsystem dependencies.

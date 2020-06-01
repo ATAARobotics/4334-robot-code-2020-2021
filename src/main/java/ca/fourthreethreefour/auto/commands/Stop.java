@@ -17,7 +17,7 @@ public class Stop extends CommandBase {
   DrivePID drivePID = null;
   TurnPID turnPID = null;
   /**
-   * Creates a new Stop.
+   * Ensures a full stop of the robot. Keeps it dead in place. Useful for the very end of the system.
    */
   public Stop(Drive driveSubsystem, DrivePID drivePID, TurnPID turnPID) {
     this.driveSubsystem = driveSubsystem;
@@ -28,23 +28,23 @@ public class Stop extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
+  public void initialize() { 
     driveSubsystem.reset();
 
-    drivePID.getController().setTolerance(10);
+    drivePID.getController().setTolerance(10); // Sets the tolerance of movement and turning.
     turnPID.getController().setTolerance(1);
 
-    drivePID.setSetpoint(0);
+    drivePID.setSetpoint(0); // Sets the setpoints to 0 inches (right where it is) and the current NavX angle.
     turnPID.setSetpoint(driveSubsystem.getNavX());
 
-    drivePID.enable();
+    drivePID.enable(); // Turns it on.
     turnPID.enable();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveSubsystem.arcadeDrive(drivePID.getSpeed(), turnPID.getTurn(), false);
+    driveSubsystem.arcadeDrive(drivePID.getSpeed(), turnPID.getTurn(), false); // If the robot moves off of the spot, or turns, the PID will return non-zero values to keep it in place.
   }
 
   // Called once the command ends or is interrupted.
