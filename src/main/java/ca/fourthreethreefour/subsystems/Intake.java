@@ -38,24 +38,42 @@ public class Intake implements Subsystem {
     intakeRelease2 = new CANSparkMax(Settings.INTAKE_RELEASE_2_PORT, MotorType.kBrushless);
     intakeLimitTop = new DigitalInput(Settings.INTAKE_LIMIT_TOP_PORT);
     intakeLimitBottom = new DigitalInput(Settings.INTAKE_LIMIT_BOTTOM_PORT);
+    
+    // So that + is one direction and - is another direction, we invert the motors so that its always consistent through all code usage.
     intakeRelease2.setInverted(true);
     intakeRelease1.setInverted(true);
   }
 
+  /**
+   * Sets the speed of the intake
+   * @param speed - the value it should run at. Is multiplied by the setting.
+   */
   public void intakeSet(double speed) {
     intakeIntake.set(speed * Settings.INTAKE_SPEED);
   }
 
+  /**
+   * Sets the speed of both intake release motors
+   * @param speed - the value it should run at. Is multiplied by the settings.
+   */
   public void releaseSet(double speed) {
     intakeRelease1.set(speed * Settings.RELEASE_SPEED);
     intakeRelease2.set(speed * Settings.RELEASE_NEO_SPEED);
   }
+
   boolean hasSeen = false;
   int startLoop = 0;
+  /**
+   * Checks to see if the intake sensor detects a ball.
+   * A sensitive part of the robot, as it is constantly moving. Prone to false positives, which is an issue.
+   * @return true if sensor detects a ball.
+   */
   public boolean intakeSensor() {
+    // If the ball is less than 3 and a half inches away, but not 0 (0 means either disconnect or nothing at all being seen) or hasSeen flag has been set
     if ((lasersharkIntake.getDistanceInches() <= 3.5 && lasersharkIntake.getDistanceInches() > 0) || hasSeen) {
+      // Sets the flag
       hasSeen = true;
-      if (startLoop <= 2){
+      if (startLoop <= 2){ // Waits 40ms before returning true, as to allow the ball to pass through a bit. 
         startLoop++;
         return false;
       } else {
@@ -70,18 +88,30 @@ public class Intake implements Subsystem {
   int i = 0;
   boolean hasTriggered= false;
 
+  /**
+   * The current state of the sensor at the top point. Checks to see if its been pressed down so that it doesn't go any further past
+   * @return true if not being pressed - dependant on the wiring of the limit switch for which is true.
+   */
   public boolean intakeLimitTop() {
     return intakeLimitTop.get();
   }
+
+  /**
+   * The current state of the sensor at the bottom point. Checks to see if its been pressed down so that it doesn't go any further past
+   * @return true if not being pressed - dependant on the wiring of the limit switch for which is true.
+   */
   public boolean intakeLimitBottom() {
     return intakeLimitBottom.get();
   }
+
   public void runNeo(double speed){
    intakeRelease2.set(speed * Settings.RELEASE_NEO_SPEED);
   }
+
   public void stopVictor() {
     intakeRelease1.set(0* Settings.RELEASE_SPEED);
   }
+
   public void printUltrasonics() {
     SmartDashboard.putNumber("Intake Sensor", lasersharkIntake.getDistanceInches());
   }

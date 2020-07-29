@@ -33,15 +33,25 @@ public class Climb implements Subsystem {
     releaseMotor2 = new WPI_VictorSPX(Settings.CLIMB_RELEASE_2_PORT);
     gondolaMotor = new WPI_TalonSRX(Settings.CLIMB_GONDOLA_OF_DEATH_PORT);
     climbLimit = new DigitalInput(Settings.CLIMB_LIMIT_PORT);
+    
+    // So that + is one direction and - is another direction, we invert the motors so that its always consistent through all code usage.
     releaseMotor1.setInverted(false);
     releaseMotor2.setInverted(false);
   }
 
+  /**
+   * Sets the speed of the release motors.
+   * @param speed - the value it should run at. Is multiplied by the setting.
+   */
   public void releaseSet(final double speed) {
     releaseMotor1.set(speed * Settings.CLIMB_SPEED);
     releaseMotor2.set(speed *Settings.CLIMB_SPEED);
   }
 
+  /**
+   * Sets the speed of the gondola
+   * @param speed - the value it should run at. Is multiplied by the setting.
+   */
   public void gondolaSet(final double speed) {
     gondolaMotor.set(speed * Settings.GONDOLA_SPEED);
 
