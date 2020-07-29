@@ -202,7 +202,7 @@ public class Teleop {
         Logging.put("RPM_VALUE", shooterSubsystem.getRPM());
 
         if (controllerOperator.getXButton()) {
-            shooterSubsystem.flywheelSet(1 * Settings.FLYWHEEL_SPEED);
+            shooterSubsystem.flywheelVoltageSet(11 * Settings.FLYWHEEL_SPEED);
         } else if (controllerOperator.getYButton()) {
             // if (!flywheelPID.isEnabled()) {
             //     flywheelPID.enable();

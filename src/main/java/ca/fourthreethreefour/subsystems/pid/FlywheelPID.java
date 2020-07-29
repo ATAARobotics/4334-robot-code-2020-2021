@@ -27,17 +27,17 @@ public class FlywheelPID extends PIDSubsystem {
 
 
   public FlywheelPID(Shooter shooterSubsystem) {
-    super(new PIDController(0.054, 0, 0.006)); //0.0045, 0, 0.0005
+    super(new PIDController(0, 0, 0)); //0.0045, 0, 0.0005 | 0.054, 0, 0.006 LATEST
     
     this.shooterSubsystem = shooterSubsystem;
     getController().setTolerance(200);
-    feedforward = new SimpleMotorFeedforward(0.00, 0.00144); //0.00, 0.00012
+    feedforward = new SimpleMotorFeedforward(0.00, 0.00131); //0.00, 0.00012
   }
 
   @Override
   public void useOutput(double output, double setpoint) {
     Logging.put("Output", output);
-    output = MathUtil.clamp(output, 0, 12);
+    output = MathUtil.clamp(output, 0, 11);
     // Use the output here
     // speed = MathUtil.clamp(output, 0, 1);
     
