@@ -7,6 +7,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 /**
  * Class to communicate with the limelight via Network Tables.
+ * 
+ * @author Matthew Naruzny
  *
  * */
 
