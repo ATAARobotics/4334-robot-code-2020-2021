@@ -26,7 +26,7 @@ public class TurnPID extends PIDSubsystem {
   @Override
   public void useOutput(double output, double setpoint) {
     // Use the output here
-    turn = MathUtil.clamp(output, -1, 1);
+    turn = MathUtil.clamp(output, -1, 1); // Clamps to ensure no value greater or less than constraints.
   }
 
   @Override
