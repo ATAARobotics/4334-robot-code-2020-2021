@@ -11,7 +11,9 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.XboxController;
-
+/**
+ * The class that controls all teleop functions
+ */
 public class Teleop {
     private XboxController controllerDriver = new XboxController(Settings.CONTROLLER_DRIVER_PORT);
     private XboxController controllerOperator = new XboxController(Settings.CONTROLLER_OPERATOR_PORT);
@@ -39,6 +41,10 @@ public class Teleop {
         this.hoodPID = hoodPID;
         this.limeLight = limeLight;
     }
+
+    /**
+     * Initializes the default states for all teleop functions
+     */
     public void teleopInit() {
         limeLight.ledOff();
         driveSubsystem.teleopInit();
@@ -48,6 +54,7 @@ public class Teleop {
 
     }
 
+    // Variables for the code
     private double previousSpeed = 0;
     private double previousTurn = 0;
     private double hoodSpeed = 0;
@@ -62,6 +69,65 @@ public class Teleop {
     boolean shootIndexRun = false;
     int indexRunTime = 0;
     
+    /**
+     * The Periodic function for the robot. All robot controls are ran through here.
+     * 
+     * @Controls
+     * 
+     * Driver:
+     *  Left Stick
+     *  - X axis:
+     *  - Y axis: Movement
+     *  - Button: Virtual High Gear
+     *  Right Stick
+     *  - X axis: Turning
+     *  - Y axis:
+     *  - Button: Instant stop
+     *  Left Trigger: Intake Wheels Out
+     *  Right Trigger: Intake Wheels In
+     *  Left Bumper: Decrease Flywheel Speed - 250 RPM
+     *  Right Bumper: Increase Flywheel Speed - 250 RPM
+     *  A:
+     *  B:
+     *  X: Limelight Align
+     *  Y:
+     *  Start: 
+     *      Together with Operator: Release Climber - 50% Speed
+     *  Back:
+     *      Together with Operator: Release Climber - Full Speed
+     *  D-Pad:
+     *  - Up: Tower Setpoint
+     *  - Right: Line Setpoint
+     *  - Down: Close Trench Setpoint
+     *  - Left: Far Trench Setpoint
+     * 
+     * Operator:
+     *  Left Stick
+     *  - X axis:
+     *  - Y axis: Adjust Hood Position
+     *  - Button:
+     *  Right Stick
+     *  - X axis:
+     *  - Y axis: Adjust Intake Height
+     *  - Button:
+     *  Left Trigger:
+     *  Right Trigger:
+     *  Left Bumper: Belt Manual Forwards
+     *  Right Bumper: Belt Manual Backwards
+     *  A: Indexer Manual Backwards
+     *  B: Indexer Manual Forwards
+     *  X: Flywheel Manual Shooting
+     *  Y: Automated Shooting
+     *  Start: Toggle Auto Loading
+     *      Together with Driver: Release Climber - 50% Speed
+     *  Back: Cancel Cartridge Run
+     *      Together with Driver: Release Climber - Full Speed
+     *  D-Pad:
+     *  - Up: Increase Hood PID - 2 Degrees
+     *  - Right: Gondola Forwards
+     *  - Down: Decrease Hood PID - 2 Degrees
+     *  - Left: Gondola Backwards
+     */
     public void teleopPeriodic() {
 
         //System.out.println(driveSubsystem.getNavX());
