@@ -302,14 +302,13 @@ public class Teleop {
         Logging.put("RPM_VALUE", shooterSubsystem.getRPM());
 
         // Shooting system.
-
         if (controllerOperator.getXButton()) { // Manual override.
-            shooterSubsystem.flywheelSet(1 * Settings.FLYWHEEL_SPEED);
+            shooterSubsystem.flywheelVoltageSet(11 * Settings.FLYWHEEL_SPEED);
         } else if (controllerOperator.getYButton()) {
             // if (!flywheelPID.isEnabled()) {
             //     flywheelPID.enable();
             // }
-            shooterSubsystem.flywheelSet(flywheelPID.getSpeed()); // The flywheelPID is always running, and only ever returns a speed value (never actually controls a mechanism directly). Here we use that value.
+            shooterSubsystem.flywheelVoltageSet(flywheelPID.getSpeed()); // The flywheelPID is always running, and only ever returns a speed value (never actually controls a mechanism directly). Here we use that value.
             if (shootAutoFeed) { // The variable from above comes into use here. Ensures this only runs when it isn't being overridden.
                 if (flywheelPID.getController().atSetpoint() || shootIndexRun) {
                     /*
@@ -349,7 +348,7 @@ public class Teleop {
             // if (flywheelPID.isEnabled()) {
             //     flywheelPID.disable();
             // }
-            shooterSubsystem.flywheelSet(0);
+            shooterSubsystem.flywheelVoltageSet(0);
         }
 
         /*
