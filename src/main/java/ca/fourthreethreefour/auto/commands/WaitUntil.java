@@ -15,7 +15,7 @@ public class WaitUntil extends CommandBase {
   double time;
   Drive driveSubsystem = null;
   /**
-   * Creates a new WaitUntil.
+   * Waits until the FRC match time specified. This system will not be exact, don't rely on it for judge disputes.
    */
   public WaitUntil(Drive driveSubsystem, double time) {
     this.driveSubsystem = driveSubsystem;

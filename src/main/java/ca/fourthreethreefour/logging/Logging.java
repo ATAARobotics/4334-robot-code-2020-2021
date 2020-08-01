@@ -24,9 +24,13 @@ public class Logging {
         this.cartridgeSubsystem = cartridgeSubsystem;
     }
 
+    // Sets up the data categories
     FileWriter file = null;
     String data =  "rpm, setpoint, on target, angle, indexer sensor, indexer value, end sensor, end value, start sensor, start value, match time, match number: " + DriverStation.getInstance().getMatchNumber() +"\n";
 
+    /**
+     * Every 100ms, records the specified criteria to the data string.
+     */
     public void record() {
         if (delay >= 5) {
             data += shooterSubsystem.getRPM() + ", " + flywheelPID.getController().getSetpoint() + ", " + flywheelPID.getController().atSetpoint() + ", " + shooterSubsystem.getEncoder() + ", " + cartridgeSubsystem.indexerSensor() + ", " + cartridgeSubsystem.indexerGet() + ", " + cartridgeSubsystem.cartridgeEnd() + ", " + cartridgeSubsystem.endGet() + ", " + cartridgeSubsystem.cartridgeStart() + ", " + cartridgeSubsystem.startGet() + ", " + DriverStation.getInstance().getMatchTime() + "\n";    
@@ -36,6 +40,9 @@ public class Logging {
         }
     }
 
+    /**
+     * Writes the information to the file. It does erase what was previously on there. Do be sure to extract the data between each enabling.
+     */
     public void write() {
         try {
             file = new FileWriter("/FILES/matchData.csv");
@@ -45,6 +52,8 @@ public class Logging {
             System.out.println(e);
           }
     }
+
+    // If set to log, adds the value to the SmartDashboard interface.
 
     public static void put(String key, double value) {
         if (Settings.LOGGING_ENABLED) {
@@ -67,6 +76,8 @@ public class Logging {
         }
     }
 
+    // If set to log, prints to the console.
+
     public static void log(String str) {
         if (Settings.LOGGING_ENABLED) {
             System.out.println(str);
@@ -84,6 +95,8 @@ public class Logging {
             System.out.println(str);
         }
     }
+
+    // If set to log, prints to the console using a specified format.
     
     public static void logf(String format, Object... args) {
         if (Settings.LOGGING_ENABLED) {

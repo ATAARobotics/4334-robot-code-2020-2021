@@ -89,6 +89,10 @@ public class Settings {
 
     static public String AUTO_ROUTINE = settingsFile.getStringProperty("AUTO_ROUTINE", "default");
 
+    /**
+     * Dynamic Settings. Values that want to be able to be changed on the fly (speeds, not ports) are grabbed here, with the formula running again
+     * To make a variable dynamic, put the line a second time down here. Make sure default values are the same.
+     */
     public void settingsValueUpdate() {
         LOGGING_ENABLED = settingsFile.getBooleanProperty("LOGGING_ENABLED", false);
         DRIVE_SPEED = settingsFile.getDoubleProperty("DRIVE_SPEED", 0.7);
@@ -127,6 +131,13 @@ public class Settings {
 
     }
 
+    /**
+     * Reloads the setting variables. Checks to see if the settingFile has changed, and if so then resets all the dynamic settings
+     * to either the default value or to the value on the settings.txt
+     * 
+     * @author Cool Kornak
+     * @since 2018
+     */
     public void settingsPeriodic() {
         try {
             settingsFile.reload();

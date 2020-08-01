@@ -21,7 +21,7 @@ public class Shoot extends CommandBase {
   int indexerFeed = 0;
 
   /**
-   * Creates a new Shoot.
+   * Designed to shoot the balls at the set RPM. The logic here is the same as in Teleop.java, look at the comments there.
    */
   public Shoot(Shooter shooterSubsystem, Cartridge cartridgeSubsystem, FlywheelPID flywheelPID, double RPM) {
     this.shooterSubsystem = shooterSubsystem;

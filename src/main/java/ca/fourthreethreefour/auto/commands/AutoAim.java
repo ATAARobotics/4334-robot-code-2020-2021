@@ -13,11 +13,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutoAim extends CommandBase {
 
+  // The logic here is the same as in the Aim.java command.
+
   private HoodPID hoodPID = null;
   private Shooter shooterSubsystem = null;
 
   /**
-   * Creates a new Aim.
+   * Supposed to take the distance at the front of the robot, and automatically aim. Never used
    */
   public AutoAim(HoodPID hoodPID, Shooter shooterSubsystem) {
     this.hoodPID = hoodPID;

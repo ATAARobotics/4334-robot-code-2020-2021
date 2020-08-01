@@ -15,7 +15,7 @@ public class DriveBlind extends CommandBase {
   private double leftSpeed;
   private double rightSpeed;
   /**
-   * Creates a new DriveBlind.
+   * Drives the robot with raw speed values to each side.
    */
   public DriveBlind(Drive driveSubsystem, double leftSpeed, double rightSpeed) {
     this.driveSubsystem = driveSubsystem;
@@ -33,13 +33,13 @@ public class DriveBlind extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveSubsystem.tankDrive(leftSpeed, rightSpeed);
+    driveSubsystem.tankDrive(leftSpeed, rightSpeed); // Passes in the values directly.
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    driveSubsystem.tankDrive(0, 0);
+    driveSubsystem.tankDrive(0, 0); // Stops it
   }
 
   // Returns true when the command should end.
