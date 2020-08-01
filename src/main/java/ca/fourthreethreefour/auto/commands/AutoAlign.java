@@ -16,6 +16,9 @@ public class AutoAlign extends CommandBase {
   private AlignPID alignPID;
   private Drive driveSubsystem;
 
+  /**
+   * Using the targets as reference, uses limelight values to turn the robot towards the targets seen.
+   */
   public AutoAlign(AlignPID alignPID, Drive driveSubsystem) {
     this.alignPID = alignPID;
     this.driveSubsystem = driveSubsystem;
@@ -24,23 +27,23 @@ public class AutoAlign extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    driveSubsystem.reset();
-    alignPID.getController().setTolerance(2);
-    alignPID.setSetpoint(0.0);
+    driveSubsystem.reset(); // Resets encoders
+    alignPID.getController().setTolerance(2); // Sets the degrees needed.
+    alignPID.setSetpoint(0.0); // For limelight, we want it to be a value of 0.
     alignPID.enable();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveSubsystem.arcadeDrive(0, alignPID.getRotateSpeed(), false);
+    driveSubsystem.arcadeDrive(0, alignPID.getRotateSpeed(), false); // Uses the speed determined by the PID to turn.
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    alignPID.disable();
-    driveSubsystem.arcadeDrive(0, 0, false);
+    alignPID.disable(); // Make sure to disable the PID
+    driveSubsystem.arcadeDrive(0, 0, false); // And give it a value to stop.
     driveSubsystem.reset();
   }
 
@@ -48,6 +51,8 @@ public class AutoAlign extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // To help with the loops, this requires the system to stay at the setpoint for multiple counts, rather than just on first hit.
+    // If it is at the setpoint, increments it by one. If it is not longer at the setpoint, it resets the count. If it passed the count, it returns true. 
     if (i < 20000) {
       if (alignPID.getController().atSetpoint()) {
         i++;

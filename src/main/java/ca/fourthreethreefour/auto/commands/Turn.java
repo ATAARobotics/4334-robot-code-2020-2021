@@ -16,7 +16,7 @@ public class Turn extends CommandBase {
   private TurnPID turnPID = null;
   private double angle;
   /**
-   * Creates a new Turn.
+   * Designed to turn the robot to a set angle using the NavX system.
    */
   public Turn(Drive driveSubsystem, TurnPID turnPID, double angle) {
     this.driveSubsystem = driveSubsystem;
@@ -29,23 +29,23 @@ public class Turn extends CommandBase {
   public void initialize() {
     driveSubsystem.reset();
 
-    turnPID.getController().setTolerance(2);
+    turnPID.getController().setTolerance(2); // Sets the tolerance for turning.
 
-    turnPID.setSetpoint(angle);
+    turnPID.setSetpoint(angle); // Sets the setpoint to the specified value.
     turnPID.enable();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveSubsystem.arcadeDrive(0, turnPID.getTurn(), false);
+    driveSubsystem.arcadeDrive(0, turnPID.getTurn(), false); // Uses the PID value
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     turnPID.disable();
-    driveSubsystem.arcadeDrive(0, 0, false);
+    driveSubsystem.arcadeDrive(0, 0, false); // Stops the robot
     driveSubsystem.reset();
   }
 
@@ -53,6 +53,8 @@ public class Turn extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // To help with the loops, this requires the system to stay at the setpoint for multiple counts, rather than just on first hit.
+    // If it is at the setpoint, increments it by one. If it is not longer at the setpoint, it resets the count. If it passed the count, it returns true. 
     if (i < 20000) {
       if (turnPID.getController().atSetpoint()) {
         i++;

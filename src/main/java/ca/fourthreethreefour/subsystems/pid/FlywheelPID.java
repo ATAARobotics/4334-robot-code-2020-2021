@@ -30,20 +30,20 @@ public class FlywheelPID extends PIDSubsystem {
     super(new PIDController(0.0045, 0, 0.0005)); //0.0045, 0, 0.0005
     
     this.shooterSubsystem = shooterSubsystem;
-    getController().setTolerance(200);
+    getController().setTolerance(200); // Tolerance in RPM
     feedforward = new SimpleMotorFeedforward(0.00, 0.00012); //0.00, 0.00012
   }
 
   @Override
   public void useOutput(double output, double setpoint) {
     Logging.put("Output", output);
-    output = MathUtil.clamp(output, 0, 1);
+    output = MathUtil.clamp(output, 0, 1); // Ensures the value does not exceed the maximum possible for the control mode
     // Use the output here
     // speed = MathUtil.clamp(output, 0, 1);
     
     // speed = MathUtil.clamp(output / 5, 0, 1) + 0.78;
     Logging.put("Feedforward", feedforward.calculate(setpoint));
-    speed = feedforward.calculate(setpoint) + output; 
+    speed = feedforward.calculate(setpoint) + output; // Calculates the feedforward (the constant power based on the setpoint) and adds that to the output to get the speed
 
   }
 

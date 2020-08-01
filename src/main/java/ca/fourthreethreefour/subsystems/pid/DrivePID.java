@@ -28,7 +28,7 @@ public class DrivePID extends PIDSubsystem {
   @Override
   public void useOutput(double output, double setpoint) {
     // Use the output here
-    speed = MathUtil.clamp(output, -1, 1);
+    speed = MathUtil.clamp(output, -1, 1); // Clamps to ensure no value greater or less than constraints.
   }
 
   @Override
