@@ -65,6 +65,15 @@ public class Shooter implements Subsystem {
   }
 
   /**
+   * Sets the voltage of the flywheel motors
+   * @param voltage - the voltage it should run at.
+   */
+  public void flywheelVoltageSet(double voltage) {
+    flywheel1.setVoltage(voltage);
+    flywheel2.setVoltage(voltage);
+  }
+  
+  /**
    * Gets the RPM of the flywheel. Takes the velocity of the encoder, multiplies it so that its in ticks per minute, then divides it by the constant to get the RPM.
    * @return current RPM
    */
