@@ -81,7 +81,45 @@ public class ControlSwitch {
         }
     }
 
+    public boolean hoodAdjust(){
+        switch (driverControlLayouts){
+            //case NIK:
+            //return controllerDriver.getY(Hand.kLeft);
+            //button and hand can be modified etc
+            default:
+                return controllerDriver.getPOV();
+        }
+    }
 
+    public boolean flywheelAdjustUp(){
+        switch (driverControlLayouts){
+            //case NIK:
+            //return controllerDriver.getY(Hand.kLeft);
+            //button and hand can be modified etc
+            default:
+                return controllerDriver.getBumperPressed(Hand.kLeft);
+        }
+    }
+
+    public boolean flywheelAdjustDown(){
+        switch (driverControlLayouts){
+            //case NIK:
+            //return controllerDriver.getY(Hand.kLeft);
+            //button and hand can be modified etc
+            default:
+                return controllerDriver.getBumperPressed(Hand.kRight);
+        }
+    }
+
+    public boolean autoAlign(){
+        switch (driverControlLayouts){
+            //case NIK:
+            //return controllerDriver.getY(Hand.kLeft);
+            //button and hand can be modified etc
+            default:
+                return controllerDriver.getXButton();
+        }
+    }
 
     private enum DriverControlLayouts{
 
@@ -96,3 +134,5 @@ public class ControlSwitch {
 //some will be doubles
 //makes sure the same buttons are all the same functions
 //don't creat specific control schemes yet
+//Replace all controllerDrivers and Operators with controller.
+//Replace all controller.'s buttons with enum functions

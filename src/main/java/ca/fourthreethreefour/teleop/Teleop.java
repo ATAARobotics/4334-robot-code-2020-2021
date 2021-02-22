@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.XboxController;
  */
 public class Teleop {
     // private XboxController controllerDriver = new XboxController(Settings.CONTROLLER_DRIVER_PORT);
-    private XboxController controllerOperator = new XboxController(Settings.CONTROLLER_OPERATOR_PORT);
+    // private XboxController controllerOperator = new XboxController(Settings.CONTROLLER_OPERATOR_PORT);
     //TODO; replace XboxController with ControlSwitch
     private ControlSwitch controller = new ControlSwitch();
     private Drive driveSubsystem = null;
@@ -146,18 +146,18 @@ public class Teleop {
             speed = 0;
             turn = 0;
         } else {
-            speed = controllerDriver.driveMoveForwardBack() * 0.2 + previousSpeed * 0.8; // To achieve proper acceleration, rather than 0 to 100, it only does 20% of the current input and 80% of the previous input.
+            speed = controller.driveMoveForwardBack() * 0.2 + previousSpeed * 0.8; // To achieve proper acceleration, rather than 0 to 100, it only does 20% of the current input and 80% of the previous input.
             previousSpeed = speed; // This means that it both accelerates steadily and deaccelerates steadily. Doesn't effect how drivers feel it controls, but helps prevent stalling heavily.
             speed = Math.copySign(speed * speed, speed); // Squares the speed, keeps the sign
-            if (Math.abs(controllerDriver.driveTurnLeftRight()) >= 0.1) {
+            if (Math.abs(controller.driveTurnLeftRight()) >= 0.1) {
                 if (alignPID.isEnabled()) { // If trying to turn, makes sure the limelight align is disabled.
                     limeLight.ledOff();
                     alignPID.disable();
                 }
-                turn = -controllerDriver.driveTurnLeftRight() * 0.1 + previousTurn * 0.9; // Similar logic to above, just different values.
+                turn = -controller.driveTurnLeftRight() * 0.1 + previousTurn * 0.9; // Similar logic to above, just different values.
                 previousTurn = turn; // Note, this variable is initialized outside the function, so it remains to the next loop.
                 turn = Math.copySign(turn * turn, turn);
-            } else if (controllerDriver.getXButton()) {
+            } else if (controller.autoAlign()) {
                 if (!alignPID.isEnabled()) { // To ensure it doesn't try to initalize the align values every single loop, it checks first if it needs to then does it.
                     limeLight.ledOn();
                     alignPID.getController().setTolerance(5);
@@ -193,11 +193,11 @@ public class Teleop {
         // As such, we created a virtual gear system.
 
         
-        if (Math.abs(controllerDriver.driveMoveForwardBack()) < 0.05 || Math.abs(controllerDriver.driveTurnLeftRight()) > 0.05) {
+        if (Math.abs(controller.driveMoveForwardBack()) < 0.05 || Math.abs(controller.driveTurnLeftRight()) > 0.05) {
             // Here we want it to set to low speed when turning, or when coming to a stop.
             driveSubsystem.speedLow();
             highGear = false;
-        } else if (controllerDriver.getStickButton(Hand.kLeft) && Math.abs(driveSubsystem.getVelocity()) > 1950) {
+        } else if (controller.driveSwitchGears() && Math.abs(driveSubsystem.getVelocity()) > 1950) {
             // An issue we faced this season was voltage drawing, mainly a spike that would occur when trying to go from a low speed to an extremely high speed.
             // It would pull more voltage than the PDP would allow, causing the breaker to reset, create something like it browning out.
             // So, we have it be that the robot must be going an already fast speed before they can activate the high gear, so that it wouldn't cause these issues.
@@ -291,11 +291,11 @@ public class Teleop {
         }
         
         // The Intake system.
-        if (controllerDriver.intakeIn() > 0.1) {
-            intakeSubsystem.intakeSet(controllerDriver.intakeIn());
-        } else if (controllerDriver.intakeOut() > 0.1) {
+        if (controller.intakeIn() > 0.1) {
+            intakeSubsystem.intakeSet(controller.intakeIn());
+        } else if (controller.intakeOut() > 0.1) {
             // Since the two triggers give a value from [0.0,+1.0], one value must be inversed so it can reverse the intakes.
-            intakeSubsystem.intakeSet(-controllerDriver.intakeOut());
+            intakeSubsystem.intakeSet(-controller.intakeOut());
         } else {
             intakeSubsystem.intakeSet(0);
         }
@@ -379,9 +379,9 @@ public class Teleop {
         }
 
         // Climb code. Designed to require both driver and operator hold down the button, and for two speed options (as we needed additional precision, but also speed)
-        if (controllerDriver.getBackButton() && controllerOperator.getBackButton()) {
+        if (controller.getBackButton() && controllerOperator.getBackButton()) {
             climbSubsystem.releaseSet(1);
-        } else if (controllerDriver.getStartButton() && controllerOperator.getStartButton()) {
+        } else if (controller.getStartButton() && controllerOperator.getStartButton()) {
             climbSubsystem.releaseSet(0.5);
         } else {
             climbSubsystem.releaseSet(0);
@@ -438,19 +438,19 @@ public class Teleop {
         Logging.put("Potentiometer", shooterSubsystem.getPotentiometer());
 
         // Setpoints, for flywheel and hood.
-        if (controllerDriver.getPOV() == 0) {
+        if (controller.hoodAdjust() == 0) {
             hoodPID.setSetpoint(Settings.HOOD_PID_TOWER);
             flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_TOWER);
             // hoodPID.enable();
-        } else if (controllerDriver.getPOV() == 90) {
+        } else if (controller.hoodAdjust() == 90) {
             hoodPID.setSetpoint(Settings.HOOD_PID_LINE);
             flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_LINE);
             // hoodPID.enable();
-        } else if (controllerDriver.getPOV() == 180) {
+        } else if (controller.hoodAdjust() == 180) {
             hoodPID.setSetpoint(Settings.HOOD_PID_CLOSE_TRENCH);
             flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_CLOSE_TRENCH);
             // hoodPID.enable();
-        } else if (controllerDriver.getPOV() == 270) {
+        } else if (controller.hoodAdjust() == 270) {
             hoodPID.setSetpoint(Settings.HOOD_PID_FAR_TRENCH);
             flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_FAR_TRENCH);
             // hoodPID.enable();
@@ -460,16 +460,16 @@ public class Teleop {
         } else if (controllerOperator.getPOV() == 180) {
             hoodPID.setSetpoint(hoodPID.getController().getSetpoint() - 2 > 1.9 ? hoodPID.getController().getSetpoint() - 2 : hoodPID.getController().getSetpoint());
             // hoodPID.enable();
-        } else if (controllerDriver.getAButtonPressed()) {
+        } //else if (controllerDriver.getAButtonPressed()) {
             // hoodPID.setSetpoint(shooterSubsystem.getAngleToShoot()); //TODO: add automated distance calculations 
             // hoodPID.enable(); 
             
         // } else if (hoodPID.isEnabled() && hoodPID.isDone()) {
         //     hoodPID.disable();
         // }
-        } else if (controllerDriver.getBumperPressed(Hand.kLeft)) { // Flywheel PID control. For more precision in shooting if needed, can manually adjust it.
+         else if (controller.flywheelAdjustUp()) { // Flywheel PID control. For more precision in shooting if needed, can manually adjust it.
             flywheelPID.setSetpoint((flywheelPID.getController().getSetpoint() - 250 > 249 ? flywheelPID.getController().getSetpoint() - 250 : flywheelPID.getController().getSetpoint()));
-        } else if (controllerDriver.getBumperPressed(Hand.kRight)) {
+        } else if (controller.flywheelAdjustDown()) {
             flywheelPID.setSetpoint((flywheelPID.getController().getSetpoint() + 250 < 6726 ? flywheelPID.getController().getSetpoint() + 250 : flywheelPID.getController().getSetpoint()));
         }
 
