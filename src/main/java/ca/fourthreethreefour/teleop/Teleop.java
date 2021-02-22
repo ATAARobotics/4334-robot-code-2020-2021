@@ -15,8 +15,10 @@ import edu.wpi.first.wpilibj.XboxController;
  * The class that controls all teleop functions
  */
 public class Teleop {
-    private XboxController controllerDriver = new XboxController(Settings.CONTROLLER_DRIVER_PORT);
+    // private XboxController controllerDriver = new XboxController(Settings.CONTROLLER_DRIVER_PORT);
     private XboxController controllerOperator = new XboxController(Settings.CONTROLLER_OPERATOR_PORT);
+    //TODO; replace XboxController with ControlSwitch
+    private ControlSwitch controller = new ControlSwitch();
     private Drive driveSubsystem = null;
     private Cartridge cartridgeSubsystem = null;
     private Intake intakeSubsystem = null;
@@ -140,19 +142,19 @@ public class Teleop {
         // So that down below, you only have to call arcadeDrive once per loop. No risks of double calling.
         double speed;
         double turn;
-        if (controllerDriver.getStickButton(Hand.kRight)) { // Instant stop
+        if (controller.driveSuddenStop()) { // Instant stop
             speed = 0;
             turn = 0;
         } else {
-            speed = controllerDriver.getY(Hand.kLeft) * 0.2 + previousSpeed * 0.8; // To achieve proper acceleration, rather than 0 to 100, it only does 20% of the current input and 80% of the previous input.
+            speed = controllerDriver.driveMoveForwardBack() * 0.2 + previousSpeed * 0.8; // To achieve proper acceleration, rather than 0 to 100, it only does 20% of the current input and 80% of the previous input.
             previousSpeed = speed; // This means that it both accelerates steadily and deaccelerates steadily. Doesn't effect how drivers feel it controls, but helps prevent stalling heavily.
             speed = Math.copySign(speed * speed, speed); // Squares the speed, keeps the sign
-            if (Math.abs(controllerDriver.getX(Hand.kRight)) >= 0.1) {
+            if (Math.abs(controllerDriver.driveTurnLeftRight()) >= 0.1) {
                 if (alignPID.isEnabled()) { // If trying to turn, makes sure the limelight align is disabled.
                     limeLight.ledOff();
                     alignPID.disable();
                 }
-                turn = -controllerDriver.getX(Hand.kRight) * 0.1 + previousTurn * 0.9; // Similar logic to above, just different values.
+                turn = -controllerDriver.driveTurnLeftRight() * 0.1 + previousTurn * 0.9; // Similar logic to above, just different values.
                 previousTurn = turn; // Note, this variable is initialized outside the function, so it remains to the next loop.
                 turn = Math.copySign(turn * turn, turn);
             } else if (controllerDriver.getXButton()) {
@@ -191,7 +193,7 @@ public class Teleop {
         // As such, we created a virtual gear system.
 
         
-        if (Math.abs(controllerDriver.getY(Hand.kLeft)) < 0.05 || Math.abs(controllerDriver.getX(Hand.kRight)) > 0.05) {
+        if (Math.abs(controllerDriver.driveMoveForwardBack()) < 0.05 || Math.abs(controllerDriver.driveTurnLeftRight()) > 0.05) {
             // Here we want it to set to low speed when turning, or when coming to a stop.
             driveSubsystem.speedLow();
             highGear = false;
