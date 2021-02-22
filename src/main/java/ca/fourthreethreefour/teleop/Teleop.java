@@ -291,11 +291,11 @@ public class Teleop {
         }
         
         // The Intake system.
-        if (controllerDriver.getTriggerAxis(Hand.kRight) > 0.1) {
-            intakeSubsystem.intakeSet(controllerDriver.getTriggerAxis(Hand.kRight));
-        } else if (controllerDriver.getTriggerAxis(Hand.kLeft) > 0.1) {
+        if (controllerDriver.intakeIn() > 0.1) {
+            intakeSubsystem.intakeSet(controllerDriver.intakeIn());
+        } else if (controllerDriver.intakeOut() > 0.1) {
             // Since the two triggers give a value from [0.0,+1.0], one value must be inversed so it can reverse the intakes.
-            intakeSubsystem.intakeSet(-controllerDriver.getTriggerAxis(Hand.kLeft));
+            intakeSubsystem.intakeSet(-controllerDriver.intakeOut());
         } else {
             intakeSubsystem.intakeSet(0);
         }
