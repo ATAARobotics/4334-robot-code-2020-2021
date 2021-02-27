@@ -109,7 +109,7 @@ public class Intake implements Subsystem {
    intakeRelease2.set(speed * Settings.RELEASE_NEO_SPEED);
   }
 //Motor for left side intake adjustment
-  public void stopVictor() {
+  public void runVictorDown() {
     intakeRelease1.set(0.25);
   }
 
