@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj.XboxController;
  * The class that controls all teleop functions
  */
 public class Teleop {
-    // private XboxController controllerDriver = new XboxController(Settings.CONTROLLER_DRIVER_PORT);
-    // private XboxController controllerOperator = new XboxController(Settings.CONTROLLER_OPERATOR_PORT);
+    private XboxController controllerDriver = new XboxController(Settings.CONTROLLER_DRIVER_PORT);
+    private XboxController controllerOperator = new XboxController(Settings.CONTROLLER_OPERATOR_PORT);
     //TODO; replace XboxController with ControlSwitch
     private ControlSwitch controller = new ControlSwitch();
     private Drive driveSubsystem = null;
