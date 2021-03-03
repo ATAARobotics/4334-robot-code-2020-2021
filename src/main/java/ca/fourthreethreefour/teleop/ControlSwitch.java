@@ -14,6 +14,7 @@ public class ControlSwitch {
     private XboxController controllerDriver = null;
     private XboxController controllerOperator = null;
     private DriverControlLayouts driverControlLayouts = DriverControlLayouts.NONE;
+    private OperatorControlLayouts operatorControlLayouts = OperatorControlLayouts.NONE;
 
     public ControlSwitch(){
         controllerDriver = new XboxController(Settings.CONTROLLER_DRIVER_PORT);
@@ -127,7 +128,16 @@ public class ControlSwitch {
         ALEX,
         NONE
     }
+
+    private enum OperatorControlLayouts{
+
+    NIK,
+    ALEX,
+    NONE
+    }
+
 }
+
 
 //Replace all buttons with controlSwitch functions
 //Create defaults in each function
