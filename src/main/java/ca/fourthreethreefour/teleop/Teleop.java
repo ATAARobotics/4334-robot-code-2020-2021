@@ -418,14 +418,14 @@ public class Teleop {
         // Hood controls
 
         // Similar to the drive speed, we set a hood speed variable so that we don't risk calling the hood function more than once.
-        if (Math.abs(controllerOperator.getY(Hand.kLeft)) > 0.05) {
+        if (Math.abs(controllerOperator.hoodAdjustCustom()) > 0.05) {
             if (hoodPID.isEnabled()) {
                 hoodPID.disable(); // Manual controls, we want to make sure the hoodPID was disabled.
             }
-            if (controllerOperator.getY(Hand.kLeft) < 0) {
-                hoodSpeed = controllerOperator.getY(Hand.kLeft) * Settings.HOOD_SPEED_UP;
+            if (controllerOperator.hoodAdjustCustom() < 0) {
+                hoodSpeed = controllerOperator.hoodAdjustCustom() * Settings.HOOD_SPEED_UP;
             } else {
-                hoodSpeed = controllerOperator.getY(Hand.kLeft) * Settings.HOOD_SPEED_DOWN;
+                hoodSpeed = controllerOperator.hoodAdjustCustom() * Settings.HOOD_SPEED_DOWN;
             }
             
         } else if (!hoodPID.isEnabled()) {

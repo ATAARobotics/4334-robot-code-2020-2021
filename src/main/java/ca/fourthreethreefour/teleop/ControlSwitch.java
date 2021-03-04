@@ -122,6 +122,16 @@ public class ControlSwitch {
         }
     }
 
+    public double hoodAdjustCustom(){
+        switch (operatorControlLayouts){
+            //case NIK:
+            //return controllerDriver.getStickButton(Hand.kRight);
+            //button and hand can be modified etc
+            default:
+                return controllerOperator.getY(Hand.kLeft);
+        }
+    }
+
     private enum DriverControlLayouts{
 
         NIK,
