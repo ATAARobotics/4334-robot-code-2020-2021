@@ -442,31 +442,31 @@ public class Teleop {
         if (controllerDriver.getPOV() == 0) {
             hoodPID.setSetpoint(Settings.HOOD_PID_TOWER);
             flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_TOWER);
-            // hoodPID.enable();
+            hoodPID.enable();
         } else if (controllerDriver.getPOV() == 90) {
             hoodPID.setSetpoint(Settings.HOOD_PID_LINE);
             flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_LINE);
-            // hoodPID.enable();
+            hoodPID.enable();
         } else if (controllerDriver.getPOV() == 180) {
             hoodPID.setSetpoint(Settings.HOOD_PID_CLOSE_TRENCH);
             flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_CLOSE_TRENCH);
-            // hoodPID.enable();
+            hoodPID.enable();
         } else if (controllerDriver.getPOV() == 270) {
             hoodPID.setSetpoint(Settings.HOOD_PID_FAR_TRENCH);
             flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_FAR_TRENCH);
-            // hoodPID.enable();
+            hoodPID.enable();
         } else if (controllerOperator.getPOV() == 0) { // Hood PID control. To allow for more precision in movement, can adjust it by specific degrees rather than by feel.
             hoodPID.setSetpoint(hoodPID.getController().getSetpoint() + 2 < 55 ? hoodPID.getController().getSetpoint() + 2 : hoodPID.getController().getSetpoint());
-            // hoodPID.enable();
+            hoodPID.enable();
         } else if (controllerOperator.getPOV() == 180) {
             hoodPID.setSetpoint(hoodPID.getController().getSetpoint() - 2 > 1.9 ? hoodPID.getController().getSetpoint() - 2 : hoodPID.getController().getSetpoint());
-            // hoodPID.enable();
+            hoodPID.enable();
         } else if (controllerDriver.getAButtonPressed()) {
             // hoodPID.setSetpoint(shooterSubsystem.getAngleToShoot()); //TODO: add automated distance calculations 
             // hoodPID.enable(); 
             
-        // } else if (hoodPID.isEnabled() && hoodPID.isDone()) {
-        //     hoodPID.disable();
+         } else if (hoodPID.isEnabled() && hoodPID.isDone()) {
+             hoodPID.disable();
         // }
         } else if (controllerDriver.getBumperPressed(Hand.kLeft)) { // Flywheel PID control. For more precision in shooting if needed, can manually adjust it.
             flywheelPID.setSetpoint((flywheelPID.getController().getSetpoint() - 250 > 249 ? flywheelPID.getController().getSetpoint() - 250 : flywheelPID.getController().getSetpoint()));
