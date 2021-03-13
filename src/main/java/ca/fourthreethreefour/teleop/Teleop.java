@@ -209,15 +209,15 @@ public class Teleop {
         }
 
         // The cartridge system. To allow for overriding of mechanisms, we check the buttons first before running anything automated.
-        if (controllerOperator.getBumper(Hand.kRight) || controllerOperator.getBumper(Hand.kLeft) || controllerOperator.getAButton() || controllerOperator.getBButton()) {
-            if (controllerOperator.getBumper(Hand.kRight)) {
+        if (controllerOperator.cartidgeIn() || controllerOperator.cartidgeOut() || controllerOperator.indexerOut() || controllerOperator.indexerIn()) {
+            if (controllerOperator.cartidgeIn()) {
                 cartridgeSubsystem.beltSet(-1);
-            } else if (controllerOperator.getBumper(Hand.kLeft)) {
+            } else if (controllerOperator.cartidgeOut()) {
                 cartridgeSubsystem.beltSet(1);
             }
-            if (controllerOperator.getBButton() == true) {
+            if (controllerOperator.indexerIn() == true) {
                 cartridgeSubsystem.indexerSet(1);
-            } else if (controllerOperator.getAButton() == true) { 
+            } else if (controllerOperator.indexerOut() == true) { 
                 cartridgeSubsystem.indexerSet(-1);
             } 
             shootAutoFeed = false; // To override later during shooting, when the buttons are being pressed its set to false, all other times true
@@ -381,7 +381,7 @@ public class Teleop {
         // Climb code. Designed to require both driver and operator hold down the button, and for two speed options (as we needed additional precision, but also speed)
         if (controller.Climb() && controllerOperator.Climb()) {
             climbSubsystem.releaseSet(1);
-        } else if (controller.getStartButton() && controllerOperator.getStartButton()) {
+        } else if (controller.getStartButton() && controllerOperator.climbControls()) {
             climbSubsystem.releaseSet(0.5);
         } else {
             climbSubsystem.releaseSet(0);
@@ -390,7 +390,7 @@ public class Teleop {
         // if (controllerOperator.getStartButtonPressed()) {
             //  cartridgeRun = true;
         // }
-        if (controllerOperator.getBackButtonPressed()) {
+        if (controllerOperator.cartrigeStop()) {
              cartridgeRun = false;
         }
         // Able to toggle the intake sensor system on and off.
@@ -398,7 +398,7 @@ public class Teleop {
         //     disableIntakeSensor = !disableIntakeSensor;
         // }
         
-        if (!(disableIntakeSensor || controllerOperator.getBumper(Hand.kRight))) { 
+        if (!(disableIntakeSensor || controllerOperator.cartidgeIn())) { 
             // If the intake sensor detects the ball, runs the automatic intaking system.      
             if (intakeSubsystem.intakeSensor()) {
                 cartridgeRun = true;
@@ -481,9 +481,9 @@ public class Teleop {
         
 
         // Intaking raising and lowering
-        double intakeSpeed = controllerOperator.getY(Hand.kRight); // Sets the intakeSpeed first, as we are then checking for when it SHOULDN"T be ran, aka when it should be set to 0.
+        double intakeSpeed = controllerOperator.intakeUpDown(); // Sets the intakeSpeed first, as we are then checking for when it SHOULDN"T be ran, aka when it should be set to 0.
 
-        if (Math.abs(controllerOperator.getY(Hand.kRight)) < 0.15) {
+        if (Math.abs(controllerOperator.intakeUpDown()) < 0.15) {
             intakeSpeed = 0;
         } else {
             // stallIntake = false;

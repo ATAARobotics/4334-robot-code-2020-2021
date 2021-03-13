@@ -152,13 +152,13 @@ public class ControlSwitch {
         }
     }
 
-    public boolean climbControls(){
+    public boolean cartrigeStop(){
         switch (operatorControlLayouts){
             //case NIK:
             //return controllerDriver.getStickButton(Hand.kRight);
             //button and hand can be modified etc
             default:
-                return controllerOperator.getBackButton();
+                return controllerOperator.getBackButtonPressed();
         }
     }
 
@@ -169,6 +169,66 @@ public class ControlSwitch {
             //button and hand can be modified etc
             default:
                 return controllerOperator.getPOV();
+        }
+    }
+
+    public boolean cartidgeIn(){
+        switch (operatorControlLayouts){
+            //case NIK:
+            //return controllerDriver.getStickButton(Hand.kRight);
+            //button and hand can be modified etc
+            default:
+                return controllerOperator.getBumper(Hand.kLeft);
+        }
+    }
+
+    public boolean cartidgeOut(){
+        switch (operatorControlLayouts){
+            //case NIK:
+            //return controllerDriver.getStickButton(Hand.kRight);
+            //button and hand can be modified etc
+            default:
+                return controllerOperator.getBumper(Hand.kRight);
+        }
+    }
+
+    public boolean indexerIn(){
+        switch (operatorControlLayouts){
+            //case NIK:
+            //return controllerDriver.getStickButton(Hand.kRight);
+            //button and hand can be modified etc
+            default:
+                return controllerOperator.getBButton();
+        }
+    }
+
+    public boolean indexerOut(){
+        switch (operatorControlLayouts){
+            //case NIK:
+            //return controllerDriver.getStickButton(Hand.kRight);
+            //button and hand can be modified etc
+            default:
+                return controllerOperator.getAButton();
+        }
+    }
+
+    public boolean climbControls(){
+        switch (operatorControlLayouts){
+            //case NIK:
+            //return controllerDriver.getStickButton(Hand.kRight);
+            //button and hand can be modified etc
+            default:
+                return controllerOperator.getStartButton();
+        }
+    }
+
+    public boolean intakeUpDown(){
+        switch (operatorControlLayouts){
+            //case NIK:
+            //return controllerDriver.getStickButton(Hand.kRight);
+            //button and hand can be modified etc
+            default:
+                return controllerOperator.getY(Hand.kRight);
         }
     }
 
