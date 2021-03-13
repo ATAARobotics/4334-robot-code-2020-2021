@@ -304,9 +304,9 @@ public class Teleop {
         Logging.put("RPM_VALUE", shooterSubsystem.getRPM());
 
         // Shooting system.
-        if (controllerOperator.getXButton()) { // Manual override.
+        if (controllerOperator.operatorManualOverride()) { // Manual override.
             shooterSubsystem.flywheelVoltageSet(11 * Settings.FLYWHEEL_SPEED);
-        } else if (controllerOperator.getYButton()) {
+        } else if (controllerOperator.autoShoot()) {
             // if (!flywheelPID.isEnabled()) {
             //     flywheelPID.enable();
             // }
@@ -370,16 +370,16 @@ public class Teleop {
         }
 
         // Gondola code. Unfortunately never was used, but would work when a gondola is installed.
-        if (controllerOperator.getPOV( ) == 90) {
+        if (controllerOperator.gondolaControls() == 90) {
             climbSubsystem.gondolaSet(1);
-        } else if (controllerOperator.getPOV() == 270) {
+        } else if (controllerOperator.gondolaControls() == 270) {
             climbSubsystem.gondolaSet(-1);
         } else {
             climbSubsystem.gondolaSet(0);
         }
 
         // Climb code. Designed to require both driver and operator hold down the button, and for two speed options (as we needed additional precision, but also speed)
-        if (controller.getBackButton() && controllerOperator.getBackButton()) {
+        if (controller.Climb() && controllerOperator.Climb()) {
             climbSubsystem.releaseSet(1);
         } else if (controller.getStartButton() && controllerOperator.getStartButton()) {
             climbSubsystem.releaseSet(0.5);
@@ -454,10 +454,10 @@ public class Teleop {
             hoodPID.setSetpoint(Settings.HOOD_PID_FAR_TRENCH);
             flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_FAR_TRENCH);
             // hoodPID.enable();
-        } else if (controllerOperator.getPOV() == 0) { // Hood PID control. To allow for more precision in movement, can adjust it by specific degrees rather than by feel.
+        } else if (controllerOperator.gondolaControls() == 0) { // Hood PID control. To allow for more precision in movement, can adjust it by specific degrees rather than by feel.
             hoodPID.setSetpoint(hoodPID.getController().getSetpoint() + 2 < 55 ? hoodPID.getController().getSetpoint() + 2 : hoodPID.getController().getSetpoint());
             // hoodPID.enable();
-        } else if (controllerOperator.getPOV() == 180) {
+        } else if (controllerOperator.gondolaControls() == 180) {
             hoodPID.setSetpoint(hoodPID.getController().getSetpoint() - 2 > 1.9 ? hoodPID.getController().getSetpoint() - 2 : hoodPID.getController().getSetpoint());
             // hoodPID.enable();
         } //else if (controllerDriver.getAButtonPressed()) {

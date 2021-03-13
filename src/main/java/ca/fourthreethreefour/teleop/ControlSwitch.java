@@ -132,6 +132,48 @@ public class ControlSwitch {
         }
     }
 
+    public boolean operatorManualOverride(){
+        switch (operatorControlLayouts){
+            //case NIK:
+            //return controllerDriver.getStickButton(Hand.kRight);
+            //button and hand can be modified etc
+            default:
+                return controllerOperator.getXButton();
+        }
+    }
+
+    public boolean autoShoot(){
+        switch (operatorControlLayouts){
+            //case NIK:
+            //return controllerDriver.getStickButton(Hand.kRight);
+            //button and hand can be modified etc
+            default:
+                return controllerOperator.getYButton();
+        }
+    }
+
+    public boolean climbControls(){
+        switch (operatorControlLayouts){
+            //case NIK:
+            //return controllerDriver.getStickButton(Hand.kRight);
+            //button and hand can be modified etc
+            default:
+                return controllerOperator.getBackButton();
+        }
+    }
+
+    public boolean gondolaControls(){
+        switch (operatorControlLayouts){
+            //case NIK:
+            //return controllerDriver.getStickButton(Hand.kRight);
+            //button and hand can be modified etc
+            default:
+                return controllerOperator.getPOV();
+        }
+    }
+
+    
+
     private enum DriverControlLayouts{
 
         NIK,
