@@ -28,7 +28,7 @@ public class HoodPID extends PIDSubsystem {
         new PIDController(-0.02, 0, 0));
     this.shooterSubsystem = shooterSubsystem;
     getController().setTolerance(0.5); // Tolerance is in Degrees
-    hoodFeedforward = new SimpleMotorFeedforward(0.12, 0);
+    hoodFeedforward = new SimpleMotorFeedforward(0.25, 0);
   }
 
   @Override

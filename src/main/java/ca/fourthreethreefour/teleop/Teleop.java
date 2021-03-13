@@ -49,9 +49,9 @@ public class Teleop {
         limeLight.ledOff();
         driveSubsystem.teleopInit();
         driveSubsystem.reset();
-        flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_LINE);
+        flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_ZONE2);
         flywheelPID.enable(); // NOTE: We are able to leave this PID running constantly, as it DOES NOT directly control any mechanism. It only ever does calculations. Do not do this if it actually controls something.
-
+        hoodPID.setSetpoint(Settings.HOOD_PID_ZONE2);
     }
 
     // Variables for the code
@@ -96,8 +96,8 @@ public class Teleop {
      *  Back:
      *      Together with Operator: Release Climber - Full Speed
      *  D-Pad:
-     *  - Up: Tower Setpoint
-     *  - Right: Line Setpoint
+     *  - Up: ZONE1 Setpoint
+     *  - Right: ZONE2 Setpoint
      *  - Down: Close Trench Setpoint
      *  - Left: Far Trench Setpoint
      * 
@@ -440,20 +440,20 @@ public class Teleop {
 
         // Setpoints, for flywheel and hood.
         if (controllerDriver.getPOV() == 0) {
-            hoodPID.setSetpoint(Settings.HOOD_PID_TOWER);
-            flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_TOWER);
+            hoodPID.setSetpoint(Settings.HOOD_PID_ZONE1);
+            flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_ZONE1);
             hoodPID.enable();
         } else if (controllerDriver.getPOV() == 90) {
-            hoodPID.setSetpoint(Settings.HOOD_PID_LINE);
-            flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_LINE);
+            hoodPID.setSetpoint(Settings.HOOD_PID_ZONE2);
+            flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_ZONE2);
             hoodPID.enable();
         } else if (controllerDriver.getPOV() == 180) {
-            hoodPID.setSetpoint(Settings.HOOD_PID_CLOSE_TRENCH);
-            flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_CLOSE_TRENCH);
+            hoodPID.setSetpoint(Settings.HOOD_PID_ZONE3);
+            flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_ZONE3);
             hoodPID.enable();
         } else if (controllerDriver.getPOV() == 270) {
-            hoodPID.setSetpoint(Settings.HOOD_PID_FAR_TRENCH);
-            flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_FAR_TRENCH);
+            hoodPID.setSetpoint(Settings.HOOD_PID_ZONE4);
+            flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_ZONE4);
             hoodPID.enable();
         } else if (controllerOperator.getPOV() == 0) { // Hood PID control. To allow for more precision in movement, can adjust it by specific degrees rather than by feel.
             hoodPID.setSetpoint(hoodPID.getController().getSetpoint() + 2 < 55 ? hoodPID.getController().getSetpoint() + 2 : hoodPID.getController().getSetpoint());
@@ -478,6 +478,7 @@ public class Teleop {
             hoodSpeed = hoodPID.getSpeed();
         }
         
+
         shooterSubsystem.shooterHoodSet(hoodSpeed);
         
 
