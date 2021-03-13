@@ -512,7 +512,7 @@ public class Teleop {
 
          if(stallIntake){
              intakeSubsystem.runNeo(0.02);
-             intakeSubsystem.stopVictor();
+             intakeSubsystem.runVictorDown();
          } else {
             intakeSubsystem.releaseSet(intakeSpeed);
          }
