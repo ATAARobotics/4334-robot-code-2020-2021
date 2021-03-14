@@ -122,6 +122,16 @@ public class ControlSwitch {
         }
     }
 
+    public boolean driverClimbControls(){
+        switch (driverControlLayouts){
+            //case NIK:
+            //return controllerDriver.getY(Hand.kLeft);
+            //button and hand can be modified etc
+            default:
+                return controllerDriver.getStartButton();
+        }
+    }
+
     public double hoodAdjustCustom(){
         switch (operatorControlLayouts){
             //case NIK:
@@ -162,7 +172,7 @@ public class ControlSwitch {
         }
     }
 
-    public boolean gondolaControls(){
+    public double gondolaControls(){
         switch (operatorControlLayouts){
             //case NIK:
             //return controllerDriver.getStickButton(Hand.kRight);
@@ -212,7 +222,7 @@ public class ControlSwitch {
         }
     }
 
-    public boolean climbControls(){
+    public boolean operatorClimbControls(){
         switch (operatorControlLayouts){
             //case NIK:
             //return controllerDriver.getStickButton(Hand.kRight);
@@ -222,7 +232,7 @@ public class ControlSwitch {
         }
     }
 
-    public boolean intakeUpDown(){
+    public double intakeUpDown(){
         switch (operatorControlLayouts){
             //case NIK:
             //return controllerDriver.getStickButton(Hand.kRight);
@@ -231,6 +241,27 @@ public class ControlSwitch {
                 return controllerOperator.getY(Hand.kRight);
         }
     }
+
+    public double driverClimb(){
+        switch (driverControlLayouts){
+            //case NIK:
+            //return controllerDriver.getStickButton(Hand.kRight);
+            //button and hand can be modified etc
+            default:
+                return controllerDriver.Climb();
+        }
+    }
+
+    public double operatorClimb(){
+        switch (operatorControlLayouts){
+            //case NIK:
+            //return controllerDriver.getStickButton(Hand.kRight);
+            //button and hand can be modified etc
+            default:
+                return controllerOperator.Climb();
+        }
+    }
+
 
     
 

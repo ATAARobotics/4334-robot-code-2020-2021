@@ -209,15 +209,15 @@ public class Teleop {
         }
 
         // The cartridge system. To allow for overriding of mechanisms, we check the buttons first before running anything automated.
-        if (controllerOperator.cartidgeIn() || controllerOperator.cartidgeOut() || controllerOperator.indexerOut() || controllerOperator.indexerIn()) {
-            if (controllerOperator.cartidgeIn()) {
+        if (controller.cartidgeIn() || controller.cartidgeOut() || controller.indexerOut() || controller.indexerIn()) {
+            if (controller.cartidgeIn()) {
                 cartridgeSubsystem.beltSet(-1);
-            } else if (controllerOperator.cartidgeOut()) {
+            } else if (controller.cartidgeOut()) {
                 cartridgeSubsystem.beltSet(1);
             }
-            if (controllerOperator.indexerIn() == true) {
+            if (controller.indexerIn() == true) {
                 cartridgeSubsystem.indexerSet(1);
-            } else if (controllerOperator.indexerOut() == true) { 
+            } else if (controller.indexerOut() == true) { 
                 cartridgeSubsystem.indexerSet(-1);
             } 
             shootAutoFeed = false; // To override later during shooting, when the buttons are being pressed its set to false, all other times true
@@ -304,9 +304,9 @@ public class Teleop {
         Logging.put("RPM_VALUE", shooterSubsystem.getRPM());
 
         // Shooting system.
-        if (controllerOperator.operatorManualOverride()) { // Manual override.
+        if (controller.operatorManualOverride()) { // Manual override.
             shooterSubsystem.flywheelVoltageSet(11 * Settings.FLYWHEEL_SPEED);
-        } else if (controllerOperator.autoShoot()) {
+        } else if (controller.autoShoot()) {
             // if (!flywheelPID.isEnabled()) {
             //     flywheelPID.enable();
             // }
@@ -370,18 +370,18 @@ public class Teleop {
         }
 
         // Gondola code. Unfortunately never was used, but would work when a gondola is installed.
-        if (controllerOperator.gondolaControls() == 90) {
+        if (controller.gondolaControls() == 90) {
             climbSubsystem.gondolaSet(1);
-        } else if (controllerOperator.gondolaControls() == 270) {
+        } else if (controller.gondolaControls() == 270) {
             climbSubsystem.gondolaSet(-1);
         } else {
             climbSubsystem.gondolaSet(0);
         }
 
         // Climb code. Designed to require both driver and operator hold down the button, and for two speed options (as we needed additional precision, but also speed)
-        if (controller.Climb() && controllerOperator.Climb()) {
+        if (controller.driverClimb() && controller.operatorClimb()) {
             climbSubsystem.releaseSet(1);
-        } else if (controller.getStartButton() && controllerOperator.climbControls()) {
+        } else if (controller.driverClimbControls() && controller.operatorClimbControls()) {
             climbSubsystem.releaseSet(0.5);
         } else {
             climbSubsystem.releaseSet(0);
@@ -390,15 +390,15 @@ public class Teleop {
         // if (controllerOperator.getStartButtonPressed()) {
             //  cartridgeRun = true;
         // }
-        if (controllerOperator.cartrigeStop()) {
+        if (controller.cartrigeStop()) {
              cartridgeRun = false;
         }
         // Able to toggle the intake sensor system on and off.
-        // if (controllerOperator.getStartButtonPressed()) {
+        // if (/getStartButtonPressed()) {
         //     disableIntakeSensor = !disableIntakeSensor;
         // }
         
-        if (!(disableIntakeSensor || controllerOperator.cartidgeIn())) { 
+        if (!(disableIntakeSensor || controller.cartidgeIn())) { 
             // If the intake sensor detects the ball, runs the automatic intaking system.      
             if (intakeSubsystem.intakeSensor()) {
                 cartridgeRun = true;
@@ -418,14 +418,14 @@ public class Teleop {
         // Hood controls
 
         // Similar to the drive speed, we set a hood speed variable so that we don't risk calling the hood function more than once.
-        if (Math.abs(controllerOperator.hoodAdjustCustom()) > 0.05) {
+        if (Math.abs(controller.hoodAdjustCustom()) > 0.05) {
             if (hoodPID.isEnabled()) {
                 hoodPID.disable(); // Manual controls, we want to make sure the hoodPID was disabled.
             }
-            if (controllerOperator.hoodAdjustCustom() < 0) {
-                hoodSpeed = controllerOperator.hoodAdjustCustom() * Settings.HOOD_SPEED_UP;
+            if (controller.hoodAdjustCustom() < 0) {
+                hoodSpeed = controller.hoodAdjustCustom() * Settings.HOOD_SPEED_UP;
             } else {
-                hoodSpeed = controllerOperator.hoodAdjustCustom() * Settings.HOOD_SPEED_DOWN;
+                hoodSpeed = controller.hoodAdjustCustom() * Settings.HOOD_SPEED_DOWN;
             }
             
         } else if (!hoodPID.isEnabled()) {
@@ -454,10 +454,10 @@ public class Teleop {
             hoodPID.setSetpoint(Settings.HOOD_PID_FAR_TRENCH);
             flywheelPID.setSetpoint(Settings.FLYWHEEL_SPEED_FAR_TRENCH);
             // hoodPID.enable();
-        } else if (controllerOperator.gondolaControls() == 0) { // Hood PID control. To allow for more precision in movement, can adjust it by specific degrees rather than by feel.
+        } else if (controller.gondolaControls() == 0) { // Hood PID control. To allow for more precision in movement, can adjust it by specific degrees rather than by feel.
             hoodPID.setSetpoint(hoodPID.getController().getSetpoint() + 2 < 55 ? hoodPID.getController().getSetpoint() + 2 : hoodPID.getController().getSetpoint());
             // hoodPID.enable();
-        } else if (controllerOperator.gondolaControls() == 180) {
+        } else if (controller.gondolaControls() == 180) {
             hoodPID.setSetpoint(hoodPID.getController().getSetpoint() - 2 > 1.9 ? hoodPID.getController().getSetpoint() - 2 : hoodPID.getController().getSetpoint());
             // hoodPID.enable();
         } //else if (controllerDriver.getAButtonPressed()) {
@@ -481,9 +481,9 @@ public class Teleop {
         
 
         // Intaking raising and lowering
-        double intakeSpeed = controllerOperator.intakeUpDown(); // Sets the intakeSpeed first, as we are then checking for when it SHOULDN"T be ran, aka when it should be set to 0.
+        double intakeSpeed = controller.intakeUpDown(); // Sets the intakeSpeed first, as we are then checking for when it SHOULDN"T be ran, aka when it should be set to 0.
 
-        if (Math.abs(controllerOperator.intakeUpDown()) < 0.15) {
+        if (Math.abs(controller.intakeUpDown()) < 0.15) {
             intakeSpeed = 0;
         } else {
             // stallIntake = false;
