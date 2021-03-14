@@ -30,6 +30,7 @@ public class Auto {
         selectedAuto.setDefaultOption("Move off line", new File("/FILES/auto_moveoffline.txt")); // Creates a default option, and additional options.
         selectedAuto.addOption("Test", new File("/FILES/auto_test.txt")); // Each option wanted needs to be manually added.
         selectedAuto.addOption("Shoot then move towards driverstation", new File("/FILES/auto_shootonline.txt"));
+        selectedAuto.addOption("TestCode", new File("/FILES/test_code.txt")); // new
         selectedAuto.addOption("Shoot then move away from driverstation", new File("/FILES/auto_shootmovebackwards.txt" ));
         selectedAuto.addOption("Alliance", new File("/FILES/auto_alliance.txt"));
         autoTab.add("Auto Selector", selectedAuto).withWidget(BuiltInWidgets.kComboBoxChooser); // Creates a widget on the tab that is a selector box with all these options.

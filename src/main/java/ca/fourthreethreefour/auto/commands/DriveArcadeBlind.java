@@ -10,17 +10,17 @@ package ca.fourthreethreefour.auto.commands;
 import ca.fourthreethreefour.subsystems.Drive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class DriveBlind extends CommandBase {
+public class DriveArcadeBlind extends CommandBase {
   private Drive driveSubsystem = null;
-  private double leftSpeed;
-  private double rightSpeed;
+  private double driveSpeed;
+  private double turnSpeed;
   /**
    * Drives the robot with raw speed values to each side.
    */
-  public DriveBlind(Drive driveSubsystem, double leftSpeed, double rightSpeed) {
+  public DriveArcadeBlind(Drive driveSubsystem, double driveSpeed, double turnSpeed) {
     this.driveSubsystem = driveSubsystem;
-    this.leftSpeed = leftSpeed;
-    this.rightSpeed = rightSpeed;
+    this.driveSpeed = driveSpeed;
+    this.turnSpeed = turnSpeed;
 
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -33,7 +33,7 @@ public class DriveBlind extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveSubsystem.tankDrive(leftSpeed, rightSpeed); // Passes in the values directly
+    driveSubsystem.arcadeDrive(driveSpeed, turnSpeed, false); // Passes in the values directly
   }
 
   
@@ -41,7 +41,7 @@ public class DriveBlind extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    driveSubsystem.tankDrive(0, 0); // Stops it
+    driveSubsystem.arcadeDrive(0, 0, false); // Stops it
   }
 
   // Returns true when the command should end.

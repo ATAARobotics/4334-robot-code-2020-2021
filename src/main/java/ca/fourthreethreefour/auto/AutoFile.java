@@ -90,18 +90,24 @@ public class AutoFile {
                 timeout = args.length > 2 ? Double.parseDouble(args[2]) : 5;
                 command = new DriveBlind(driveSubsystem, leftSpeed, rightSpeed).withTimeout(timeout);
                 return command;
+            case "arcadeblind":
+                double driveSpeed = Double.parseDouble(args[0]);
+                double turnSpeed = Double.parseDouble(args[1]);
+                timeout = args.length > 2 ? Double.parseDouble(args[2]) : 5;
+                command = new DriveArcadeBlind(driveSubsystem, driveSpeed, turnSpeed).withTimeout(timeout);
+                return command;
             case "drivestraight":
                 double distance = Double.parseDouble(args[0]);
                 timeout = args.length > 1 ? Double.parseDouble(args[1]) : 5;
                 command = new DriveStraight(driveSubsystem, drivePID, turnPID, distance).withTimeout(timeout);
                 return command;
             case "turn":
-                double turnAngle = Double.parseDouble(args[0]);
+                double turnAngle = Double.parseDouble(args[0]); //clockwise
                 timeout = args.length > 1 ? Double.parseDouble(args[1]) : 5;
                 command = new Turn(driveSubsystem, turnPID, turnAngle).withTimeout(timeout);
                 return command;
             case "wait":
-                timeout = Double.parseDouble(args[0]);
+                timeout = Double.parseDouble(args[0]); 
                 command = new Wait().withTimeout(timeout);
                 return command;
             case "waituntil":
@@ -120,11 +126,11 @@ public class AutoFile {
                 timeout = Double.parseDouble(args[0]);
                 command = new Load(cartridgeSubsystem, intakeSubsystem).withTimeout(timeout);
                 return command;
-            case "autoalign":
+            case "autoalign": 
                 timeout = Double.parseDouble(args[0]);
                 command = new AutoAlign(alignPID, driveSubsystem).withTimeout(timeout);
                 return command;
-            case "aim":
+            case "aim": 
                 timeout = Double.parseDouble(args[0]);
                 double hoodAngle = Double.parseDouble(args[1]);
                 command = new Aim(hoodPID, shooterSubsystem, hoodAngle);
