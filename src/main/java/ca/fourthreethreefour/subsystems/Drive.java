@@ -42,6 +42,9 @@ public class Drive implements Subsystem {
   private CANCoder leftEncoder = null;
   private CANCoder rightEncoder = null;
 
+  private double currentSpeed;
+  private double currentTurn;
+
   public Drive() {
     leftFrontMotor = new CANSparkMax(Settings.LEFT_FRONT_MOTOR_PORT, MotorType.kBrushless);
     leftBackMotor = new CANSparkMax(Settings.LEFT_BACK_MOTOR_PORT, MotorType.kBrushless);
@@ -84,7 +87,20 @@ public class Drive implements Subsystem {
    * @param squared - specifies if the values are to be squared. useful for more natural feeling stick control but less useful when passing direct values.
    */
   public void arcadeDrive(double speed, double turn, boolean squared) {
+    currentSpeed = speed *speedModifier;
+    currentTurn = turn * Settings.TURN_SPEED;
     drive.arcadeDrive(speed * speedModifier, turn * Settings.TURN_SPEED, squared);
+  }
+
+  /**
+   * Runs the arcadeDrive function of the drive object.
+   * @param speed - the drive speed multiplied by the speed modifier (high speed, low speed, default speed). [-1.0 - 1.0]
+   * @param turn - the rotation speed multiplied by the turn modifier. [-1.0 - 1.0]
+   */
+  public void arcadeDriveRaw(double speed, double turn) {
+    currentSpeed = speed;
+    currentTurn = turn;
+    drive.arcadeDrive(speed, turn);
   }
   
   /**
@@ -198,5 +214,14 @@ public class Drive implements Subsystem {
   public void speedLow() {
     speedModifier = Settings.DRIVE_SPEED;
   }
+
+  public double getSpeed() {
+    return currentSpeed;
+  }
+
+  public double getTurn() {
+    return currentTurn;
+  }
+
 }
 

@@ -33,7 +33,7 @@ public class DriveArcadeBlind extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveSubsystem.arcadeDrive(driveSpeed, turnSpeed, false); // Passes in the values directly
+    driveSubsystem.arcadeDriveBlind(driveSpeed, turnSpeed); // Passes in the values directly
   }
 
   
@@ -41,7 +41,7 @@ public class DriveArcadeBlind extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    driveSubsystem.arcadeDrive(0, 0, false); // Stops it
+    driveSubsystem.arcadeDriveBlind(0, 0); // Stops it
   }
 
   // Returns true when the command should end.
