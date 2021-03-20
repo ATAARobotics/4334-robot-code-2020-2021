@@ -104,12 +104,13 @@ public class Intake implements Subsystem {
     return intakeLimitBottom.get();
   }
 
+  //Motor for right side intake adjustment
   public void runNeo(double speed){
    intakeRelease2.set(speed * Settings.RELEASE_NEO_SPEED);
   }
-
-  public void stopVictor() {
-    intakeRelease1.set(0* Settings.RELEASE_SPEED);
+//Motor for left side intake adjustment
+  public void runVictorDown() {
+    intakeRelease1.set(0.25);
   }
 
   public void printUltrasonics() {

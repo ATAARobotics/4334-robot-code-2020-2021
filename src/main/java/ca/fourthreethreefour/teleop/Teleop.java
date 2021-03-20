@@ -291,11 +291,14 @@ public class Teleop {
         // The Intake system.
         if (controllerDriver.getTriggerAxis(Hand.kRight) > 0.1) {
             intakeSubsystem.intakeSet(controllerDriver.getTriggerAxis(Hand.kRight));
+            stallIntake = true;
         } else if (controllerDriver.getTriggerAxis(Hand.kLeft) > 0.1) {
             // Since the two triggers give a value from [0.0,+1.0], one value must be inversed so it can reverse the intakes.
             intakeSubsystem.intakeSet(-controllerDriver.getTriggerAxis(Hand.kLeft));
         } else {
             intakeSubsystem.intakeSet(0);
+            stallIntake = false;
+
         }
 
         SmartDashboard.putNumber("RPM", shooterSubsystem.getRPM());
@@ -507,12 +510,12 @@ public class Teleop {
             }
         }
 
-        // if(stallIntake){
-        //     intakeSubsystem.runNeo(0.02);
-        //     intakeSubsystem.stopVictor();
-        // } else {
+         if(stallIntake){
+             intakeSubsystem.runNeo(0.02);
+             intakeSubsystem.runVictorDown();
+         } else {
             intakeSubsystem.releaseSet(intakeSpeed);
-        // }
+         }
         
     }
 }
