@@ -15,19 +15,21 @@ public class Logging {
     Shooter shooterSubsystem = null;
     FlywheelPID flywheelPID = null;
     Cartridge cartridgeSubsystem = null;
+    Drive driveSubsystem = null;
 
     int delay = 0;
 
-    public Logging(Shooter shooterSubsystem, FlywheelPID flywheelPID, Cartridge cartridgeSubsystem) {
+    public Logging(Shooter shooterSubsystem, FlywheelPID flywheelPID, Cartridge cartridgeSubsystem, Drive driveSubsystem) {
         this.shooterSubsystem = shooterSubsystem;
         this.flywheelPID = flywheelPID;
         this.cartridgeSubsystem = cartridgeSubsystem;
+        this.driveSubsystem = driveSubsystem;
     }
 
     // Sets up the data categories
     FileWriter file = null;
     //String data =  "rpm, setpoint, on target, angle, indexer sensor, indexer value, end sensor, end value, start sensor, start value, match time, match number: " + DriverStation.getInstance().getMatchNumber() +"\n";
-    String data = "driveSpeed, turnSpeed, time";
+    String data = "driveSpeed, turnSpeed, leftVelocity, rightVelocity, Velocity, time \n";
 
     /**
      * Every 100ms, records the specified criteria to the data string.
@@ -35,7 +37,7 @@ public class Logging {
     public void record() {
         if (delay >= 5) {
             //data += shooterSubsystem.getRPM() + ", " + flywheelPID.getController().getSetpoint() + ", " + flywheelPID.getController().atSetpoint() + ", " + shooterSubsystem.getEncoder() + ", " + cartridgeSubsystem.indexerSensor() + ", " + cartridgeSubsystem.indexerGet() + ", " + cartridgeSubsystem.cartridgeEnd() + ", " + cartridgeSubsystem.endGet() + ", " + cartridgeSubsystem.cartridgeStart() + ", " + cartridgeSubsystem.startGet() + ", " + DriverStation.getInstance().getMatchTime() + "\n";    
-            data += driveSubsystem.getSpeed() + ", " + driveSubsystem.getTurn() + ", " + DriverStation.getInstance().getMatchTime() + "\n";
+            data += driveSubsystem.getSpeed() + ", " + driveSubsystem.getTurn() + ", " + driveSubsystem.getLeftVelocity() + ", " + driveSubsystem.getRightVelocity() + ", " + driveSubsystem.getVelocity() + ", " + DriverStation.getInstance().getMatchTime() + "\n";
             delay = 0;
         } else {
             delay++;

@@ -70,7 +70,7 @@ public class Robot extends TimedRobot {
         limeLight, flywheelPID, alignPID, hoodPID);
     auto = new Auto(driveSubsystem, shooterSubsystem, cartridgeSubsystem, intakeSubsystem, drivePID, turnPID,
         flywheelPID, alignPID, hoodPID);
-    logging = new Logging(shooterSubsystem, flywheelPID, cartridgeSubsystem);
+    logging = new Logging(shooterSubsystem, flywheelPID, cartridgeSubsystem, driveSubsystem);
   }
 
   @Override

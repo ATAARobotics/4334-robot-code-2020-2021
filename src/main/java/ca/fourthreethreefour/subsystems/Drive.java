@@ -97,7 +97,7 @@ public class Drive implements Subsystem {
    * @param speed - the drive speed multiplied by the speed modifier (high speed, low speed, default speed). [-1.0 - 1.0]
    * @param turn - the rotation speed multiplied by the turn modifier. [-1.0 - 1.0]
    */
-  public void arcadeDriveRaw(double speed, double turn) {
+  public void arcadeDriveBlind(double speed, double turn) {
     currentSpeed = speed;
     currentTurn = turn;
     drive.arcadeDrive(speed, turn);

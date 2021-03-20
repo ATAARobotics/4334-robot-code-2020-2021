@@ -12,6 +12,7 @@ import ca.fourthreethreefour.auto.commands.AutoAim;
 import ca.fourthreethreefour.auto.commands.AutoAlign;
 import ca.fourthreethreefour.auto.commands.Crazy;
 import ca.fourthreethreefour.auto.commands.DriveBlind;
+import ca.fourthreethreefour.auto.commands.DriveArcadeBlind;
 import ca.fourthreethreefour.auto.commands.DriveStraight;
 import ca.fourthreethreefour.auto.commands.IntakeMove;
 import ca.fourthreethreefour.auto.commands.Load;
